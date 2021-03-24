@@ -1,0 +1,95 @@
+{
+    "purchase": {
+        "event": {
+            "theater": {
+                "title": "施設選択",
+                "read": "施設を選択してください。",
+                "next": "",
+                "prev": ""
+            },
+            "date": {
+                "title": "スケジュール確認",
+                "read": "ご希望の日付を選択して下さい。",
+                "notfound": "スケジュールがありません。他の日付を選択してください。",
+                "selectedDate": "{{value}}の空き状況",
+                "status": {
+                    "success": "購入",
+                    "warning": "購入",
+                    "danger": "満席",
+                    "endSale": "販売終了",
+                    "outsideSalesPeriod": "販売期間外",
+                    "window": "窓口"
+                },
+                "terms": "利用規約",
+                "infiniteStock": "在庫管理なし",
+                "next": "次へ",
+                "consent": "利用規約に同意して次へ",
+                "disabled": "販売期間外です",
+                "prev": "戻る"
+            },
+            "schedule": {
+                "title": "チケット選択",
+                "read": "チケットを選択してください。",
+                "next": "決定",
+                "prev": "戻る",
+                "notfound": "スケジュールがありません。",
+                "addOn": "オプション選択",
+                "remainingSeat": "残席数",
+                "success": {
+                    "temporaryReservation": "仮予約に成功しました。"
+                },
+                "alert": {
+                    "ticketCondition": "割引券の適用条件を再度ご確認ください。",
+                    "temporaryReservation": "仮予約に失敗しました。",
+                    "getScreeningEventSeats": "空席がありません。",
+                    "limit": "同時購入可能数は{{value}}件までです。",
+                    "cart": "複数のパフォーマンスは選択できません。",
+                    "single": "入場券が含まれていません"
+                },
+                "confirm": {
+                    "single": "入場券が含まれていませんがよろしいですか？"
+                }
+            },
+            "seat": {
+                "title": "座席選択",
+                "read": "座席を選択してください。",
+                "next": "次へ",
+                "terms": "利用規約",
+                "prev": "戻る",
+                "openSeating": "座席数", 
+                "alert": {
+                    "limit": "同時購入可能数は{{value}}件までです。",
+                    "temporaryReservation": "仮予約に失敗しました。<br>※すでに他のお客様が同じ座席を選択した場合もこのエラーが表示されます。",
+                    "ticketNotfound": "販売可能券種がありません。"
+                }
+            },
+            "ticket": {
+                "title": "チケット選択",
+                "read": "チケットを選択してください。",
+                "unselected": "チケットを選択してください",
+                "mvtk": "ムビチケ券を利用される方",
+                "next": "次へ",
+                "prev": "戻る",
+                "addOn": "オプション選択",
+                "alert": {
+                    "ticketCondition": "割引券の適用条件を再度ご確認ください。"
+                }
+            },
+            "cart": {
+                "title": "選択中チケット",
+                "read": "選択中チケットをご確認ください。",
+                "notfound": "選択中チケットがありません。",
+                "next": "次へ",
+                "prev": "戻る",
+                "add": "追加する",
+                "confirm": {
+                    "cancel": "キャンセルしてよろしいですか。"
+                }
+            }
+        }
+    },
+    "common": {
+        "theater": "施設",
+        "duration": "所要時間"
+    }
+}

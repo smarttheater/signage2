@@ -1,0 +1,90 @@
+<div class="swiper-container" (resize)="resize()">
+    <div class="swiper-wrapper">
+        <div *ngFor="let page of pages" class="swiper-slide pointer">
+            <div class="h-100 bg-dark-gray">
+                <div *ngFor="let screeningEventsGroup of page.group; let index = index;" [class.bg-gray]="index % 2 === 0">
+                    <div class="d-flex align-items-center">
+                        <div class="screening-event-series px-3 d-flex align-items-center">
+                            <div class="w-100">
+                                <p *ngIf="screeningEventsGroup.screeningEvent.name?.ja"
+                                    class="text-large font-weight-bold text-overflow-ellipsis">{{
+                                    screeningEventsGroup.screeningEvent.superEvent.name.ja }}</p>
+                                <p *ngIf="screeningEventsGroup.screeningEvent.headline?.ja" class="text-overflow-ellipsis">{{
+                                    screeningEventsGroup.screeningEvent.superEvent.headline.ja }}</p>
+                                <p *ngIf="screeningEventsGroup.screeningEvent.name?.en" class="text-overflow-ellipsis">{{
+                                    screeningEventsGroup.screeningEvent.superEvent.name.en }}</p>
+                            </div>
+                        </div>
+                        <div class="screening-event border-left">
+                            <div class="d-flex align-items-center flex-wrap">
+                                <div *ngFor="let performance of screeningEventsGroup.data"
+                                    class="item text-center d-flex align-items-center border-right">
+                                    <div class="w-100 h-100 position-relative py-2">
+                                        <p class="text-large font-weight-bold mb-1">{{
+                                            moment(performance.screeningEvent.startDate).format('HH:mm') }}</p>
+                                        <div class="status">
+                                            <ng-container
+                                                *ngIf="performance.isSales() && !performance.isInfinitetock()">
+                                                <div *ngIf="performance.isSeatStatus('success')">
+                                                    <img src="/assets/images/icon/status_success.svg" alt="">
+                                                </div>
+                                                <div *ngIf="performance.isSeatStatus('warning')"
+                                                    class="d-flex justify-content-around align-items-center">
+                                                    <img src="/assets/images/icon/status_warning.svg" alt="">
+                                                </div>
+                                                <div *ngIf="performance.isSeatStatus('danger')">
+                                                    <img src="/assets/images/icon/status_danger_color.svg" alt="">
+                                                </div>
+                                                <div *ngIf="performance.isSeatStatus()">
+                                                    <img src="/assets/images/icon/status_undefined.svg" alt="">
+                                                </div>
+                                            </ng-container>
+                                            <ng-container *ngIf="performance.isSales() && performance.isInfinitetock()">
+                                                <div class="d-flex justify-content-around align-items-center">
+                                                    <img src="/assets/images/icon/status_success.svg" alt="">
+                                                </div>
+                                            </ng-container>
+                                            <p *ngIf="performance.isSales('end')">
+                                                {{ 'common.performance.status.endSale' | translate }}</p>
+                                            <p *ngIf="performance.isSales('start')">
+                                                {{ 'common.performance.status.outsideSalesPeriod' | translate }}</p>
+                                        </div>
+
+                                        <div class="position-absolute fixed-bottom">
+                                            <p
+                                                class="py-1 bg-white text-dark-gray font-weight-bold text-overflow-ellipsis">
+                                                <!-- <span *ngIf="performance.screeningEvent.location.address?.ja"
+                                                class="mr-1">
+                                                {{ performance.screeningEvent.location.address.ja }}</span> -->
+                                                <span>
+                                                    {{ performance.screeningEvent.location.name.ja }}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngFor="let empty of screeningEventsGroup.empty"
+                                    class="item text-center d-flex align-items-center border-right">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngFor="let emptyGroup of page.emptyGroup; let index = index;" [class.bg-gray]="(index + page.group.length) % 2 === 0">
+                    <div class="d-flex align-items-center">
+                        <div class="screening-event-series px-3 d-flex align-items-center">
+                            <div class="w-100">
+                            </div>
+                        </div>
+                        <div class="screening-event border-left">
+                            <div class="d-flex align-items-center flex-wrap">
+                                <div *ngFor="let empty of emptyGroup.empty"
+                                    class="item text-center d-flex align-items-center border-right">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

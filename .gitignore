@@ -43,8 +43,9 @@ Thumbs.db
 
 /bk/node_modules
 *.bat
+.env.bat
 public/projects
 dist/client/**/stats.json
 dist/client/**/stats-es2015.json
-*.gcp.yaml
 /ssl
+*gcp.yaml

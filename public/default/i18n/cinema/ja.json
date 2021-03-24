@@ -1,0 +1,10 @@
+{
+    "main": {
+        "cinema": {
+            "dashboard": {
+                "purchase": "購入スケジュール",
+                "setting": "設定"
+            }
+        }
+    }
+}

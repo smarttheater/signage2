@@ -1,0 +1,204 @@
+{
+    "error": {
+        "title": "エラー",
+        "read": "エラーが発生しました。",
+        "next": "",
+        "prev": "戻る"
+    },
+    "notfound": {
+        "title": "NOT FOUND",
+        "read": "ページが見つかりません。",
+        "next": "",
+        "prev": "戻る"
+    },
+    "maintenance": {
+        "title": "メンテナンス",
+        "read": "メンテナンスの為、インターネットでの販売を停止させていただきます。",
+        "next": "",
+        "prev": "戻る"
+    },
+    "setting": {
+        "title": "設定",
+        "read": "設定を変更できます。",
+        "next": "設定を変更",
+        "prev": "戻る",
+        "unselected": "選択してください",
+        "success": {
+            "title": "完了",
+            "read": "変更しました。"
+        },
+        "alert": {
+            "validation": "入力情報に誤りがあります。",
+            "success": "設定を保存しました。"
+        }
+    },
+    "form": {
+        "label": {
+            "familyName": "姓（全角カタカナ）",
+            "givenName": "名（全角カタカナ）",
+            "email": "メールアドレス",
+            "telephone": "電話番号",
+            "age": "年齢",
+            "address": "住所",
+            "gender": "性別",
+            "theaterId": "施設"
+        },
+        "option": {
+            "man": "男",
+            "woman": "女",
+            "unselected": "未選択"
+        },
+        "unselected": "選択してください",
+        "validation": {
+            "required": "未入力です",
+            "maxlength": "{{value}}文字以下で入力してください",
+            "minlength": "{{value}}文字以上で入力してください",
+            "fullKana": "全角カタカナで入力してください",
+            "lowercaseLetters": "半角英小文字で入力してください",
+            "number": "数字で入力してください",
+            "halfSizeAlphanumeric": "半角英数字で入力してください",
+            "email": "形式が正しくありません",
+            "telephone": "形式が正しくありません"
+        },
+        "placeholder": {
+            "familyName": "ヤマダ",
+            "givenName": "タロウ",
+            "email": "example@ml.smart-theater.com",
+            "telephone": "0312345678",
+            "age": "",
+            "address": "",
+            "gender": "",
+            "cardNumber": "0123456789012345",
+            "cardExpiration": "",
+            "securityCode": "1234",
+            "holderName": "TARO YAMADA",
+            "confirmationNumber": ""
+        },
+        "description": {
+            "email": "【ドメイン指定受信をご利用の場合について】 <br>※ 携帯電話のドメイン指定受信をされている場合、「@ml.smart-theater.com」を追加設定してください。 <br>※ au(@ezweb.ne.jp)をご利用の場合、上記に加え「なりすまし規制回避リスト」にも「@ml.smart-theater.com」の追加設定をしてください。",
+            "telephone": "※チケット発券の際に必要になります。",
+            "cardNumber": "VISA、Master、JCB、AMEX、DINERS をご利用いただけます。"
+        },
+        "required": "必須"
+    },
+    "process": {
+        "load": "読み込み中です",
+        "authAction": {
+            "CheckLogin": "ログインを確認しています",
+            "Logout": "ログアウトしています"
+        },
+        "masterAction": {
+            "SearchSellers": "販売者情報を取得しています",
+            "SearchMovieTheaters": "施設情報を取得しています",
+            "SearchScreeningEvent": "イベント情報を取得しています",
+            "SearchMovies": "コンテンツ情報を取得しています",
+            "SearchScreeningEventSeries": "施設コンテンツ情報を取得しています",
+            "SearchScreeningRooms": "ルーム情報を取得しています",
+            "SearchCategoryCode": "区分情報を取得しています"
+        },
+        "userAction": {}
+    },
+    "common": {
+        "performance": {
+            "status": {
+                "success": "購入",
+                "warning": "購入",
+                "danger": "満席",
+                "endSale": "販売終了",
+                "outsideSalesPeriod": "販売期間外",
+                "window": "窓口"
+            },
+            "infiniteStock": "在庫管理なし"
+        },
+        "date": {
+            "year": "年",
+            "month": "月",
+            "day": "日",
+            "hour": "時",
+            "minute": "分",
+            "second": "秒"
+        },
+        "confirmationNumber": "確認番号",
+        "orderNumber": "注文番号",
+        "reservationNumber": "予約番号",
+        "seller": "販売者",
+        "screen": "スクリーン",
+        "event": "作品",
+        "startDate": "上映日時",
+        "doorTime": "開場日時",
+        "seat": "座席",
+        "ticket": "券種",
+        "referenceQuantityValue": "[{{value}}枚]",
+        "customer": "購入者",
+        "customerName": "お名前",
+        "paymentMethod": "決済方法",
+        "ticketing": "発券",
+        "admission": "入場",
+        "reservation": "予約",
+        "amount": "決済金額",
+        "price": "金額",
+        "dubbing": "吹替版",
+        "subtitles": "字幕版",
+        "orderDate": "注文日時",
+        "orderStatus": "注文ステータス",
+        "additionalTicketText": "予約メモ",
+        "qrcode": "QRコード",
+        "qrcodeDescription": "QRコードは24時間前から表示されます",
+        "credit": {
+            "cardNumber": "カード番号",
+            "cardExpiration": "カード有効期限",
+            "securityCode": "セキュリティーコード",
+            "holderName": "カード名義人"
+        },
+        "paymentMethodTypes": {
+            "cash": {
+                "label": "現金",
+                "use": ""
+            },
+            "account": {
+                "label": "アカウント",
+                "use": ""
+            },
+            "creditCard": {
+                "label": "クレジットカード",
+                "use": ""
+            },
+            "eMoney": {
+                "label": "電子マネー",
+                "use": ""
+            },
+            "movieTicket": {
+                "label": "ムビチケ",
+                "use": "ムビチケ券をお持ちの方"
+            },
+            "mgTicket": {
+                "label": "MGチケット",
+                "use": "MGチケットをお持ちの方"
+            },
+            "others": {
+                "label": "その他",
+                "use": ""
+            },
+            "regiGrow": {
+                "label": "RegiGrow",
+                "use": ""
+            }
+        },
+        "timeLimit": "取引期限",
+        "all": "すべて",
+        "close": "閉じる",
+        "done": "決定",
+        "yes": "はい",
+        "no": "いいえ",
+        "on": "ON",
+        "off": "OFF",
+        "error": "エラー",
+        "confirm": "確認",
+        "complete": "完了",
+        "warning": "警告",
+        "change": "変更",
+        "remove": "削除",
+        "balance": "残高"
+    },
+    "supportBrowser": "現在ご利用のブラウザは、推奨ブラウザではありません。<br>快適にご利用いただくには下記ブラウザをご利用ください。<br>Google Chrome最新版<br>Safari最新版<br>Microsoft Edge最新版"
+}

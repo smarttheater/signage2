@@ -1,0 +1,36 @@
+<div class="contents-width mx-auto px-3 py-5">
+    <form *ngIf="settingForm" [formGroup]="settingForm">
+        <div class="mb-4">
+            <h2 class="text-large mb-4 text-center font-weight-bold">{{ 'setting.title' | translate }}</h2>
+            <p class="mb-4 text-md-center" [innerHTML]="'setting.read' | translate"></p>
+            <div class="p-3 bg-white">
+                <ng-container *ngFor="let key of getProfileFormKeys()">
+                    <div class="form-group row">
+                        <div class="col-md-4 py-2 text-md-right ">
+                            <div class="d-inline-flex align-items-center">
+                                <p>{{ 'form.label.' + key | translate }}</p>
+                                <p *ngIf="isRequired(key)" class="badge badge-danger ml-2">{{ 'form.required' | translate }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <select *ngIf="key === 'theaterId'" class="form-control" [formControlName]="key">
+                                <option value="">{{ 'setting.unselected' | translate }}</option>
+                                <option *ngFor="let theater of theaters" [value]="theater.id">
+                                    {{ theater.name | changeLanguage }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </ng-container>
+
+            </div>
+        </div>
+
+        <div class="buttons mx-auto text-center">
+            <button type="submit" [disabled]="isLoading | async" class="btn btn-primary btn-block py-3 mb-3"
+                (click)="onSubmit()">{{ 'setting.next' | translate }}</button>
+            <button type="button" class="btn btn-outline-primary btn-block py-3"
+                [routerLink]="environment.BASE_URL">{{ 'setting.prev' | translate }}</button>
+        </div>
+    </form>
+</div>
