@@ -1,5 +1,6 @@
 import { factory } from '@cinerino/sdk';
 import { createAction, props } from '@ngrx/store';
+import { Models } from '../..';
 
 const LABEL = '[User]';
 
@@ -10,7 +11,10 @@ export const remove = createAction(
 export const updateAll = createAction(
     `${LABEL} updateAll`,
     props<{
-        theater: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
+        movieTheater: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
+        screeningRoom?: factory.chevre.place.screeningRoom.IPlace;
+        page?: number;
+        layout: Models.Common.Layout;
     }>()
 );
 

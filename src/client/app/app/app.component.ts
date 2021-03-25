@@ -1,7 +1,7 @@
 /**
  * AppComponent
  */
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Functions } from '..';
@@ -30,7 +30,6 @@ export class AppComponent implements OnInit {
      */
     public async ngOnInit() {
         this.isRouter = false;
-        Functions.Util.changeViewport();
         this.locales();
         if (this.environment.ANALYTICS_ID !== '') {
             this.analytics();
@@ -81,10 +80,5 @@ export class AppComponent implements OnInit {
                 }
             }
         });
-    }
-
-    @HostListener('window:resize', ['$event'])
-    public onResize() {
-        Functions.Util.changeViewport();
     }
 }

@@ -88,6 +88,12 @@ export class MasterService {
             locationBranchCodes?: string[];
             workPerformedIdentifiers?: string[];
         };
+        location?: {
+            branchCode?: {
+                $eq?: string;
+            };
+            branchCodes?: string[];
+        },
         startFrom: Date;
         startThrough: Date;
         pageing?: boolean;
@@ -100,9 +106,10 @@ export class MasterService {
                 superEvent,
                 startFrom,
                 startThrough,
+                location,
                 screeningEventSeries,
                 screeningRooms,
-                creativeWorks
+                creativeWorks,
             } = params;
             const pageing = (params.pageing === undefined) ? true : params.pageing;
             this.utilService.loadStart({ process: 'masterAction.SearchScreeningEvent' });
@@ -122,6 +129,7 @@ export class MasterService {
                     superEvent,
                     startFrom,
                     startThrough,
+                    location,
                     offers: {
                         availableFrom: today,
                         availableThrough: moment(today).add(1, 'day').add(-1, 'millisecond').toDate()
@@ -294,7 +302,7 @@ export class MasterService {
     /**
      * スクリーン検索
      */
-    public async searchScreeningRooms(params: {
+    public async searchScreeningRooms(params?: {
         branchCode?: {
             $eq?: string;
         };

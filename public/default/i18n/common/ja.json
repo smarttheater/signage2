@@ -22,7 +22,7 @@
         "read": "設定を変更できます。",
         "next": "設定を変更",
         "prev": "戻る",
-        "unselected": "選択してください",
+        "unselected": "未選択",
         "success": {
             "title": "完了",
             "read": "変更しました。"
@@ -38,10 +38,10 @@
             "givenName": "名（全角カタカナ）",
             "email": "メールアドレス",
             "telephone": "電話番号",
-            "age": "年齢",
-            "address": "住所",
-            "gender": "性別",
-            "theaterId": "施設"
+            "theaterId": "施設",
+            "screenId": "ルーム",
+            "page": "ページ",
+            "layout": "レイアウト"
         },
         "option": {
             "man": "男",

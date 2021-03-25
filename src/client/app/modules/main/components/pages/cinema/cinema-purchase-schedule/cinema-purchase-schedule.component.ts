@@ -44,25 +44,29 @@ export class CinemaPurchaseScheduleComponent implements OnInit, OnDestroy {
      * 初期化
      */
     public async ngOnInit() {
-        const swiperConfig: any = {
-            spaceBetween: 0,
-            autoplay: {
-                delay: 10000,
-            },
-            effect: 'flip',
-        };
-        this.swiperInstance = new (<any>window).Swiper('.swiper-container', swiperConfig);
         this.isLoading = this.store.pipe(select(reducers.getLoading));
         this.error = this.store.pipe(select(reducers.getError));
         this.pages = [];
         try {
+            const { page } = await this.actionService.user.getData();
+            const swiperConfig: any = {
+                spaceBetween: 0,
+                autoplay: (page === undefined) ? { delay: 10000 } : undefined,
+                effect: 'flip',
+            };
+            this.swiperInstance = new (<any>window).Swiper('.swiper-container', swiperConfig);
             await this.getSchedule();
             this.update();
+            setTimeout(async () => {
+                this.swiperInstance.update();
+                if (page !== undefined) {
+                    this.swiperInstance.slideTo(page, 0);
+                }
+            }, 0);
         } catch (error) {
             console.error(error);
             this.router.navigate(['/error']);
         }
-        setTimeout(() => this.swiperInstance.update(), 0);
     }
 
     /**
@@ -71,9 +75,9 @@ export class CinemaPurchaseScheduleComponent implements OnInit, OnDestroy {
     private async getSchedule() {
         const now = moment((await this.utilService.getServerTime()).date).toDate();
         const today = moment(moment(now).format('YYYYMMDD'), 'YYYYMMDD').toDate();
-        const { theater } = await this.actionService.user.getData();
-        if (theater === undefined) {
-            throw new Error('theater undefined');
+        const { movieTheater, screeningRoom } = await this.actionService.user.getData();
+        if (movieTheater === undefined) {
+            throw new Error('movieTheater undefined');
         }
         const creativeWorks = await this.masterService.searchMovies({
             offers: { availableFrom: moment().toDate() }
@@ -81,20 +85,23 @@ export class CinemaPurchaseScheduleComponent implements OnInit, OnDestroy {
         const screeningEventSeries = (this.environment.PURCHASE_SCHEDULE_SORT === 'screeningEventSeries')
             ? await this.masterService.searchScreeningEventSeries({
                 location: {
-                    branchCode: { $eq: theater.branchCode }
+                    branchCode: { $eq: movieTheater.branchCode }
                 },
                 workPerformed: { identifiers: creativeWorks.map(c => c.identifier) }
             })
             : [];
         const screeningRooms = (this.environment.PURCHASE_SCHEDULE_SORT === 'screen')
             ? await this.masterService.searchScreeningRooms({
-                branchCode: { $eq: theater.branchCode }
+                branchCode: { $eq: movieTheater.branchCode }
             })
             : [];
         const screeningEvents = await this.masterService.searchScreeningEvent({
-            superEvent: { locationBranchCodes: [theater.branchCode] },
+            superEvent: { locationBranchCodes: [movieTheater.branchCode] },
             startFrom: moment(today).toDate(),
             startThrough: moment(today).add(1, 'day').add(-1, 'millisecond').toDate(),
+            location: {
+                branchCode: { $eq: screeningRoom?.branchCode }
+            },
             creativeWorks,
             screeningEventSeries,
             screeningRooms

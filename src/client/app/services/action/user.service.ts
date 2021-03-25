@@ -4,6 +4,7 @@ import { select, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { Models } from '../..';
 import { userAction } from '../../store/actions';
 import * as reducers from '../../store/reducers';
 import { UtilService } from '../util.service';
@@ -45,7 +46,10 @@ export class ActionUserService {
      * すべて更新
      */
     public updateAll(params: {
-        theater: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
+        movieTheater: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
+        screeningRoom?: factory.chevre.place.screeningRoom.IPlace;
+        page?: number;
+        layout: Models.Common.Layout;
     }) {
         this.store.dispatch(userAction.updateAll(params));
     }

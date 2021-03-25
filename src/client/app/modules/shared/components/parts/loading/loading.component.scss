@@ -1,19 +1,22 @@
 .cover {
-    background-color: rgba(0, 0, 0, 0.7);
-    animation: fadein 0.2s both;
     z-index: 2000;
 }
 
 .loading {
     opacity: 1;
     z-index: 2000;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
 }
 
 .loader,
 .loader:after {
     border-radius: 50%;
-    width: 90px;
-    height: 90px;
+    width: 40px;
+    height: 40px;
 }
 .loader {
     position: relative;
@@ -28,6 +31,11 @@
 .process {
     opacity: 1;
     z-index: 2000;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
     .text {
         margin-top: 120px;
     }

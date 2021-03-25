@@ -1,13 +1,26 @@
 import { factory } from '@cinerino/sdk';
 import { Action, createReducer, on } from '@ngrx/store';
 import { IState } from '.';
+import { Models } from '../..';
 import { userAction } from '../actions';
 
 export interface IUserState {
     /**
      * 劇場
      */
-    theater?: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
+    movieTheater?: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
+    /**
+     * スクリーン
+     */
+    screeningRoom?: factory.chevre.place.screeningRoom.IPlace;
+    /**
+     * ページ
+     */
+    page?: number;
+    /**
+    * レイアウト
+    */
+    layout: Models.Common.Layout;
     /**
      * 言語
      */
@@ -19,7 +32,8 @@ export interface IUserState {
 }
 
 export const userInitialState: IUserState = {
-    language: 'ja'
+    language: 'ja',
+    layout: Models.Common.Layout.HORIZONTAL
 };
 
 export function reducer(initialState: IState, action: Action) {
@@ -29,17 +43,21 @@ export function reducer(initialState: IState, action: Action) {
             return {
                 ...state,
                 userData: {
-                    language: 'ja'
+                    language: 'ja',
+                    layout: Models.Common.Layout.HORIZONTAL
                 }, loading: false, process: ''
             };
         }),
         on(userAction.updateAll, (state, payload) => {
-            const theater = payload.theater;
+            const { movieTheater, screeningRoom, page, layout } = payload;
 
             return {
                 ...state, userData: {
                     ...state.userData,
-                    theater,
+                    movieTheater,
+                    screeningRoom,
+                    page,
+                    layout,
                 }, loading: false, process: ''
             };
         }),

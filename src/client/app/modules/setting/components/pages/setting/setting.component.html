@@ -1,23 +1,37 @@
-<div class="contents-width mx-auto px-3 py-5">
+<div class="p-4 bg-dark-gray h-100">
     <form *ngIf="settingForm" [formGroup]="settingForm">
         <div class="mb-4">
             <h2 class="text-large mb-4 text-center font-weight-bold">{{ 'setting.title' | translate }}</h2>
-            <p class="mb-4 text-md-center" [innerHTML]="'setting.read' | translate"></p>
-            <div class="p-3 bg-white">
+            <div class="">
                 <ng-container *ngFor="let key of getProfileFormKeys()">
                     <div class="form-group row">
-                        <div class="col-md-4 py-2 text-md-right ">
+                        <div class="col-4 py-2 text-right ">
                             <div class="d-inline-flex align-items-center">
                                 <p>{{ 'form.label.' + key | translate }}</p>
-                                <p *ngIf="isRequired(key)" class="badge badge-danger ml-2">{{ 'form.required' | translate }}
+                                <p *ngIf="isRequired(key)" class="badge badge-danger ml-2">{{ 'form.required' |
+                                    translate }}
                                 </p>
                             </div>
                         </div>
-                        <div class="col-md-8">
-                            <select *ngIf="key === 'theaterId'" class="form-control" [formControlName]="key">
+                        <div class="col-8">
+                            <select *ngIf="key === 'theaterId'" class="form-control" [formControlName]="key" (change)="changeTheater()">
                                 <option value="">{{ 'setting.unselected' | translate }}</option>
-                                <option *ngFor="let theater of theaters" [value]="theater.id">
-                                    {{ theater.name | changeLanguage }}</option>
+                                <option *ngFor=" let movieTheater of movieTheaters" [value]="movieTheater.id">
+                                {{ movieTheater.name | changeLanguage }}</option>
+                            </select>
+                            <select *ngIf="key === 'screenId'" class="form-control" [formControlName]="key">
+                                <option value="">{{ 'setting.unselected' | translate }}</option>
+                                <option *ngFor=" let screeningRoom of screeningRooms" [value]="screeningRoom.branchCode">
+                                {{ screeningRoom.name | changeLanguage }}</option>
+                            </select>
+                            <select *ngIf="key === 'page'" class="form-control" [formControlName]="key">
+                                <option value="">{{ 'setting.unselected' | translate }}</option>
+                                <option *ngFor=" let page of pages" [value]="page">
+                                {{ page }}</option>
+                            </select>
+                            <select *ngIf="key === 'layout'" class="form-control" [formControlName]="key">
+                                <option [value]="layout.HORIZONTAL">HORIZONTAL</option>
+                                <option [value]="layout.VERTICAL">VERTICAL</option>
                             </select>
                         </div>
                     </div>
@@ -27,10 +41,10 @@
         </div>
 
         <div class="buttons mx-auto text-center">
-            <button type="submit" [disabled]="isLoading | async" class="btn btn-primary btn-block py-3 mb-3"
+            <button type="submit" [disabled]="isLoading | async" class="btn btn-light btn-block py-3 mb-3"
                 (click)="onSubmit()">{{ 'setting.next' | translate }}</button>
-            <button type="button" class="btn btn-outline-primary btn-block py-3"
-                [routerLink]="environment.BASE_URL">{{ 'setting.prev' | translate }}</button>
+            <button type="button" class="btn btn-outline-light btn-block py-3" [routerLink]="environment.BASE_URL">{{
+                'setting.prev' | translate }}</button>
         </div>
     </form>
 </div>

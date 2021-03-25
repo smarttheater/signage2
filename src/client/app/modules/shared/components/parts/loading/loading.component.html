@@ -1,9 +1,5 @@
 <div *ngIf="isLoading" class="cover fixed-top fixed-bottom"></div>
-<div *ngIf="isLoading" class="loading d-flex justify-content-center align-items-center fixed-top fixed-bottom">
-    <div class="loader">
-        Loading...
-    </div>
-</div>
-<div *ngIf="isLoading && process" class="process d-flex justify-content-center align-items-center fixed-top fixed-bottom">
-    <div class="text-white text">{{ process | translate }}</div>
+<div *ngIf="isLoading" class="loading d-flex justify-content-end align-items-center pr-3">
+    <div *ngIf="process" class="mr-3 text-white text">{{ process | translate }}</div>
+    <div class="loader">Loading...</div>
 </div>

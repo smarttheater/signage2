@@ -1,5 +1,6 @@
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { Functions } from '../../../../..';
 import { ActionService } from '../../../../../services';
 
 @Component({
@@ -17,6 +18,7 @@ export class ContentsComponent implements OnInit {
     ) { }
 
     public async ngOnInit() {
+        Functions.Util.changeViewport();
         await this.actionService.user.checkVersion();
         this.router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
@@ -36,6 +38,11 @@ export class ContentsComponent implements OnInit {
         return (userAgent.indexOf('edge') !== -1
             || userAgent.indexOf('chrome') !== -1
             || userAgent.indexOf('safari') !== -1);
+    }
+
+    @HostListener('window:resize', ['$event'])
+    public onResize() {
+        Functions.Util.changeViewport();
     }
 
 }
