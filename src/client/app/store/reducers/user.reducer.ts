@@ -18,6 +18,10 @@ export interface IUserState {
      */
     page?: number;
     /**
+    * 向き
+    */
+    direction: Models.Common.Direction;
+    /**
     * レイアウト
     */
     layout: Models.Common.Layout;
@@ -33,7 +37,8 @@ export interface IUserState {
 
 export const userInitialState: IUserState = {
     language: 'ja',
-    layout: Models.Common.Layout.HORIZONTAL
+    direction: Models.Common.Direction.HORIZONTAL,
+    layout: Models.Common.Layout.TYPE01,
 };
 
 export function reducer(initialState: IState, action: Action) {
@@ -44,12 +49,13 @@ export function reducer(initialState: IState, action: Action) {
                 ...state,
                 userData: {
                     language: 'ja',
-                    layout: Models.Common.Layout.HORIZONTAL
+                    direction: Models.Common.Direction.HORIZONTAL,
+                    layout: Models.Common.Layout.TYPE01,
                 }, loading: false, process: ''
             };
         }),
         on(userAction.updateAll, (state, payload) => {
-            const { movieTheater, screeningRoom, page, layout } = payload;
+            const { movieTheater, screeningRoom, page, layout, direction } = payload;
 
             return {
                 ...state, userData: {
@@ -57,6 +63,7 @@ export function reducer(initialState: IState, action: Action) {
                     movieTheater,
                     screeningRoom,
                     page,
+                    direction,
                     layout,
                 }, loading: false, process: ''
             };

@@ -2,23 +2,23 @@
     <div class="swiper-wrapper">
         <div *ngFor="let page of pages" class="swiper-slide pointer swiper-no-swiping">
             <div class="h-100 bg-dark-gray">
-                <div *ngFor="let screeningEventsGroup of page.group; let index = index;" [class.bg-gray]="index % 2 === 0">
+                <div *ngFor="let screeningEventsGroup of page.group; let index = index;"
+                    [class.bg-gray]="index % 2 === 0">
                     <div class="d-flex align-items-center">
                         <div class="screening-event-series px-3 d-flex align-items-center">
                             <div class="w-100">
                                 <p *ngIf="screeningEventsGroup.screeningEvent.name?.ja"
-                                    class="text-large font-weight-bold text-overflow-ellipsis">{{
+                                    class="text-large font-weight-bold">{{
                                     screeningEventsGroup.screeningEvent.superEvent.name.ja }}</p>
-                                <p *ngIf="screeningEventsGroup.screeningEvent.headline?.ja" class="text-overflow-ellipsis">{{
+                                <p *ngIf="screeningEventsGroup.screeningEvent.headline?.ja" class="">{{
                                     screeningEventsGroup.screeningEvent.superEvent.headline.ja }}</p>
-                                <p *ngIf="screeningEventsGroup.screeningEvent.name?.en" class="text-overflow-ellipsis">{{
-                                    screeningEventsGroup.screeningEvent.superEvent.name.en }}</p>
                             </div>
                         </div>
                         <div class="screening-event border-left">
                             <div class="d-flex align-items-center flex-wrap">
                                 <div *ngFor="let performance of screeningEventsGroup.data"
-                                    class="item text-center d-flex align-items-center border-right">
+                                    class="item text-center d-flex align-items-center border-right"
+                                    [style.height.px]="itemHeight">
                                     <div class="w-100 h-100 position-relative py-2">
                                         <p class="text-large font-weight-bold mb-1">{{
                                             moment(performance.screeningEvent.startDate).format('HH:mm') }}</p>
@@ -63,13 +63,15 @@
                                     </div>
                                 </div>
                                 <div *ngFor="let empty of screeningEventsGroup.empty"
-                                    class="item text-center d-flex align-items-center border-right">
+                                    class="item text-center d-flex align-items-center border-right"
+                                    [style.height.px]="itemHeight">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div *ngFor="let emptyGroup of page.emptyGroup; let index = index;" [class.bg-gray]="(index + page.group.length) % 2 === 0">
+                <div *ngFor="let emptyGroup of page.emptyGroup; let index = index;"
+                    [class.bg-gray]="(index + page.group.length) % 2 === 0">
                     <div class="d-flex align-items-center">
                         <div class="screening-event-series px-3 d-flex align-items-center">
                             <div class="w-100">
@@ -78,7 +80,8 @@
                         <div class="screening-event border-left">
                             <div class="d-flex align-items-center flex-wrap">
                                 <div *ngFor="let empty of emptyGroup.empty"
-                                    class="item text-center d-flex align-items-center border-right">
+                                    class="item text-center d-flex align-items-center border-right"
+                                    [style.height.px]="itemHeight">
                                 </div>
                             </div>
                         </div>

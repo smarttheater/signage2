@@ -5,7 +5,7 @@ import { factory } from '@cinerino/sdk';
 import { select, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { Models } from '../../../../..';
+import { Functions, Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
 import { ActionService, MasterService, UtilService } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
@@ -25,6 +25,7 @@ export class SettingComponent implements OnInit {
     public screeningRooms: factory.chevre.place.screeningRoom.IPlace[];
     public pages: string[];
     public environment = getEnvironment();
+    public direction = Models.Common.Direction;
     public layout = Models.Common.Layout;
 
     constructor(
@@ -64,6 +65,7 @@ export class SettingComponent implements OnInit {
             theaterId: ['', [Validators.required]],
             screenId: ['', []],
             page: ['', []],
+            direction: ['', [Validators.required]],
             layout: ['', [Validators.required]],
         });
         const user = await this.actionService.user.getData();
@@ -77,6 +79,7 @@ export class SettingComponent implements OnInit {
         if (user.page !== undefined) {
             this.settingForm.controls.page.setValue(String(user.page));
         }
+        this.settingForm.controls.direction.setValue(user.direction);
         this.settingForm.controls.layout.setValue(user.layout);
     }
 
@@ -98,6 +101,7 @@ export class SettingComponent implements OnInit {
             const theaterId = this.settingForm.controls.theaterId.value;
             const screenId = this.settingForm.controls.screenId.value;
             const page = this.settingForm.controls.page.value;
+            const direction = this.settingForm.controls.direction.value;
             const layout = this.settingForm.controls.layout.value;
             const movieTheater = this.movieTheaters.find(t => (t.id === theaterId));
             if (movieTheater === undefined) {
@@ -108,12 +112,14 @@ export class SettingComponent implements OnInit {
                 movieTheater,
                 screeningRoom,
                 page: (page === '') ? undefined : Number(page),
+                direction,
                 layout
             });
             this.utilService.openAlert({
                 title: this.translate.instant('common.complete'),
                 body: this.translate.instant('setting.alert.success')
             });
+            Functions.Util.changeViewport({ direction });
         } catch (error) {
             console.error(error);
         }

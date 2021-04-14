@@ -29,9 +29,13 @@
                                 <option *ngFor=" let page of pages" [value]="page">
                                 {{ page }}</option>
                             </select>
+                            <select *ngIf="key === 'direction'" class="form-control" [formControlName]="key">
+                                <option [value]="direction.HORIZONTAL">HORIZONTAL</option>
+                                <option [value]="direction.VERTICAL">VERTICAL</option>
+                            </select>
                             <select *ngIf="key === 'layout'" class="form-control" [formControlName]="key">
-                                <option [value]="layout.HORIZONTAL">HORIZONTAL</option>
-                                <option [value]="layout.VERTICAL">VERTICAL</option>
+                                <option [value]="layout.TYPE01">TYPE01</option>
+                                <option [value]="layout.TYPE02">TYPE02</option>
                             </select>
                         </div>
                     </div>

@@ -49,6 +49,7 @@ export class ActionUserService {
         movieTheater: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
         screeningRoom?: factory.chevre.place.screeningRoom.IPlace;
         page?: number;
+        direction: Models.Common.Direction;
         layout: Models.Common.Layout;
     }) {
         this.store.dispatch(userAction.updateAll(params));

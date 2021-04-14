@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
 
 @Component({
@@ -19,11 +18,7 @@ export class MainRootComponent implements OnInit {
      * 初期化
      */
     public async ngOnInit() {
-        if (this.environment.VIEW_TYPE === Models.Common.ViewType.Cinema) {
-            this.router.navigate(['/cinema/dashboard']);
-            return;
-        }
-        this.router.navigate(['/event/dashboard']);
+        this.router.navigate(['/dashboard']);
     }
 
 }

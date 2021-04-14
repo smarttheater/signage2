@@ -1,4 +1,10 @@
 {
+    "main": {
+        "dashboard": {
+            "purchase": "購入スケジュール",
+            "setting": "設定"
+        }
+    },
     "error": {
         "title": "エラー",
         "read": "エラーが発生しました。",
@@ -41,6 +47,7 @@
             "theaterId": "施設",
             "screenId": "ルーム",
             "page": "ページ",
+            "direction": "向き",
             "layout": "レイアウト"
         },
         "option": {

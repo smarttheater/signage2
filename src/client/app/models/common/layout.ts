@@ -1,10 +1,10 @@
 export enum Layout {
     /**
-     * 横
+     * タイプ1
      */
-    HORIZONTAL = 'HORIZONTAL',
+    TYPE01 = 'TYPE01',
     /**
-     * 縦
+     * タイプ2
      */
-    VERTICAL = 'VERTICAL'
+     TYPE02 = 'TYPE02'
 }

@@ -1,6 +1,7 @@
 import * as libphonenumber from 'libphonenumber-js';
 import { BsDatepickerContainerComponent, BsDatepickerDirective } from 'ngx-bootstrap/datepicker';
 import { CellHoverEvent } from 'ngx-bootstrap/datepicker/models';
+import { Direction } from '../models/common';
 
 /**
      * 電話番号変換
@@ -240,10 +241,13 @@ export function deepCopy<T>(obj: any) {
 /**
  * ビューポート変更
  */
- export function changeViewport() {
+export function changeViewport(params: {
+    direction: Direction
+}) {
+    const { direction } = params;
     const base = {
-        width: 1920,
-        height: 1080
+        width: (direction === Direction.HORIZONTAL) ? 1920 : 1080,
+        height: (direction === Direction.HORIZONTAL) ? 1080 : 1920
     };
     const scale = {
         width: window.innerWidth / base.width,
@@ -252,12 +256,13 @@ export function deepCopy<T>(obj: any) {
     const currentScale = (scale.width < scale.height)
         ? scale.width
         : scale.height;
-    // const viewport = 'width=device-width, initial-scale=' + scale + ', maximum-scale=1, user-scalable=no, minimal-ui';
-    // document.querySelector('meta[name=viewport]').setAttribute('content', viewport);
-    const target = document.body;
-    target.style.transform = 'scale(' + currentScale + ')';
-    target.style.opacity = '1';
-    target.setAttribute('data-scale', String(currentScale));
+    const body = document.body;
+    body.style.transform = `scale(${currentScale})`;
+    body.style.opacity = '1';
+    body.style.width = `${base.width}px`;
+    body.style.height = `${base.height}px`;
+    body.setAttribute('data-scale', String(currentScale));
+    document.documentElement.style.fontSize = (direction === Direction.HORIZONTAL) ? '30px' : '20px';
 }
 
 /**

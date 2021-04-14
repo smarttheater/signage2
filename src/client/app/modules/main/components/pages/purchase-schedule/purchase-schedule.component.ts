@@ -4,17 +4,17 @@ import { factory } from '@cinerino/sdk';
 import { select, Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { Functions, Models } from '../../../../../..';
-import { getEnvironment } from '../../../../../../../environments/environment';
-import { ActionService, MasterService, UtilService } from '../../../../../../services';
-import * as reducers from '../../../../../../store/reducers';
+import { Functions, Models } from '../../../../..';
+import { getEnvironment } from '../../../../../../environments/environment';
+import { ActionService, MasterService, UtilService } from '../../../../../services';
+import * as reducers from '../../../../../store/reducers';
 
 @Component({
-    selector: 'app-cinema-purchase-schedule',
-    templateUrl: './cinema-purchase-schedule.component.html',
-    styleUrls: ['./cinema-purchase-schedule.component.scss']
+    selector: 'app-purchase-schedule',
+    templateUrl: './purchase-schedule.component.html',
+    styleUrls: ['./purchase-schedule.component.scss']
 })
-export class CinemaPurchaseScheduleComponent implements OnInit, OnDestroy {
+export class PurchaseScheduleComponent implements OnInit, OnDestroy {
     public isLoading: Observable<boolean>;
     public error: Observable<string | null>;
     public moment = moment;
@@ -31,6 +31,9 @@ export class CinemaPurchaseScheduleComponent implements OnInit, OnDestroy {
     }[];
     public updateTimer: any;
     public swiperInstance: any;
+    public itemHeight: number;
+    public screeningEventSeriesDisplayLength: number;
+    public performanceDisplayLength: number;
 
     constructor(
         private store: Store<reducers.IState>,
@@ -47,11 +50,21 @@ export class CinemaPurchaseScheduleComponent implements OnInit, OnDestroy {
         this.isLoading = this.store.pipe(select(reducers.getLoading));
         this.error = this.store.pipe(select(reducers.getError));
         this.pages = [];
+        this.itemHeight = 0;
+        this.screeningEventSeriesDisplayLength = 0;
+        this.performanceDisplayLength = 0;
         try {
-            const { page } = await this.actionService.user.getData();
+            const { page, direction } = await this.actionService.user.getData();
+            this.screeningEventSeriesDisplayLength = (direction === Models.Common.Direction.HORIZONTAL)
+                ? 5 : 12;
+            this.performanceDisplayLength = (direction === Models.Common.Direction.HORIZONTAL)
+                ? 5 : 5;
+            this.itemHeight = (direction === Models.Common.Direction.HORIZONTAL)
+                ? (1080 - 60) / this.screeningEventSeriesDisplayLength
+                : (1920 - 60) / this.screeningEventSeriesDisplayLength;
             const swiperConfig: any = {
                 spaceBetween: 0,
-                autoplay: (page === undefined) ? { delay: 10000 } : undefined,
+                autoplay: (page === undefined) ? { delay: 60000 } : undefined,
                 effect: 'flip',
             };
             this.swiperInstance = new (<any>window).Swiper('.swiper-container', swiperConfig);
@@ -120,8 +133,6 @@ export class CinemaPurchaseScheduleComponent implements OnInit, OnDestroy {
         }[] = [];
         let pageCount = 0;
         let eventCount = 0;
-        const SCREENING_EVENT_SERIES_DISPLAY_LENGTH = 5;
-        const PERFORMANCE_DISPLAY_LENGTH = 5;
         screeningEventsGroup.forEach((s, i) => {
             if (pages[pageCount] === undefined) {
                 pages[pageCount] = {
@@ -132,15 +143,15 @@ export class CinemaPurchaseScheduleComponent implements OnInit, OnDestroy {
             new Array(5).forEach(() => {
                 console.log({ test: 0 });
             });
-            const empty = [...Array(PERFORMANCE_DISPLAY_LENGTH - (s.data.length % PERFORMANCE_DISPLAY_LENGTH)).keys()];
+            const empty = [...Array(this.performanceDisplayLength - (s.data.length % this.performanceDisplayLength)).keys()];
             pages[pageCount].group.push({ ...s, empty });
-            eventCount += Math.ceil(s.data.length / PERFORMANCE_DISPLAY_LENGTH);
-            if (eventCount === PERFORMANCE_DISPLAY_LENGTH
+            eventCount += Math.ceil(s.data.length / this.performanceDisplayLength);
+            if (eventCount === this.screeningEventSeriesDisplayLength
                 || screeningEventsGroup.length === i + 1) {
                 pages[pageCount].emptyGroup =
-                    [...Array(SCREENING_EVENT_SERIES_DISPLAY_LENGTH - eventCount).keys()]
+                    [...Array(this.screeningEventSeriesDisplayLength - eventCount).keys()]
                         .map(() => {
-                            return { empty: [...Array(PERFORMANCE_DISPLAY_LENGTH).keys()] };
+                            return { empty: [...Array(this.performanceDisplayLength).keys()] };
                         });
                 pageCount++;
                 eventCount = 0;

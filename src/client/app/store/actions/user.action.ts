@@ -14,6 +14,7 @@ export const updateAll = createAction(
         movieTheater: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
         screeningRoom?: factory.chevre.place.screeningRoom.IPlace;
         page?: number;
+        direction: Models.Common.Direction;
         layout: Models.Common.Layout;
     }>()
 );
