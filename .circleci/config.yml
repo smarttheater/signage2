@@ -77,18 +77,6 @@ jobs:
           command: |
             git remote add prerelease ${DEPLOY_TARGET_REPOSITORY_PRERELEASE}
             git push prerelease $CIRCLE_BRANCH:master -f -v
-  prerelease-oyatsu-frontend:
-    docker:
-      - image: circleci/node:latest
-    steps:
-      - checkout
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: deploy to azure webapps prerelease-oyatsu-frontend
-          command: |
-            git remote add prerelease-oyatsu-frontend ${DEPLOY_TARGET_REPOSITORY_PRERELEASE_OYATSU_FRONTEND}
-            git push prerelease-oyatsu-frontend $CIRCLE_BRANCH:master -f -v
   deploy:
     docker:
       - image: circleci/node:latest
@@ -101,18 +89,7 @@ jobs:
           command: |
             git remote add production-staging ${DEPLOY_TARGET_REPOSITORY_PRODUCTION}
             git push production-staging $CIRCLE_BRANCH:master -f -v
-  deploy-oyatsu-frontend:
-    docker:
-      - image: circleci/node:latest
-    steps:
-      - checkout
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: deploy to azure webapps production-oyatsu-frontend
-          command: |
-            git remote add production-staging-oyatsu-frontend ${DEPLOY_TARGET_REPOSITORY_PRODUCTION_OYATSU_FRONTEND}
-            git push production-staging-oyatsu-frontend $CIRCLE_BRANCH:master -f -v
+  
 # Used for orchestrating all jobs.
 workflows:
   version: 2
@@ -123,33 +100,21 @@ workflows:
       - test:
           requires:
             - build
-      - deploy2development:
-          requires:
-            - test
-          filters:
-            branches:
-              only: develop
-      - prerelease:
-          requires:
-            - test
-          filters:
-            branches:
-              only: /feature\/.+-alpha.+/
-      - prerelease-oyatsu-frontend:
-          requires:
-            - test
-          filters:
-            branches:
-              only: /feature\/.+-alpha.+/
-      - deploy:
-          requires:
-            - test
-          filters:
-            branches:
-              only: master
-      - deploy-oyatsu-frontend:
-          requires:
-            - test
-          filters:
-            branches:
-              only: master
+      # - deploy2development:
+      #     requires:
+      #       - test
+      #     filters:
+      #       branches:
+      #         only: develop
+      # - prerelease:
+      #     requires:
+      #       - test
+      #     filters:
+      #       branches:
+      #         only: /feature\/.+-alpha.+/
+      # - deploy:
+      #     requires:
+      #       - test
+      #     filters:
+      #       branches:
+      #         only: master
