@@ -11,6 +11,7 @@ import { BaseComponent } from './components/pages/base/base.component';
 import { AlertModalComponent } from './components/parts/alert-modal/alert-modal.component';
 import { ConfirmModalComponent } from './components/parts/confirm-modal/confirm-modal.component';
 import { ContentsComponent } from './components/parts/contents/contents.component';
+import { CurrentDateTimeComponent } from './components/parts/current-date-time/current-date-time.component';
 import { LoadingComponent } from './components/parts/loading/loading.component';
 import { ChangeLanguagePipe } from './pipes/change-language.pipe';
 import { FormatDatePipe } from './pipes/format-date.pipe';
@@ -20,6 +21,7 @@ const components = [
   LoadingComponent,
   ContentsComponent,
   BaseComponent,
+  CurrentDateTimeComponent
 ];
 
 const entryComponents = [

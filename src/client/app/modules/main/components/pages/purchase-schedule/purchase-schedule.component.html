@@ -8,9 +8,9 @@
                         <div class="screening-event-series px-3 d-flex align-items-center">
                             <div class="w-100">
                                 <p *ngIf="screeningEventsGroup.screeningEvent.name?.ja"
-                                    class="text-large font-weight-bold">{{
+                                    class="text-large font-weight-bold text-overflow-ellipsis-02">{{
                                     screeningEventsGroup.screeningEvent.superEvent.name.ja }}</p>
-                                <p *ngIf="screeningEventsGroup.screeningEvent.headline?.ja" class="">{{
+                                <p *ngIf="screeningEventsGroup.screeningEvent.headline?.ja" class="text-overflow-ellipsis-02">{{
                                     screeningEventsGroup.screeningEvent.superEvent.headline.ja }}</p>
                             </div>
                         </div>

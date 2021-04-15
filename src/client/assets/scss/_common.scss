@@ -152,6 +152,14 @@ button {
     text-overflow: ellipsis;
 }
 
+.text-overflow-ellipsis-02 {
+    width: 100%;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+
 .d-grid {
     display: -ms-grid !important;
     display: grid !important;

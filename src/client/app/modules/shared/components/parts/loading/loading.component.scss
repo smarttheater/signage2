@@ -2,16 +2,6 @@
     z-index: 2000;
 }
 
-.loading {
-    opacity: 1;
-    z-index: 2000;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 60px;
-}
-
 .loader,
 .loader:after {
     border-radius: 50%;
