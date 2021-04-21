@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { factory } from '@cinerino/sdk';
 import * as moment from 'moment';
-import { Functions, Models } from '../../../../..';
+import { Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
 
 @Component({
@@ -13,19 +13,12 @@ export class PurchaseSchedule02Component implements OnInit, OnChanges {
     public moment = moment;
     public environment = getEnvironment();
     public swiperInstance: any;
-    public itemHeight: number;
-    public screeningEventSeriesDisplayLength: number;
-    public performanceDisplayLength: number;
     public pages: {
-        group: {
-            screeningEvent: factory.chevre.event.screeningEvent.IEvent;
-            data: Models.Purchase.Performance[];
-            empty: any[];
-        }[];
-        emptyGroup: {
-            empty: any[];
-        }[];
+        data: Models.Purchase.Performance[];
+        empty: any[];
     }[];
+    public screeningEventDisplayLength: number;
+    public itemHeight: number;
     @Input() public screeningEvents: factory.chevre.event.screeningEvent.IEvent[];
     @Input() public direction: Models.Common.Direction;
     @Input() public page?: number;
@@ -37,28 +30,21 @@ export class PurchaseSchedule02Component implements OnInit, OnChanges {
      */
     public async ngOnInit() {
         this.itemHeight = 0;
-        this.screeningEventSeriesDisplayLength = 0;
-        this.performanceDisplayLength = 0;
-        this.screeningEventSeriesDisplayLength = (this.direction === Models.Common.Direction.HORIZONTAL)
+        this.screeningEventDisplayLength = 0;
+        this.screeningEventDisplayLength = (this.direction === Models.Common.Direction.HORIZONTAL)
             ? 5 : 12;
-        this.performanceDisplayLength = (this.direction === Models.Common.Direction.HORIZONTAL)
-            ? 5 : 5;
         this.itemHeight = (this.direction === Models.Common.Direction.HORIZONTAL)
-            ? (1080 - 60) / this.screeningEventSeriesDisplayLength
-            : (1920 - 60) / this.screeningEventSeriesDisplayLength;
-        const swiperConfig: any = {
+            ? (1080 - 60) / this.screeningEventDisplayLength
+            : (1920 - 60) / this.screeningEventDisplayLength;
+        const swiperConfig = {
             spaceBetween: 0,
-            autoplay: (this.page === undefined) ? { delay: 30000 } : undefined,
+            autoplay: (this.page === undefined)
+                ? { delay: this.environment.AUTOPLAY_DELAY_TIME }
+                : undefined,
             effect: 'flip',
         };
         this.swiperInstance = new (<any>window).Swiper('.swiper-container', swiperConfig);
         this.pages = this.createPages();
-        setTimeout(async () => {
-            this.swiperInstance.update();
-            if (this.page !== undefined) {
-                this.swiperInstance.slideTo(this.page, 0);
-            }
-        }, 0);
     }
 
     public ngOnChanges() {
@@ -70,45 +56,28 @@ export class PurchaseSchedule02Component implements OnInit, OnChanges {
 
     public createPages() {
         const screeningEvents = this.screeningEvents;
-        const now = moment().toDate();
-        const screeningEventsGroup =
-            Functions.Purchase.screeningEvents2ScreeningEventSeries({ screeningEvents, now });
         const pages: {
-            group: {
-                screeningEvent: factory.chevre.event.screeningEvent.IEvent;
-                data: Models.Purchase.Performance[];
-                empty: any[];
-            }[];
-            emptyGroup: {
-                empty: any[];
-            }[];
+            data: Models.Purchase.Performance[];
+            empty: any[];
         }[] = [];
         let pageCount = 0;
-        let eventCount = 0;
-        screeningEventsGroup.forEach((s, i) => {
+        screeningEvents.forEach((s, i) => {
             if (pages[pageCount] === undefined) {
                 pages[pageCount] = {
-                    group: [],
-                    emptyGroup: []
+                    data: [],
+                    empty: []
                 };
             }
-            new Array(5).forEach(() => {
-                console.log({ test: 0 });
-            });
-            const empty = [...Array(this.performanceDisplayLength - (s.data.length % this.performanceDisplayLength)).keys()];
-            pages[pageCount].group.push({ ...s, empty });
-            eventCount += Math.ceil(s.data.length / this.performanceDisplayLength);
-            if (eventCount === this.screeningEventSeriesDisplayLength
-                || screeningEventsGroup.length === i + 1) {
-                pages[pageCount].emptyGroup =
-                    [...Array(this.screeningEventSeriesDisplayLength - eventCount).keys()]
-                        .map(() => {
-                            return { empty: [...Array(this.performanceDisplayLength).keys()] };
-                        });
+            pages[pageCount].data.push(new Models.Purchase.Performance({ screeningEvent: s }));
+            if (i > 1
+                && this.screeningEventDisplayLength % (i + 1) === 0) {
                 pageCount++;
-                eventCount = 0;
             }
         });
+        pages.forEach(p => {
+            p.empty = [...Array(this.screeningEventDisplayLength - p.data.length).keys()];
+        });
+        console.log(pages);
         return pages;
     }
 

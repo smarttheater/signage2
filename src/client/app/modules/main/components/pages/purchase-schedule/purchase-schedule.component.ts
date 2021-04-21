@@ -4,6 +4,7 @@ import { factory } from '@cinerino/sdk';
 import { select, Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
 import { ActionService, MasterService, UtilService } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
@@ -21,6 +22,7 @@ export class PurchaseScheduleComponent implements OnInit, OnDestroy {
     public environment = getEnvironment();
     public screeningEvents: factory.chevre.event.screeningEvent.IEvent[];
     public updateTimer: any;
+    public layout = Models.Common.Layout;
 
     constructor(
         private store: Store<reducers.IState>,
@@ -53,14 +55,14 @@ export class PurchaseScheduleComponent implements OnInit, OnDestroy {
     private async getSchedule() {
         const now = moment((await this.utilService.getServerTime()).date).toDate();
         const today = moment(moment(now).format('YYYYMMDD'), 'YYYYMMDD').toDate();
-        const { movieTheater, screeningRoom } = await this.actionService.user.getData();
+        const { movieTheater, screeningRoom, layout } = await this.actionService.user.getData();
         if (movieTheater === undefined) {
             throw new Error('movieTheater undefined');
         }
         const creativeWorks = await this.masterService.searchMovies({
             offers: { availableFrom: moment().toDate() }
         });
-        const screeningEventSeries = (this.environment.PURCHASE_SCHEDULE_SORT === 'screeningEventSeries')
+        const screeningEventSeries = (this.layout.TYPE01 === layout)
             ? await this.masterService.searchScreeningEventSeries({
                 location: {
                     branchCode: { $eq: movieTheater.branchCode }
@@ -68,12 +70,12 @@ export class PurchaseScheduleComponent implements OnInit, OnDestroy {
                 workPerformed: { identifiers: creativeWorks.map(c => c.identifier) }
             })
             : [];
-        const screeningRooms = (this.environment.PURCHASE_SCHEDULE_SORT === 'screen')
-            ? await this.masterService.searchScreeningRooms({
-                branchCode: { $eq: movieTheater.branchCode }
-            })
-            : [];
-        this.screeningEvents = await this.masterService.searchScreeningEvent({
+        // const screeningRooms = (this.environment.PURCHASE_SCHEDULE_SORT === 'screen')
+        //     ? await this.masterService.searchScreeningRooms({
+        //         branchCode: { $eq: movieTheater.branchCode }
+        //     })
+        //     : [];
+        const searchResult = await this.masterService.searchScreeningEvent({
             superEvent: { locationBranchCodes: [movieTheater.branchCode] },
             startFrom: moment(today).toDate(),
             startThrough: moment(today).add(1, 'day').add(-1, 'millisecond').toDate(),
@@ -82,8 +84,9 @@ export class PurchaseScheduleComponent implements OnInit, OnDestroy {
             },
             creativeWorks,
             screeningEventSeries,
-            screeningRooms
+            // screeningRooms
         });
+        this.screeningEvents = searchResult.filter(s => moment(s.endDate).unix() > moment().unix());
     }
 
     /**

@@ -46,9 +46,11 @@ export class PurchaseSchedule01Component implements OnInit, OnChanges {
         this.itemHeight = (this.direction === Models.Common.Direction.HORIZONTAL)
             ? (1080 - 60) / this.screeningEventSeriesDisplayLength
             : (1920 - 60) / this.screeningEventSeriesDisplayLength;
-        const swiperConfig: any = {
+        const swiperConfig = {
             spaceBetween: 0,
-            autoplay: (this.page === undefined) ? { delay: 30000 } : undefined,
+            autoplay: (this.page === undefined)
+                ? { delay: this.environment.AUTOPLAY_DELAY_TIME }
+                : undefined,
             effect: 'flip',
         };
         this.swiperInstance = new (<any>window).Swiper('.swiper-container', swiperConfig);
@@ -92,9 +94,6 @@ export class PurchaseSchedule01Component implements OnInit, OnChanges {
                     emptyGroup: []
                 };
             }
-            new Array(5).forEach(() => {
-                console.log({ test: 0 });
-            });
             const empty = [...Array(this.performanceDisplayLength - (s.data.length % this.performanceDisplayLength)).keys()];
             pages[pageCount].group.push({ ...s, empty });
             eventCount += Math.ceil(s.data.length / this.performanceDisplayLength);
