@@ -41,7 +41,7 @@ export class PurchaseSchedule02Component implements OnInit, OnChanges {
             autoplay: (this.page === undefined)
                 ? { delay: this.environment.AUTOPLAY_DELAY_TIME }
                 : undefined,
-            effect: 'flip',
+            effect: 'fade', // (this.page === undefined) ? 'slide' : 'fade',
         };
         this.swiperInstance = new (<any>window).Swiper('.swiper-container', swiperConfig);
         this.pages = this.createPages();
@@ -70,10 +70,11 @@ export class PurchaseSchedule02Component implements OnInit, OnChanges {
             }
             pages[pageCount].data.push(new Models.Purchase.Performance({ screeningEvent: s }));
             if (i > 1
-                && this.screeningEventDisplayLength % (i + 1) === 0) {
+                && (i + 1) % this.screeningEventDisplayLength === 0) {
                 pageCount++;
             }
         });
+        console.log(pages);
         pages.forEach(p => {
             p.empty = [...Array(this.screeningEventDisplayLength - p.data.length).keys()];
         });

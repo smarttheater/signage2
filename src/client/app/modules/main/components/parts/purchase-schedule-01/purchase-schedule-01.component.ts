@@ -51,7 +51,7 @@ export class PurchaseSchedule01Component implements OnInit, OnChanges {
             autoplay: (this.page === undefined)
                 ? { delay: this.environment.AUTOPLAY_DELAY_TIME }
                 : undefined,
-            effect: 'flip',
+            effect: 'fade', // (this.page === undefined) ? 'slide' : 'fade',
         };
         this.swiperInstance = new (<any>window).Swiper('.swiper-container', swiperConfig);
         this.pages = this.createPages();
@@ -87,26 +87,49 @@ export class PurchaseSchedule01Component implements OnInit, OnChanges {
         }[] = [];
         let pageCount = 0;
         let eventCount = 0;
-        screeningEventsGroup.forEach((s, i) => {
-            if (pages[pageCount] === undefined) {
-                pages[pageCount] = {
-                    group: [],
-                    emptyGroup: []
-                };
+        const limit = this.screeningEventSeriesDisplayLength * this.performanceDisplayLength;
+        screeningEventsGroup.forEach(group => {
+            group.data.forEach((d, i) => {
+                if (pages[pageCount] === undefined) {
+                    pages[pageCount] = {
+                        group: [],
+                        emptyGroup: []
+                    };
+                }
+                const findResult =
+                    pages[pageCount].group.find(g => g.screeningEvent.superEvent.id === d.screeningEvent.superEvent.id);
+                if (findResult === undefined) {
+                    pages[pageCount].group.push({
+                        screeningEvent: group.screeningEvent,
+                        data: [d],
+                        empty: [],
+                    });
+                } else {
+                    findResult.data.push(d);
+                }
+                eventCount++;
+                if (i + 1 === group.data.length) {
+                    eventCount += this.performanceDisplayLength - group.data.length % this.performanceDisplayLength;
+                }
+                if (eventCount === limit) {
+                    pageCount++;
+                }
+            });
+        });
+        pages.forEach(p => {
+            p.group.forEach(g => {
+                if (g.data.length % this.performanceDisplayLength === 0) {
+                    return;
+                }
+                g.empty = [...Array(this.performanceDisplayLength - (g.data.length % this.performanceDisplayLength)).keys()];
+            });
+            if (p.group.length === this.screeningEventSeriesDisplayLength) {
+                return;
             }
-            const empty = [...Array(this.performanceDisplayLength - (s.data.length % this.performanceDisplayLength)).keys()];
-            pages[pageCount].group.push({ ...s, empty });
-            eventCount += Math.ceil(s.data.length / this.performanceDisplayLength);
-            if (eventCount === this.screeningEventSeriesDisplayLength
-                || screeningEventsGroup.length === i + 1) {
-                pages[pageCount].emptyGroup =
-                    [...Array(this.screeningEventSeriesDisplayLength - eventCount).keys()]
-                        .map(() => {
-                            return { empty: [...Array(this.performanceDisplayLength).keys()] };
-                        });
-                pageCount++;
-                eventCount = 0;
-            }
+            p.emptyGroup = [...Array(this.screeningEventSeriesDisplayLength - p.group.length).keys()]
+                .map(() => {
+                    return { empty: [...Array(this.performanceDisplayLength).keys()] };
+                });
         });
         return pages;
     }
