@@ -1,6 +1,6 @@
 <div class="swiper-container" (resize)="resize()">
     <div class="swiper-wrapper">
-        <div *ngFor="let page of pages" class="swiper-slide pointer">
+        <div *ngFor="let page of pages" class="swiper-slide pointer swiper-no-swiping">
             <div class="h-100 bg-dark-gray">
                 <div *ngFor="let screeningEventsGroup of page.group; let index = index;"
                     [class.bg-gray]="index % 2 === 0">

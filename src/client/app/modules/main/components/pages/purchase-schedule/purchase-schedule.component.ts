@@ -87,6 +87,7 @@ export class PurchaseScheduleComponent implements OnInit, OnDestroy {
             // screeningRooms
         });
         this.screeningEvents = searchResult.filter(s => moment(s.endDate).unix() > moment().unix());
+        // this.screeningEvents = searchResult;
     }
 
     /**

@@ -117,16 +117,17 @@ export class PurchaseSchedule01Component implements OnInit, OnChanges {
             });
         });
         pages.forEach(p => {
+            eventCount = 0;
             p.group.forEach(g => {
                 if (g.data.length % this.performanceDisplayLength === 0) {
                     return;
                 }
                 g.empty = [...Array(this.performanceDisplayLength - (g.data.length % this.performanceDisplayLength)).keys()];
             });
-            if (p.group.length === this.screeningEventSeriesDisplayLength) {
-                return;
-            }
-            p.emptyGroup = [...Array(this.screeningEventSeriesDisplayLength - p.group.length).keys()]
+            p.group.forEach(g => {
+                eventCount += g.data.length + g.empty.length;
+            });
+            p.emptyGroup = [...Array(this.screeningEventSeriesDisplayLength - eventCount / this.screeningEventSeriesDisplayLength).keys()]
                 .map(() => {
                     return { empty: [...Array(this.performanceDisplayLength).keys()] };
                 });
