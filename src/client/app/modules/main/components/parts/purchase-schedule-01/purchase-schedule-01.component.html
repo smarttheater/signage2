@@ -1,5 +1,8 @@
-<div class="swiper-container" (resize)="resize()">
+<div class="swiper-container h-100" (resize)="resize()">
     <div class="swiper-wrapper">
+        <div *ngIf="image" class="swiper-slide pointer swiper-no-swiping text-center">
+            <img class="h-100" [src]="image">
+        </div>
         <div *ngFor="let page of pages" class="swiper-slide pointer swiper-no-swiping">
             <div class="h-100 bg-dark-gray">
                 <div *ngFor="let screeningEventsGroup of page.group; let index = index;"
@@ -32,9 +35,9 @@
                                                     class="d-flex justify-content-around align-items-center">
                                                     <img src="/assets/images/icon/status_warning.svg" alt="">
                                                 </div>
-                                                <div *ngIf="performance.isSeatStatus('danger')">
-                                                    <img src="/assets/images/icon/status_danger_color.svg" alt="">
-                                                </div>
+                                                <p *ngIf="performance.isSeatStatus('danger')">
+                                                    {{ 'common.performance.status.danger' | translate }}
+                                                </p>
                                                 <div *ngIf="performance.isSeatStatus()">
                                                     <img src="/assets/images/icon/status_undefined.svg" alt="">
                                                 </div>

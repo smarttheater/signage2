@@ -1,4 +1,4 @@
-<div class="p-4 bg-dark-gray h-100">
+<div class="p-4 bg-dark-gray h-100 scroll-vertical">
     <form *ngIf="settingForm" [formGroup]="settingForm">
         <div class="mb-4">
             <h2 class="text-large mb-4 text-center font-weight-bold">{{ 'setting.title' | translate }}</h2>
@@ -37,6 +37,7 @@
                                 <option [value]="layout.TYPE01">TYPE01</option>
                                 <option [value]="layout.TYPE02">TYPE02</option>
                             </select>
+                            <input *ngIf="key === 'image'" class="form-control" [formControlName]="key">
                         </div>
                     </div>
                 </ng-container>

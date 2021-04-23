@@ -67,6 +67,7 @@ export class SettingComponent implements OnInit {
             page: ['', []],
             direction: ['', [Validators.required]],
             layout: ['', [Validators.required]],
+            image: ['', []],
         });
         const user = await this.actionService.user.getData();
         if (user.movieTheater !== undefined) {
@@ -78,6 +79,9 @@ export class SettingComponent implements OnInit {
         }
         if (user.page !== undefined) {
             this.settingForm.controls.page.setValue(String(user.page));
+        }
+        if (user.image !== undefined) {
+            this.settingForm.controls.image.setValue(user.image);
         }
         this.settingForm.controls.direction.setValue(user.direction);
         this.settingForm.controls.layout.setValue(user.layout);
@@ -103,6 +107,9 @@ export class SettingComponent implements OnInit {
             const page = this.settingForm.controls.page.value;
             const direction = this.settingForm.controls.direction.value;
             const layout = this.settingForm.controls.layout.value;
+            const image = (this.settingForm.controls.image.value === '')
+                ? undefined
+                : this.settingForm.controls.image.value;
             const movieTheater = this.movieTheaters.find(t => (t.id === theaterId));
             if (movieTheater === undefined) {
                 throw new Error('movieTheater not found');
@@ -113,7 +120,8 @@ export class SettingComponent implements OnInit {
                 screeningRoom,
                 page: (page === '') ? undefined : Number(page),
                 direction,
-                layout
+                layout,
+                image,
             });
             this.utilService.openAlert({
                 title: this.translate.instant('common.complete'),

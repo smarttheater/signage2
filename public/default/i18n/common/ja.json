@@ -48,7 +48,8 @@
             "screenId": "ルーム",
             "page": "ページ",
             "direction": "向き",
-            "layout": "レイアウト"
+            "layout": "レイアウト",
+            "image": "画像"
         },
         "option": {
             "man": "男",

@@ -86,8 +86,8 @@ export class PurchaseScheduleComponent implements OnInit, OnDestroy {
             screeningEventSeries,
             // screeningRooms
         });
-        this.screeningEvents = searchResult.filter(s => moment(s.endDate).unix() > moment().unix());
-        // this.screeningEvents = searchResult;
+        // this.screeningEvents = searchResult.filter(s => moment(s.endDate).unix() > moment().unix());
+        this.screeningEvents = searchResult;
     }
 
     /**
@@ -104,7 +104,7 @@ export class PurchaseScheduleComponent implements OnInit, OnDestroy {
         if (this.updateTimer !== undefined) {
             clearTimeout(this.updateTimer);
         }
-        const time = 600000; // 10 * 60 * 1000
+        const time = Number(this.environment.UPDATE_DELAY_TIME); // 10 * 60 * 1000
         this.updateTimer = setTimeout(async () => {
             try {
                 await this.getSchedule();

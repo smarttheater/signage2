@@ -51,6 +51,7 @@ export class ActionUserService {
         page?: number;
         direction: Models.Common.Direction;
         layout: Models.Common.Layout;
+        image?: string;
     }) {
         this.store.dispatch(userAction.updateAll(params));
     }

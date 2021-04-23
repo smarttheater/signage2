@@ -29,6 +29,7 @@ export class PurchaseSchedule01Component implements OnInit, OnChanges {
     @Input() public screeningEvents: factory.chevre.event.screeningEvent.IEvent[];
     @Input() public direction: Models.Common.Direction;
     @Input() public page?: number;
+    @Input() public image?: string;
 
     constructor() { }
 
@@ -54,19 +55,21 @@ export class PurchaseSchedule01Component implements OnInit, OnChanges {
             effect: 'fade', // (this.page === undefined) ? 'slide' : 'fade',
         };
         this.swiperInstance = new (<any>window).Swiper('.swiper-container', swiperConfig);
-        this.pages = this.createPages();
-        setTimeout(async () => {
-            this.swiperInstance.update();
-            if (this.page !== undefined) {
-                this.swiperInstance.slideTo(this.page, 0);
-            }
-        }, 0);
     }
 
     public ngOnChanges() {
+        if (this.swiperInstance === undefined) {
+            return;
+        }
+        this.swiperInstance.autoplay.stop();
         this.pages = this.createPages();
         setTimeout(async () => {
             this.swiperInstance.update();
+            if (this.page === undefined) {
+                this.swiperInstance.autoplay.start();
+                return;
+            }
+            this.swiperInstance.slideTo(this.page - 1, 0);
         }, 0);
     }
 

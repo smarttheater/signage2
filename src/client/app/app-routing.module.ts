@@ -4,7 +4,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { getEnvironment } from '../environments/environment';
-import { ProjectGuardService } from './canActivates';
+import { ProjectGuardService, SettingGuardService } from './canActivates';
 import { IndexComponent } from './index/index.component';
 import { ErrorModule } from './modules/error/error.module';
 import { MainModule } from './modules/main/main.module';
@@ -15,7 +15,7 @@ const appRoutes: Routes = [
     { path: '', component: IndexComponent },
     {
         path: '',
-        canActivate: [ProjectGuardService],
+        canActivate: [ProjectGuardService, SettingGuardService],
         loadChildren: () => MainModule
     },
     {

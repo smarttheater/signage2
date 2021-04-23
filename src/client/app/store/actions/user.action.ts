@@ -16,6 +16,7 @@ export const updateAll = createAction(
         page?: number;
         direction: Models.Common.Direction;
         layout: Models.Common.Layout;
+        image?: string;
     }>()
 );
 

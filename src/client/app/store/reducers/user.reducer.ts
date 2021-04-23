@@ -33,6 +33,10 @@ export interface IUserState {
      * バージョン
      */
     version?: string;
+    /**
+     * 画像
+     */
+    image?: string;
 }
 
 export const userInitialState: IUserState = {
@@ -55,7 +59,14 @@ export function reducer(initialState: IState, action: Action) {
             };
         }),
         on(userAction.updateAll, (state, payload) => {
-            const { movieTheater, screeningRoom, page, layout, direction } = payload;
+            const {
+                movieTheater,
+                screeningRoom,
+                page,
+                layout,
+                direction,
+                image
+            } = payload;
 
             return {
                 ...state, userData: {
@@ -65,6 +76,7 @@ export function reducer(initialState: IState, action: Action) {
                     page,
                     direction,
                     layout,
+                    image,
                 }, loading: false, process: ''
             };
         }),

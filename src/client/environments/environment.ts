@@ -60,6 +60,10 @@ export interface IEnvironment {
      * 自動再生待機時間(ms)
      */
     AUTOPLAY_DELAY_TIME: string;
+    /**
+     * 更新待機時間(ms)
+     */
+    UPDATE_DELAY_TIME: string;
 }
 
 const defaultEnvironment: IEnvironment = {
@@ -79,6 +83,7 @@ const defaultEnvironment: IEnvironment = {
     PURCHASE_SCHEDULE_STATUS_THRESHOLD_VALUE: '30',
     PURCHASE_SCHEDULE_STATUS_THRESHOLD_UNIT: '%',
     AUTOPLAY_DELAY_TIME: '60000',
+    UPDATE_DELAY_TIME: '300000',
 };
 
 export function getEnvironment(): IEnvironment {
