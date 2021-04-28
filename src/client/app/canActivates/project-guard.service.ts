@@ -3,7 +3,7 @@
  */
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { Functions } from '..';
+import { factory } from '@cinerino/sdk';
 import { CinerinoService } from '../services';
 
 @Injectable({
@@ -23,10 +23,14 @@ export class ProjectGuardService implements CanActivate {
     public async canActivate(): Promise<boolean> {
         try {
             await this.cinerino.getServices();
-            const projects = (await this.cinerino.project.search({})).data;
-            if (projects.find(p => p.id === Functions.Util.getProject().projectId) === undefined) {
-                throw new Error('project not found');
-            }
+            await this.cinerino.event.search({
+                limit: 1,
+                typeOf: factory.chevre.eventType.ScreeningEvent,
+            });
+            // const projects = (await this.cinerino.project.search({})).data;
+            // if (projects.find(p => p.id === Functions.Util.getProject().projectId) === undefined) {
+            //     throw new Error('project not found');
+            // }
 
             return true;
         } catch (error) {
