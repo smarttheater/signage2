@@ -1,12 +1,12 @@
-<div class="swiper-container h-100" (resize)="resize()">
+<div class="swiper-container h-100" (resize)="resize()" [class.opacity]="isOpacity">
     <div class="swiper-wrapper">
         <div *ngIf="image" class="swiper-slide pointer swiper-no-swiping text-center">
             <img class="h-100" [src]="image">
         </div>
-        <div *ngFor="let page of pages" class="swiper-slide pointer swiper-no-swiping">
-            <div class="h-100 bg-dark-gray">
+        <div *ngFor="let page of pages;" class="swiper-slide pointer swiper-no-swiping">
+            <div class="h-100" [class]="'color-' + color">
                 <div *ngFor="let screeningEventsGroup of page.group; let index = index;"
-                    [class.bg-gray]="index % 2 === 0">
+                    [class.color-alpha]="index % 2 === 0">
                     <div class="d-flex align-items-center">
                         <div class="screening-event-series px-3 d-flex align-items-center">
                             <div class="w-100">
@@ -74,7 +74,7 @@
                     </div>
                 </div>
                 <div *ngFor="let emptyGroup of page.emptyGroup; let index = index;"
-                    [class.bg-gray]="(index + page.group.length) % 2 === 0">
+                    [class.color-alpha]="(index + page.group.length) % 2 === 0">
                     <div class="d-flex align-items-center">
                         <div class="screening-event-series px-3 d-flex align-items-center">
                             <div class="w-100">

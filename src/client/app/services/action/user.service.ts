@@ -52,6 +52,7 @@ export class ActionUserService {
         direction: Models.Common.Direction;
         layout: Models.Common.Layout;
         image?: string;
+        color: Models.Common.Color;
     }) {
         this.store.dispatch(userAction.updateAll(params));
     }

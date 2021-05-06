@@ -1,3 +1,4 @@
+import { Color } from './color';
 import { Direction } from './direction';
 import { Language } from './language';
 import { Layout } from './layout';
@@ -8,4 +9,5 @@ export {
     ViewType,
     Layout,
     Direction,
+    Color
 };

@@ -27,6 +27,7 @@ export class SettingComponent implements OnInit {
     public environment = getEnvironment();
     public direction = Models.Common.Direction;
     public layout = Models.Common.Layout;
+    public colors: Models.Common.Color[];
 
     constructor(
         private formBuilder: FormBuilder,
@@ -48,6 +49,7 @@ export class SettingComponent implements OnInit {
         this.movieTheaters = [];
         this.screeningRooms = [];
         this.pages = [...Array(10).keys()].map(i => String(++i));
+        this.colors = Object.values(Models.Common.Color);
         try {
             this.movieTheaters = await this.masterService.searchMovieTheaters();
             await this.createSettlingForm();
@@ -68,6 +70,7 @@ export class SettingComponent implements OnInit {
             direction: ['', [Validators.required]],
             layout: ['', [Validators.required]],
             image: ['', []],
+            color: ['', []],
         });
         const user = await this.actionService.user.getData();
         if (user.movieTheater !== undefined) {
@@ -83,8 +86,10 @@ export class SettingComponent implements OnInit {
         if (user.image !== undefined) {
             this.settingForm.controls.image.setValue(user.image);
         }
+
         this.settingForm.controls.direction.setValue(user.direction);
         this.settingForm.controls.layout.setValue(user.layout);
+        this.settingForm.controls.color.setValue(user.color);
     }
 
     /**
@@ -97,7 +102,8 @@ export class SettingComponent implements OnInit {
         if (this.settingForm.invalid) {
             this.utilService.openAlert({
                 title: this.translate.instant('common.error'),
-                body: this.translate.instant('setting.alert.validation')
+                body: this.translate.instant('setting.alert.validation'),
+                color: (await this.actionService.user.getData()).color,
             });
             return;
         }
@@ -110,6 +116,7 @@ export class SettingComponent implements OnInit {
             const image = (this.settingForm.controls.image.value === '')
                 ? undefined
                 : this.settingForm.controls.image.value;
+            const color = this.settingForm.controls.color.value;
             const movieTheater = this.movieTheaters.find(t => (t.id === theaterId));
             if (movieTheater === undefined) {
                 throw new Error('movieTheater not found');
@@ -122,10 +129,12 @@ export class SettingComponent implements OnInit {
                 direction,
                 layout,
                 image,
+                color,
             });
             this.utilService.openAlert({
                 title: this.translate.instant('common.complete'),
-                body: this.translate.instant('setting.alert.success')
+                body: this.translate.instant('setting.alert.success'),
+                color: (await this.actionService.user.getData()).color,
             });
             Functions.Util.changeViewport({ direction });
         } catch (error) {

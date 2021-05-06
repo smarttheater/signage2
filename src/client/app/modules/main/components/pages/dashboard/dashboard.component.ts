@@ -12,6 +12,7 @@ import * as reducers from '../../../../../store/reducers';
 export class DashboardComponent implements OnInit {
     public isLoading: Observable<boolean>;
     public error: Observable<string | null>;
+    public user: Observable<reducers.IUserState>;
 
     constructor(
         private store: Store<reducers.IState>,
@@ -22,6 +23,7 @@ export class DashboardComponent implements OnInit {
      * 初期化
      */
     public async ngOnInit() {
+        this.user = this.store.pipe(select(reducers.getUser));
         this.isLoading = this.store.pipe(select(reducers.getLoading));
         this.error = this.store.pipe(select(reducers.getError));
         try {

@@ -20,16 +20,19 @@ export class PurchaseSchedule01Component implements OnInit, OnChanges {
         group: {
             screeningEvent: factory.chevre.event.screeningEvent.IEvent;
             data: Models.Purchase.Performance[];
-            empty: any[];
+            empty: number[];
         }[];
         emptyGroup: {
-            empty: any[];
+            empty: number[];
         }[];
     }[];
+    public isOpacity: boolean;
     @Input() public screeningEvents: factory.chevre.event.screeningEvent.IEvent[];
     @Input() public direction: Models.Common.Direction;
     @Input() public page?: number;
     @Input() public image?: string;
+    @Input() public color: Models.Common.Color;
+
 
     constructor() { }
 
@@ -55,16 +58,19 @@ export class PurchaseSchedule01Component implements OnInit, OnChanges {
             effect: 'fade', // (this.page === undefined) ? 'slide' : 'fade',
         };
         this.swiperInstance = new (<any>window).Swiper('.swiper-container', swiperConfig);
+        this.isOpacity = true;
     }
 
     public ngOnChanges() {
         if (this.swiperInstance === undefined) {
             return;
         }
+        this.isOpacity = true;
         this.swiperInstance.autoplay.stop();
         this.pages = this.createPages();
         setTimeout(async () => {
             this.swiperInstance.update();
+            this.isOpacity = false;
             if (this.page === undefined) {
                 this.swiperInstance.autoplay.start();
                 return;

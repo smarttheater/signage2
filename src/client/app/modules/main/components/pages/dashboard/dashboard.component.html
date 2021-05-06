@@ -1,4 +1,4 @@
-<div class="p-4 bg-dark-gray h-100">
+<div class="p-4 h-100" [class]="'color-' + (user | async)?.color">
     <div class="container px-0">
         <div class="row">
             <div class="col-4">

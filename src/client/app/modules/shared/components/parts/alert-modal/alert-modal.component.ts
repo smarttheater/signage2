@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { Models } from '../../../../..';
 
 @Component({
     selector: 'app-alert-modal',
@@ -9,6 +10,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 export class AlertModalComponent implements OnInit {
     @Input() public title: string;
     @Input() public body: string;
+    @Input() public color: Models.Common.Color;
 
     constructor(
         public modal: BsModalRef

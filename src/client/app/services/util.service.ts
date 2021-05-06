@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { Models } from '..';
 import { AlertModalComponent } from '../modules/shared/components/parts/alert-modal/alert-modal.component';
 import { ConfirmModalComponent } from '../modules/shared/components/parts/confirm-modal/confirm-modal.component';
 import { utilAction } from '../store/actions';
@@ -22,14 +23,13 @@ export class UtilService {
     /**
      * 警告モーダル表示
      */
-    public openAlert(args: {
+    public openAlert(params: {
         title: string;
         body: string;
+        color: Models.Common.Color;
     }) {
-        const title = args.title;
-        const body = args.body;
         this.modal.show(AlertModalComponent, {
-            initialState: { title, body },
+            initialState: { ...params },
             class: 'modal-dialog-centered'
         });
     }
@@ -37,16 +37,13 @@ export class UtilService {
     /**
      * 確認モーダル表示
      */
-    public openConfirm(args: {
+    public openConfirm(params: {
         title: string;
         body: string;
         cb: Function
     }) {
-        const title = args.title;
-        const body = args.body;
-        const cb = args.cb;
         this.modal.show(ConfirmModalComponent, {
-            initialState: { title, body, cb },
+            initialState: { ...params },
             class: 'modal-dialog-centered'
         });
     }

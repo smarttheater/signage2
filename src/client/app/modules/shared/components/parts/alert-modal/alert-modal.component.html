@@ -1,4 +1,4 @@
-<div class="p-3 scroll-vertical bg-dark-gray">
+<div class="p-3 scroll-vertical" [class]="'color-' + color">
     <div *ngIf="title" class="mb-3 text-large text-center">{{ title }}</div>
     <p class="mb-3 text-md-center" [innerHTML]="body"></p>
     <div class="buttons mx-auto text-center">

@@ -49,7 +49,8 @@
             "page": "ページ",
             "direction": "向き",
             "layout": "レイアウト",
-            "image": "画像"
+            "image": "画像",
+            "color": "色"
         },
         "option": {
             "man": "男",

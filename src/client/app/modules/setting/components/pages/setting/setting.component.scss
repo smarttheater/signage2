@@ -1,0 +1,16 @@
+input[type=radio] + div .fa-circle {
+    display: block;
+}
+
+input[type=radio] + div .fa-dot-circle {
+    display: none;
+}
+
+input[type=radio]:checked + div .fa-circle {
+    display: none;
+}
+
+input[type=radio]:checked + div .fa-dot-circle {
+    display: block;
+}
+

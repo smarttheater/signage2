@@ -37,12 +37,17 @@ export interface IUserState {
      * 画像
      */
     image?: string;
+    /**
+     * 色
+     */
+     color: Models.Common.Color;
 }
 
 export const userInitialState: IUserState = {
     language: 'ja',
     direction: Models.Common.Direction.HORIZONTAL,
     layout: Models.Common.Layout.TYPE01,
+    color: Models.Common.Color.GRAY,
 };
 
 export function reducer(initialState: IState, action: Action) {
@@ -55,6 +60,7 @@ export function reducer(initialState: IState, action: Action) {
                     language: 'ja',
                     direction: Models.Common.Direction.HORIZONTAL,
                     layout: Models.Common.Layout.TYPE01,
+                    color: Models.Common.Color.GRAY,
                 }, loading: false, process: ''
             };
         }),
@@ -65,7 +71,8 @@ export function reducer(initialState: IState, action: Action) {
                 page,
                 layout,
                 direction,
-                image
+                image,
+                color,
             } = payload;
 
             return {
@@ -77,6 +84,7 @@ export function reducer(initialState: IState, action: Action) {
                     direction,
                     layout,
                     image,
+                    color,
                 }, loading: false, process: ''
             };
         }),
