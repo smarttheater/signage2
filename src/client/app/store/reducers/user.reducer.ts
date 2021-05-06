@@ -47,7 +47,7 @@ export const userInitialState: IUserState = {
     language: 'ja',
     direction: Models.Common.Direction.HORIZONTAL,
     layout: Models.Common.Layout.TYPE01,
-    color: Models.Common.Color.GRAY,
+    color: Models.Common.Color.Darkgray,
 };
 
 export function reducer(initialState: IState, action: Action) {
@@ -60,7 +60,7 @@ export function reducer(initialState: IState, action: Action) {
                     language: 'ja',
                     direction: Models.Common.Direction.HORIZONTAL,
                     layout: Models.Common.Layout.TYPE01,
-                    color: Models.Common.Color.GRAY,
+                    color: Models.Common.Color.Darkgray,
                 }, loading: false, process: ''
             };
         }),

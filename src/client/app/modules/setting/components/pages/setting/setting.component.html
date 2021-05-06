@@ -40,16 +40,16 @@
                                 <option [value]="layout.TYPE02">TYPE02</option>
                             </select>
                             <input *ngIf="key === 'image'" class="form-control" [formControlName]="key">
-                            <div *ngIf="key === 'color'" class="py-2 d-flex flex-wrap">
-                                <div class="mb-2 w-25" *ngFor="let color of colors">
-                                    <label class="d-inline-flex align-items-center pointer"
+                            <div *ngIf="key === 'color'" class="d-flex flex-wrap">
+                                <div class="mb-2 w-25 py-2 pr-3" *ngFor="let color of colors">
+                                    <label class="d-flex align-items-center pointer"
                                     [for]="'color' + color">
                                     <input class="d-none" type="radio" [id]="'color' + color" [formControlName]="key" [value]="color">
                                     <div class="mr-2">
                                         <i class="far fa-circle"></i>
                                         <i class="far fa-dot-circle"></i>
                                     </div>
-                                    <p>{{ color }}</p>
+                                    <div class="border border-white w-100 text-center py-1" [class]="'color-' + color">&nbsp;</div>
                                 </label>
                                 </div>
                             </div>
