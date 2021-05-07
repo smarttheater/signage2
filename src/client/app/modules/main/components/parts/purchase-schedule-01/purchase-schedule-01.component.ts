@@ -93,7 +93,10 @@ export class PurchaseSchedule01Component implements OnInit, OnChanges {
             emptyGroup: {
                 empty: any[];
             }[];
-        }[] = [];
+        }[] = [{
+            group: [],
+            emptyGroup: []
+        }];
         let pageCount = 0;
         let eventCount = 0;
         const limit = this.screeningEventSeriesDisplayLength * this.performanceDisplayLength;

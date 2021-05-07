@@ -73,7 +73,10 @@ export class PurchaseSchedule02Component implements OnInit, OnChanges {
         const pages: {
             data: Models.Purchase.Performance[];
             empty: any[];
-        }[] = [];
+        }[] = [{
+            data: [],
+            empty: []
+        }];
         let pageCount = 0;
         screeningEvents.forEach((s, i) => {
             if (pages[pageCount] === undefined) {
@@ -88,7 +91,6 @@ export class PurchaseSchedule02Component implements OnInit, OnChanges {
                 pageCount++;
             }
         });
-        console.log(pages);
         pages.forEach(p => {
             p.empty = [...Array(this.screeningEventDisplayLength - p.data.length).keys()];
         });

@@ -83,7 +83,7 @@ const defaultEnvironment: IEnvironment = {
     PURCHASE_SCHEDULE_STATUS_THRESHOLD_VALUE: '30',
     PURCHASE_SCHEDULE_STATUS_THRESHOLD_UNIT: '%',
     AUTOPLAY_DELAY_TIME: '60000',
-    UPDATE_DELAY_TIME: '300000',
+    UPDATE_DELAY_TIME: '600000',
 };
 
 export function getEnvironment(): IEnvironment {
