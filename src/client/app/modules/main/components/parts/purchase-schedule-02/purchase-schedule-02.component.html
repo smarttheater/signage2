@@ -1,7 +1,7 @@
 <div class="swiper-container h-100" (resize)="resize()" [class.opacity]="isOpacity">
     <div class="swiper-wrapper">
         <div *ngIf="image" class="swiper-slide pointer swiper-no-swiping text-center">
-            <img class="h-100" [src]="image">
+            <div class="h-100 w-100 bg-image" [style]="'background-image: url(' + image + ');'"></div>
         </div>
         <div *ngFor="let page of pages" class="swiper-slide pointer swiper-no-swiping">
             <div class="h-100" [class]="'color-' + color">
