@@ -139,7 +139,7 @@ export class PurchaseSchedule01Component implements OnInit, OnChanges {
             p.group.forEach(g => {
                 eventCount += g.data.length + g.empty.length;
             });
-            p.emptyGroup = [...Array(this.screeningEventSeriesDisplayLength - eventCount / this.screeningEventSeriesDisplayLength).keys()]
+            p.emptyGroup = [...Array(this.screeningEventSeriesDisplayLength - eventCount / this.performanceDisplayLength).keys()]
                 .map(() => {
                     return { empty: [...Array(this.performanceDisplayLength).keys()] };
                 });
