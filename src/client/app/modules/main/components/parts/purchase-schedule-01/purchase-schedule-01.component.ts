@@ -131,6 +131,7 @@ export class PurchaseSchedule01Component implements OnInit, OnChanges {
                 } else {
                     findResult.data.push(d);
                 }
+                eventCount++;
                 if (i + 1 === group.data.length) {
                     eventCount +=
                         this.performanceDisplayLength -
@@ -139,7 +140,6 @@ export class PurchaseSchedule01Component implements OnInit, OnChanges {
                 if (eventCount === limit) {
                     pageCount++;
                 }
-                eventCount++;
             });
         });
         pages.forEach((p) => {
