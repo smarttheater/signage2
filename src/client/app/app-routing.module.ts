@@ -34,7 +34,7 @@ const appRoutes: Routes = [
     imports: [
         RouterModule.forRoot(
             appRoutes,
-            { useHash: true, enableTracing: !getEnvironment().production }
+            { useHash: true, enableTracing: !getEnvironment().production, relativeLinkResolution: 'legacy' }
         )
     ],
     exports: [
