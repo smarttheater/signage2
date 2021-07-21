@@ -18,51 +18,48 @@ import { FormatDatePipe } from './pipes/format-date.pipe';
 import { LibphonenumberFormatPipe } from './pipes/libphonenumber-format.pipe';
 
 const components = [
-  LoadingComponent,
-  ContentsComponent,
-  BaseComponent,
-  CurrentDateTimeComponent
+    LoadingComponent,
+    ContentsComponent,
+    BaseComponent,
+    CurrentDateTimeComponent,
 ];
 
-const entryComponents = [
-  AlertModalComponent,
-  ConfirmModalComponent,
-];
+const entryComponents = [AlertModalComponent, ConfirmModalComponent];
 
 @NgModule({
-  declarations: [
-    ...components,
-    ...entryComponents,
-    LibphonenumberFormatPipe,
-    ChangeLanguagePipe,
-    FormatDatePipe,
-  ],
-  entryComponents,
-  imports: [
-    CommonModule,
-    RouterModule,
-    ReactiveFormsModule,
-    FormsModule,
-    TranslateModule,
-    ModalModule,
-    BsDatepickerModule,
-    PaginationModule,
-    NgxIntlTelInputModule
-  ],
-  exports: [
-    ...components,
-    ...entryComponents,
-    LibphonenumberFormatPipe,
-    ChangeLanguagePipe,
-    FormatDatePipe,
-    ReactiveFormsModule,
-    FormsModule,
-    TranslateModule,
-    ModalModule,
-    BsDatepickerModule,
-    PaginationModule,
-    NgxIntlTelInputModule
-  ],
-  providers: []
+    declarations: [
+        ...components,
+        ...entryComponents,
+        LibphonenumberFormatPipe,
+        ChangeLanguagePipe,
+        FormatDatePipe,
+    ],
+    entryComponents,
+    imports: [
+        CommonModule,
+        RouterModule,
+        ReactiveFormsModule,
+        FormsModule,
+        TranslateModule,
+        ModalModule,
+        BsDatepickerModule,
+        PaginationModule,
+        NgxIntlTelInputModule,
+    ],
+    exports: [
+        ...components,
+        ...entryComponents,
+        LibphonenumberFormatPipe,
+        ChangeLanguagePipe,
+        FormatDatePipe,
+        ReactiveFormsModule,
+        FormsModule,
+        TranslateModule,
+        ModalModule,
+        BsDatepickerModule,
+        PaginationModule,
+        NgxIntlTelInputModule,
+    ],
+    providers: [],
 })
-export class SharedModule { }
+export class SharedModule {}

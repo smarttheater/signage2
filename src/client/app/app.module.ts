@@ -9,6 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { SwiperModule } from 'swiper/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app/app.component';
 import * as Functions from './functions';
@@ -19,10 +20,7 @@ import { StoreModule } from './store.module';
 import { CoreStoreModule } from './store/core/store';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        IndexComponent
-    ],
+    declarations: [AppComponent, IndexComponent],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
@@ -36,8 +34,9 @@ import { CoreStoreModule } from './store/core/store';
         BsDatepickerModule.forRoot(),
         PaginationModule.forRoot(),
         TranslateModule.forRoot(Functions.Translate.getTranslateModuleConfig()),
+        SwiperModule,
     ],
     providers: [],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

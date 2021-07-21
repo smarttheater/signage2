@@ -29,6 +29,7 @@
         "next": "設定を変更",
         "prev": "戻る",
         "unselected": "未選択",
+        "auto": "自動",
         "success": {
             "title": "完了",
             "read": "変更しました。"
@@ -49,7 +50,7 @@
             "page": "ページ",
             "direction": "向き",
             "layout": "レイアウト",
-            "image": "画像",
+            "image": "画像URL",
             "color": "色"
         },
         "option": {

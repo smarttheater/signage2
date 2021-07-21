@@ -22,17 +22,10 @@
               "src/client/favicon.ico"
             ],
             "styles": [
-              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
-              "node_modules/swiper/css/swiper.css",
-              "node_modules/intl-tel-input/build/css/intlTelInput.css",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "src/client/styles.scss"
             ],
-            "scripts": [
-              "src/client/assets/lib/star-web-print/StarWebPrintTrader.js",
-              "src/client/assets/lib/star-web-print/StarWebPrintBuilder.js",
-              "node_modules/swiper/js/swiper.js",
-              "src/client/assets/lib/ejs.min.js"
-            ],
+            "scripts": [],
             "allowedCommonJsDependencies": [
               "hammerjs",
               "moment-timezone",

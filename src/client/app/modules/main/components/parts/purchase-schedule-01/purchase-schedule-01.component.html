@@ -1,97 +1,98 @@
-<div class="swiper-container h-100" (resize)="resize()" [class.opacity]="isOpacity">
-    <div class="swiper-wrapper">
-        <div *ngIf="image" class="swiper-slide pointer swiper-no-swiping text-center">
-            <div class="h-100 w-100 bg-image" [style]="'background-image: url(' + image + ');'"></div>
+<swiper *ngIf="swiperConfig" class="h-100" (resize)="resizeSwiper($event)" (init)="initSwiper($event)"
+    [loop]="swiperConfig.loop" [spaceBetween]="swiperConfig.spaceBetween" [autoplay]="swiperConfig.autoplay"
+    [effect]="swiperConfig.effect">
+    <ng-template swiperSlide class="h-100 w-100" *ngIf="image">
+        <div class="h-100 w-100 bg-image" [class]="'color-' + color" [style]="'background-image: url(' + image + ');'">
         </div>
-        <div *ngFor="let page of pages;" class="swiper-slide pointer swiper-no-swiping">
-            <div class="h-100" [class]="'color-' + color">
-                <div *ngFor="let screeningEventsGroup of page.group; let index = index;"
-                    [class.color-alpha]="index % 2 === 0">
-                    <div class="d-flex align-items-center">
-                        <div class="screening-event-series px-3 d-flex align-items-center">
-                            <div class="w-100">
-                                <p *ngIf="screeningEventsGroup.screeningEvent.name?.ja"
-                                    class="text-large font-weight-bold text-overflow-ellipsis-02">{{
-                                    screeningEventsGroup.screeningEvent.superEvent.name.ja }}</p>
-                                <p *ngIf="screeningEventsGroup.screeningEvent.headline?.ja"
-                                    class="text-overflow-ellipsis-02">{{
-                                    screeningEventsGroup.screeningEvent.superEvent.headline.ja }}</p>
-                            </div>
+    </ng-template>
+    <ng-template swiperSlide class="h-100 w-100" *ngFor="let page of pages;">
+        <div class="h-100" [class]="'color-' + color">
+            <div *ngFor="let screeningEventsGroup of page.group; let index = index;"
+                [class.color-alpha]="index % 2 === 0">
+                <div class="d-flex align-items-center">
+                    <div class="screening-event-series px-3 d-flex align-items-center">
+                        <div class="w-100">
+                            <p *ngIf="screeningEventsGroup.screeningEvent.name?.ja"
+                                class="mb-0 text-large font-weight-bold text-overflow-ellipsis-02">{{
+                                screeningEventsGroup.screeningEvent.superEvent.name.ja }}</p>
+                            <p *ngIf="screeningEventsGroup.screeningEvent.headline?.ja"
+                                class="mb-0 text-overflow-ellipsis-02">{{
+                                screeningEventsGroup.screeningEvent.superEvent.headline.ja }}</p>
                         </div>
-                        <div class="screening-event border-left">
-                            <div class="d-flex align-items-center flex-wrap">
-                                <div *ngFor="let performance of screeningEventsGroup.data"
-                                    class="item text-center d-flex align-items-center border-right"
-                                    [style.height.px]="itemHeight">
-                                    <div class="w-100 h-100 position-relative py-2">
-                                        <p class="text-large font-weight-bold mb-1">{{
-                                            moment(performance.screeningEvent.startDate).format('HH:mm') }}</p>
-                                        <div class="status">
-                                            <ng-container
-                                                *ngIf="performance.isSales() && !performance.isInfinitetock()">
-                                                <div *ngIf="performance.isSeatStatus('success')">
-                                                    <img src="/assets/images/icon/status_success.svg" alt="">
-                                                </div>
-                                                <div *ngIf="performance.isSeatStatus('warning')"
-                                                    class="d-flex justify-content-around align-items-center">
-                                                    <img src="/assets/images/icon/status_warning.svg" alt="">
-                                                </div>
-                                                <p *ngIf="performance.isSeatStatus('danger')">
-                                                    {{ 'common.performance.status.danger' | translate }}
-                                                </p>
-                                                <div *ngIf="performance.isSeatStatus()">
-                                                    <img src="/assets/images/icon/status_undefined.svg" alt="">
-                                                </div>
-                                            </ng-container>
-                                            <ng-container *ngIf="performance.isSales() && performance.isInfinitetock()">
-                                                <div class="d-flex justify-content-around align-items-center">
-                                                    <img src="/assets/images/icon/status_success.svg" alt="">
-                                                </div>
-                                            </ng-container>
-                                            <p *ngIf="performance.isSales('end')">
-                                                {{ 'common.performance.status.endSale' | translate }}</p>
-                                            <p *ngIf="performance.isSales('start')">
-                                                {{ 'common.performance.status.outsideSalesPeriod' | translate }}</p>
-                                        </div>
-
-                                        <div class="position-absolute fixed-bottom">
-                                            <p
-                                                class="py-1 bg-white text-dark-gray font-weight-bold text-overflow-ellipsis">
-                                                <!-- <span *ngIf="performance.screeningEvent.location.address?.ja"
-                                                class="mr-1">
-                                                {{ performance.screeningEvent.location.address.ja }}</span> -->
-                                                <span>
-                                                    {{ performance.screeningEvent.location.name.ja }}</span>
+                    </div>
+                    <div class="screening-event border-left">
+                        <div class="d-flex align-items-center flex-wrap">
+                            <div *ngFor="let performance of screeningEventsGroup.data"
+                                class="item text-center d-flex align-items-center border-right"
+                                [style.height.px]="itemHeight">
+                                <div class="w-100 h-100 position-relative py-2">
+                                    <p class="mb-0 text-large font-weight-bold mb-1">{{
+                                        moment(performance.screeningEvent.startDate).format('HH:mm') }}
+                                    </p>
+                                    <div class="status">
+                                        <ng-container *ngIf="performance.isSales() && !performance.isInfinitetock()">
+                                            <div *ngIf="performance.isSeatStatus('success')">
+                                                <img src="/assets/images/icon/status_success.svg" alt="">
+                                            </div>
+                                            <div *ngIf="performance.isSeatStatus('warning')"
+                                                class="d-flex justify-content-around align-items-center">
+                                                <img src="/assets/images/icon/status_warning.svg" alt="">
+                                            </div>
+                                            <p class="mb-0" *ngIf="performance.isSeatStatus('danger')">
+                                                {{ 'common.performance.status.danger' | translate }}
                                             </p>
-                                        </div>
+                                            <div *ngIf="performance.isSeatStatus()">
+                                                <img src="/assets/images/icon/status_undefined.svg" alt="">
+                                            </div>
+                                        </ng-container>
+                                        <ng-container *ngIf="performance.isSales() && performance.isInfinitetock()">
+                                            <div class="d-flex justify-content-around align-items-center">
+                                                <img src="/assets/images/icon/status_success.svg" alt="">
+                                            </div>
+                                        </ng-container>
+                                        <p class="mb-0" *ngIf="performance.isSales('end')">
+                                            {{ 'common.performance.status.endSale' | translate }}</p>
+                                        <p class="mb-0" *ngIf="performance.isSales('start')">
+                                            {{ 'common.performance.status.outsideSalesPeriod' | translate }}</p>
+                                    </div>
+
+                                    <div class="position-absolute fixed-bottom">
+                                        <p
+                                            class="mb-0 py-1 bg-white text-dark-gray font-weight-bold text-overflow-ellipsis">
+                                            <!-- <span *ngIf="performance.screeningEvent.location.address?.ja"
+                                            class="mr-1">
+                                            {{ performance.screeningEvent.location.address.ja }}</span> -->
+                                            <span>
+                                                {{ performance.screeningEvent.location.name.ja }}</span>
+                                        </p>
                                     </div>
                                 </div>
-                                <div *ngFor="let empty of screeningEventsGroup.empty"
-                                    class="item text-center d-flex align-items-center border-right"
-                                    [style.height.px]="itemHeight">
-                                </div>
+                            </div>
+                            <div *ngFor="let empty of screeningEventsGroup.empty"
+                                class="item text-center d-flex align-items-center border-right"
+                                [style.height.px]="itemHeight">
                             </div>
                         </div>
                     </div>
                 </div>
-                <div *ngFor="let emptyGroup of page.emptyGroup; let index = index;"
-                    [class.color-alpha]="(index + page.group.length) % 2 === 0">
-                    <div class="d-flex align-items-center">
-                        <div class="screening-event-series px-3 d-flex align-items-center">
-                            <div class="w-100">
-                            </div>
+            </div>
+            <div *ngFor="let emptyGroup of page.emptyGroup; let index = index;"
+                [class.color-alpha]="(index + page.group.length) % 2 === 0">
+                <div class="d-flex align-items-center">
+                    <div class="screening-event-series px-3 d-flex align-items-center">
+                        <div class="w-100">
                         </div>
-                        <div class="screening-event border-left">
-                            <div class="d-flex align-items-center flex-wrap">
-                                <div *ngFor="let empty of emptyGroup.empty"
-                                    class="item text-center d-flex align-items-center border-right"
-                                    [style.height.px]="itemHeight">
-                                </div>
+                    </div>
+                    <div class="screening-event border-left">
+                        <div class="d-flex align-items-center flex-wrap">
+                            <div *ngFor="let empty of emptyGroup.empty"
+                                class="item text-center d-flex align-items-center border-right"
+                                [style.height.px]="itemHeight">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </ng-template>
+</swiper>

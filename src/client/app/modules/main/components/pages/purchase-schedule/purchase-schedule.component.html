@@ -1,9 +1,9 @@
-<app-purchase-schedule-01 *ngIf="(user | async)?.layout === layout.TYPE01" class="d-block h-100"
+<app-purchase-schedule-01 *ngIf="(user | async)?.layout === layout.TYPE01 && screeningEvents" class="d-block h-100"
     [screeningEvents]="screeningEvents" [direction]="(user | async)?.direction" [page]="(user | async)?.page"
     [color]="(user | async)?.color" [image]="(user | async)?.image">
 </app-purchase-schedule-01>
 
-<app-purchase-schedule-02 *ngIf="(user | async)?.layout === layout.TYPE02" class="d-block h-100"
+<app-purchase-schedule-02 *ngIf="(user | async)?.layout === layout.TYPE02 && screeningEvents" class="d-block h-100"
     [screeningEvents]="screeningEvents" [direction]="(user | async)?.direction" [page]="(user | async)?.page"
     [color]="(user | async)?.color" [image]="(user | async)?.image">
 </app-purchase-schedule-02>
