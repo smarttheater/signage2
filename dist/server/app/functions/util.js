@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProject = exports.base64Decode = exports.bace64Encode = exports.formatPrice = exports.escapeHtml = exports.ENV = exports.DIGITS = exports.requestAsync = void 0;
+exports.getProject = exports.formatPrice = exports.escapeHtml = exports.ENV = exports.DIGITS = exports.requestAsync = void 0;
 /**
  * 共通
  * @namespace services.util
@@ -75,11 +75,11 @@ function escapeHtml(str) {
     const change = (match) => {
         const changeList = {
             '&': '&amp;',
-            '\'': '&#x27;',
+            "'": '&#x27;',
             '`': '&#x60;',
             '"': '&quot;',
             '<': '&lt;',
-            '>': '&gt;'
+            '>': '&gt;',
         };
         return changeList[match];
     };
@@ -98,36 +98,15 @@ function formatPrice(price) {
 }
 exports.formatPrice = formatPrice;
 /**
- * ベース64エンコード
- * @memberof services.util
- * @function bace64Encode
- * @param {string} str
- * @returns {string}
- */
-function bace64Encode(str) {
-    return new Buffer(str).toString('base64');
-}
-exports.bace64Encode = bace64Encode;
-/**
- * ベース64デコード
- * @memberof services.util
- * @function base64Decode
- * @param {string} str
- * @returns {string}
- */
-function base64Decode(str) {
-    return new Buffer(str, 'base64').toString();
-}
-exports.base64Decode = base64Decode;
-/**
  * プロジェクト情報取得
  */
 function getProject(params) {
     const projects = JSON.parse(process.env.PROJECTS);
-    return projects.find(p => {
-        return (params.projectName === undefined)
+    return projects.find((p) => {
+        return params.projectName === undefined
             ? p.PROJECT_ID === params.projectId
-            : p.PROJECT_ID === params.projectId && p.PROJECT_NAME === params.projectName;
+            : p.PROJECT_ID === params.projectId &&
+                p.PROJECT_NAME === params.projectName;
     });
 }
 exports.getProject = getProject;

@@ -6,7 +6,10 @@ import debug = require('debug');
 import * as request from 'request';
 const log = debug('application:util');
 
-export async function requestAsync<T>(url: string, options?: request.CoreOptions) {
+export async function requestAsync<T>(
+    url: string,
+    options?: request.CoreOptions
+) {
     return new Promise<T>((resolve, reject) => {
         log(url, options);
         request(url, options, (error, response, body) => {
@@ -19,7 +22,6 @@ export async function requestAsync<T>(url: string, options?: request.CoreOptions
     });
 }
 
-
 /**
  * @memberof services.util
  * @enum DIGITS
@@ -28,7 +30,7 @@ export async function requestAsync<T>(url: string, options?: request.CoreOptions
 export enum DIGITS {
     '02' = -2,
     '03' = -3,
-    '08' = -8
+    '08' = -8,
 }
 
 /**
@@ -49,7 +51,7 @@ export enum ENV {
     /**
      * 本番
      */
-    Production = 'production'
+    Production = 'production',
 }
 
 /**
@@ -63,11 +65,11 @@ export function escapeHtml(str: string): string {
     const change = (match: string): string => {
         const changeList: any = {
             '&': '&amp;',
-            '\'': '&#x27;',
+            "'": '&#x27;',
             '`': '&#x60;',
             '"': '&quot;',
             '<': '&lt;',
-            '>': '&gt;'
+            '>': '&gt;',
         };
 
         return changeList[match];
@@ -88,39 +90,21 @@ export function formatPrice(price: number): string {
 }
 
 /**
- * ベース64エンコード
- * @memberof services.util
- * @function bace64Encode
- * @param {string} str
- * @returns {string}
- */
-export function bace64Encode(str: string): string {
-    return new Buffer(str).toString('base64');
-}
-
-/**
- * ベース64デコード
- * @memberof services.util
- * @function base64Decode
- * @param {string} str
- * @returns {string}
- */
-export function base64Decode(str: string): string {
-    return new Buffer(str, 'base64').toString();
-}
-
-/**
  * プロジェクト情報取得
  */
-export function getProject(params: { projectId: string; projectName?: string; }) {
+export function getProject(params: {
+    projectId: string;
+    projectName?: string;
+}) {
     const projects: {
-        'PROJECT_NAME': string;
-        'PROJECT_ID': string;
-        'STORAGE_URL': string;
+        PROJECT_NAME: string;
+        PROJECT_ID: string;
+        STORAGE_URL: string;
     }[] = JSON.parse(<string>process.env.PROJECTS);
-    return projects.find(p => {
-        return (params.projectName === undefined)
+    return projects.find((p) => {
+        return params.projectName === undefined
             ? p.PROJECT_ID === params.projectId
-            : p.PROJECT_ID === params.projectId && p.PROJECT_NAME === params.projectName;
+            : p.PROJECT_ID === params.projectId &&
+                  p.PROJECT_NAME === params.projectName;
     });
 }
