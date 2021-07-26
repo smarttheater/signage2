@@ -16,7 +16,7 @@
     "build-client": "ng build --configuration=production",
     "build-client-local": "ng build --configuration=local",
     "test-client": "ng test --code-coverage",
-    "lint-client": "tslint --config tslint.json src/client/**/**.ts --exclude **/**.spec.ts --project src/client/tsconfig.json",
+    "lint-client": "ng lint",
     "e2e": "ng e2e",
     "start": "node dist/server/index",
     "ssl": "node dist/server/ssl",

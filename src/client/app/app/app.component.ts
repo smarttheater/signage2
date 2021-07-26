@@ -12,7 +12,7 @@ declare const ga: Function;
 
 @Component({
     selector: 'app-root',
-    templateUrl: './app.component.html'
+    templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
     public isRouter: boolean;
@@ -21,8 +21,8 @@ export class AppComponent implements OnInit {
     constructor(
         private router: Router,
         private translate: TranslateService,
-        private actionService: ActionService,
-    ) { }
+        private actionService: ActionService
+    ) {}
 
     /**
      * 初期化
@@ -68,7 +68,7 @@ export class AppComponent implements OnInit {
      * Googleアナリティクス pageview イベント
      */
     private analytics() {
-        this.router.events.subscribe(event => {
+        this.router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {
                 // Googleアナリティクス pageview
                 try {

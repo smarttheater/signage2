@@ -73,9 +73,10 @@ const defaultEnvironment: IEnvironment = {
     VIEW_TYPE: 'event',
     GTM_ID: '',
     ANALYTICS_ID: '',
-    STORAGE_NAME: (getProject().projectId === '')
-        ? 'SIGNAGE-STATE'
-        : `${getProject().projectId.toUpperCase()}-SIGNAGE-STATE`,
+    STORAGE_NAME:
+        getProject().projectId === ''
+            ? 'SIGNAGE-STATE'
+            : `${getProject().projectId.toUpperCase()}-SIGNAGE-STATE`,
     STORAGE_TYPE: 'localStorage',
     BASE_URL: '/root',
     LANGUAGE: ['ja'],
@@ -89,11 +90,12 @@ const defaultEnvironment: IEnvironment = {
 export function getEnvironment(): IEnvironment {
     const environment = {
         ...defaultEnvironment,
-        STORAGE_NAME: (getProject().projectId === '')
-            ? 'SIGNAGE-STATE'
-            : `${getProject().projectId.toUpperCase()}-SIGNAGE-STATE`,
+        STORAGE_NAME:
+            getProject().projectId === ''
+                ? 'SIGNAGE-STATE'
+                : `${getProject().projectId.toUpperCase()}-SIGNAGE-STATE`,
         ...(<any>window).environment,
-        production: (document.querySelector('body.production') !== null)
+        production: document.querySelector('body.production') !== null,
     };
     return environment;
 }

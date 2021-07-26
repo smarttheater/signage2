@@ -29,7 +29,7 @@ const appRoutes: Routes = [
     }
 ];
 
-// tslint:disable-next-line:no-stateless-class
+// eslint-disable-next-line
 @NgModule({
     imports: [
         RouterModule.forRoot(

@@ -21,6 +21,11 @@ function errorProsess(res, err) {
     else {
         res.status(httpStatus.BAD_REQUEST);
     }
-    res.json({ err: err, message: err.message, name: err.name, code: err.code });
+    res.json({
+        err: err,
+        message: err.message,
+        name: err.name,
+        code: err.code,
+    });
 }
 exports.errorProsess = errorProsess;
