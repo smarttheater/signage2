@@ -50,10 +50,13 @@
                 <div class="w-40 d-flex align-items-center px-3">
                     <div class="w-100">
                         <p *ngIf="performance.screeningEvent.name?.ja"
-                            class="mb-0 text-large text-overflow-ellipsis-02">{{
-                            performance.screeningEvent.superEvent.name.ja }}</p>
-                        <p *ngIf="performance.screeningEvent.headline?.ja" class="mb-0 text-overflow-ellipsis-02">{{
-                            performance.screeningEvent.superEvent.headline.ja }}</p>
+                            class="mb-0 text-large text-overflow-ellipsis-02">
+                            {{ performance.screeningEvent.superEvent.name.ja }}
+                        </p>
+                        <p *ngIf="performance.screeningEvent.superEvent.headline?.ja"
+                            class="mb-0 text-overflow-ellipsis-02">
+                            {{ performance.screeningEvent.superEvent.headline.ja }}
+                        </p>
                     </div>
                 </div>
             </div>

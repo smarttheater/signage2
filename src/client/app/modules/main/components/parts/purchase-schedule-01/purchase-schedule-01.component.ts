@@ -79,6 +79,7 @@ export class PurchaseSchedule01Component implements OnInit, OnChanges {
                 ? (1080 - 60) / this.screeningEventSeriesDisplayLength
                 : (1920 - 60) / this.screeningEventSeriesDisplayLength;
         this.pages = this.createPages();
+        console.log('this.pages', this.pages);
     }
 
     public createPages() {
