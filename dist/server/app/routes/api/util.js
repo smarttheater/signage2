@@ -29,13 +29,19 @@ router.post('/project', (req, res) => __awaiter(void 0, void 0, void 0, function
         sonyTokenUrl: process.env.SONY_TOKEN_URL,
         env: process.env.APP_ENV,
         gtmId: process.env.GTM_ID,
-        analyticsId: process.env.ANALYTICS_ID
+        analyticsId: process.env.ANALYTICS_ID,
     };
     if (process.env.PROJECT_ID !== undefined && process.env.PROJECT_ID !== '') {
-        res.json(Object.assign({ projectId: process.env.PROJECT_ID, projectName: process.env.PROJECT_NAME, storageUrl: process.env.PROJECT_STORAGE_URL }, response));
+        res.json(Object.assign({ projectId: process.env.PROJECT_ID, projectName: process.env.PROJECT_NAME, storageUrl: {
+                application: process.env.PROJECT_STORAGE_URL,
+                common: process.env.COMMON_STORAGE_URL,
+            } }, response));
         return;
     }
-    res.json(Object.assign({ storageUrl: process.env.STORAGE_URL }, response));
+    res.json(Object.assign({ storageUrl: {
+            application: process.env.STORAGE_URL,
+            common: process.env.COMMON_STORAGE_URL,
+        } }, response));
 }));
 /**
  * サーバータイム取得

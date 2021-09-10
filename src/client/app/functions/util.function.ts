@@ -1,19 +1,25 @@
 import * as libphonenumber from 'libphonenumber-js';
-import { BsDatepickerContainerComponent, BsDatepickerDirective } from 'ngx-bootstrap/datepicker';
+import {
+    BsDatepickerContainerComponent,
+    BsDatepickerDirective,
+} from 'ngx-bootstrap/datepicker';
 import { CellHoverEvent } from 'ngx-bootstrap/datepicker/models';
 import { Direction } from '../models/common';
 
 /**
-     * 電話番号変換
-     */
-export function formatTelephone(telephone: string, format?: libphonenumber.NumberFormat) {
+ * 電話番号変換
+ */
+export function formatTelephone(
+    telephone: string,
+    format?: libphonenumber.NumberFormat
+) {
     if (telephone === undefined) {
         return '';
     }
-    const parsedNumber = (new RegExp(/^\+/).test(telephone))
+    const parsedNumber = new RegExp(/^\+/).test(telephone)
         ? libphonenumber.parse(telephone)
         : libphonenumber.parse(telephone, 'JP');
-    format = (format === undefined) ? 'International' : format;
+    format = format === undefined ? 'International' : format;
 
     return libphonenumber.format(parsedNumber, format).replace(/\s/g, '');
 }
@@ -93,12 +99,15 @@ export function iOSDatepickerTapBugFix(
     const dayHoverHandler = container.dayHoverHandler;
     const hoverWrapper = (event: CellHoverEvent) => {
         const { cell, isHovered } = event;
-        if ((isHovered &&
+        if (
+            isHovered &&
             !!navigator.platform &&
-            /iPad|iPhone|iPod/.test(navigator.platform)) &&
+            /iPad|iPhone|iPod/.test(navigator.platform) &&
             'ontouchstart' in window
         ) {
-            datepickerDirectives.forEach(d => (<any>d)._datepickerRef.instance.daySelectHandler(cell));
+            datepickerDirectives.forEach((d) =>
+                (<any>d)._datepickerRef.instance.daySelectHandler(cell)
+            );
         }
 
         return dayHoverHandler(event);
@@ -134,7 +143,7 @@ export function iOSDatepickerTapBugFix(
  * 文字列をBLOB変換
  */
 export function string2blob(value: string, options?: BlobPropertyBag) {
-    const bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
+    const bom = new Uint8Array([0xef, 0xbb, 0xbf]);
     return new Blob([bom, value], options);
 }
 
@@ -164,8 +173,7 @@ export function getParameter(): {
             result[key] = value;
         }
     }
-    if (result.performanceId !== undefined
-        && result.eventId === undefined) {
+    if (result.performanceId !== undefined && result.eventId === undefined) {
         result.eventId = result.performanceId;
         result.performanceId = undefined;
     }
@@ -178,7 +186,10 @@ export function getParameter(): {
 export function getProject(): {
     projectId: string;
     projectName: string;
-    storageUrl: string;
+    storageUrl: {
+        common: string;
+        application: string;
+    };
     env?: string;
     gtmId?: string;
     analyticsId?: string;
@@ -186,13 +197,20 @@ export function getProject(): {
     sonyTokenUrl?: string;
 } {
     const project = sessionStorage.getItem('PROJECT');
-    const defaultProject = { projectId: '', projectName: '', storageUrl: '' };
+    const defaultProject = {
+        projectId: '',
+        projectName: '',
+        storageUrl: {
+            common: '',
+            application: '',
+        },
+    };
     if (project === null || project === '') {
         return defaultProject;
     }
     return {
         ...defaultProject,
-        ...JSON.parse(project)
+        ...JSON.parse(project),
     };
 }
 
@@ -225,10 +243,10 @@ export async function isFile(url: string) {
         method: 'GET',
         cache: 'no-cache',
         headers: {
-            'Content-Type': 'charset=utf-8'
+            'Content-Type': 'charset=utf-8',
         },
     });
-    return (fetchResult.ok);
+    return fetchResult.ok;
 }
 
 /**
@@ -241,28 +259,26 @@ export function deepCopy<T>(obj: any) {
 /**
  * ビューポート変更
  */
-export function changeViewport(params: {
-    direction: Direction
-}) {
+export function changeViewport(params: { direction: Direction }) {
     const { direction } = params;
     const base = {
-        width: (direction === Direction.HORIZONTAL) ? 1920 : 1080,
-        height: (direction === Direction.HORIZONTAL) ? 1080 : 1920
+        width: direction === Direction.HORIZONTAL ? 1920 : 1080,
+        height: direction === Direction.HORIZONTAL ? 1080 : 1920,
     };
     const scale = {
         width: window.innerWidth / base.width,
         height: window.innerHeight / base.height,
     };
-    const currentScale = (scale.width < scale.height)
-        ? scale.width
-        : scale.height;
+    const currentScale =
+        scale.width < scale.height ? scale.width : scale.height;
     const body = document.body;
     body.style.transform = `scale(${currentScale})`;
     body.style.opacity = '1';
     body.style.width = `${base.width}px`;
     body.style.height = `${base.height}px`;
     body.setAttribute('data-scale', String(currentScale));
-    document.documentElement.style.fontSize = (direction === Direction.HORIZONTAL) ? '30px' : '20px';
+    document.documentElement.style.fontSize =
+        direction === Direction.HORIZONTAL ? '30px' : '20px';
 }
 
 /**

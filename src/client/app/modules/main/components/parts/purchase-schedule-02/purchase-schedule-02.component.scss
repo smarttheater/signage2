@@ -1,21 +1,23 @@
-.w-10 {
-    width: 10%;
-}
-.w-25 {
-    width: 25%;
-}
-.w-40 {
-    width: 40%;
-}
-
-.status {
-    img {
-        width: 2rem;
+.type-02 {
+    .w-10 {
+        width: 10%;
     }
-}
+    .w-25 {
+        width: 25%;
+    }
+    .w-40 {
+        width: 40%;
+    }
 
-.bg-image {
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
+    .status {
+        img {
+            width: 2rem;
+        }
+    }
+
+    .bg-image {
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
 }
