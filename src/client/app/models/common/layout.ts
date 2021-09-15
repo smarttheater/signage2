@@ -1,10 +1,10 @@
 export enum Layout {
     /**
-     * タイプ1
+     * 施設コンテンツ別にステータス表示
      */
-    TYPE01 = 'TYPE01',
+    SCREENING_EVENT_SERIES = 'screeningEventSeries',
     /**
-     * タイプ2
+     * イベントごとにステータス表示（開始時間順）
      */
-     TYPE02 = 'TYPE02'
+    START_DATE = 'startDate',
 }

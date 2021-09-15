@@ -7,13 +7,17 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { Functions, Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
-import { ActionService, MasterService, UtilService } from '../../../../../services';
+import {
+    ActionService,
+    MasterService,
+    UtilService,
+} from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
     selector: 'app-setting',
     templateUrl: './setting.component.html',
-    styleUrls: ['./setting.component.scss']
+    styleUrls: ['./setting.component.scss'],
 })
 export class SettingComponent implements OnInit {
     public settingForm: FormGroup;
@@ -26,7 +30,6 @@ export class SettingComponent implements OnInit {
     public pages: string[];
     public environment = getEnvironment();
     public direction = Models.Common.Direction;
-    public layout = Models.Common.Layout;
     public colors: Models.Common.Color[];
 
     constructor(
@@ -37,7 +40,7 @@ export class SettingComponent implements OnInit {
         private masterService: MasterService,
         private translate: TranslateService,
         private router: Router
-    ) { }
+    ) {}
 
     /**
      * 初期化
@@ -48,7 +51,7 @@ export class SettingComponent implements OnInit {
         this.isLoading = this.store.pipe(select(reducers.getLoading));
         this.movieTheaters = [];
         this.screeningRooms = [];
-        this.pages = [...Array(10).keys()].map(i => String(++i));
+        this.pages = [...Array(10).keys()].map((i) => String(++i));
         this.colors = Object.values(Models.Common.Color);
         try {
             this.movieTheaters = await this.masterService.searchMovieTheaters();
@@ -68,7 +71,6 @@ export class SettingComponent implements OnInit {
             screenId: ['', []],
             page: ['', []],
             direction: ['', [Validators.required]],
-            layout: ['', [Validators.required]],
             image: ['', []],
             color: ['', []],
         });
@@ -78,7 +80,9 @@ export class SettingComponent implements OnInit {
             await this.changeTheater();
         }
         if (user.screeningRoom !== undefined) {
-            this.settingForm.controls.screenId.setValue(user.screeningRoom.branchCode);
+            this.settingForm.controls.screenId.setValue(
+                user.screeningRoom.branchCode
+            );
         }
         if (user.page !== undefined) {
             this.settingForm.controls.page.setValue(String(user.page));
@@ -88,7 +92,6 @@ export class SettingComponent implements OnInit {
         }
 
         this.settingForm.controls.direction.setValue(user.direction);
-        this.settingForm.controls.layout.setValue(user.layout);
         this.settingForm.controls.color.setValue(user.color);
     }
 
@@ -112,22 +115,25 @@ export class SettingComponent implements OnInit {
             const screenId = this.settingForm.controls.screenId.value;
             const page = this.settingForm.controls.page.value;
             const direction = this.settingForm.controls.direction.value;
-            const layout = this.settingForm.controls.layout.value;
-            const image = (this.settingForm.controls.image.value === '')
-                ? undefined
-                : this.settingForm.controls.image.value;
+            const image =
+                this.settingForm.controls.image.value === ''
+                    ? undefined
+                    : this.settingForm.controls.image.value;
             const color = this.settingForm.controls.color.value;
-            const movieTheater = this.movieTheaters.find(t => (t.id === theaterId));
+            const movieTheater = this.movieTheaters.find(
+                (t) => t.id === theaterId
+            );
             if (movieTheater === undefined) {
                 throw new Error('movieTheater not found');
             }
-            const screeningRoom = this.screeningRooms.find(s => (s.branchCode === screenId));
+            const screeningRoom = this.screeningRooms.find(
+                (s) => s.branchCode === screenId
+            );
             this.actionService.user.updateAll({
                 movieTheater,
                 screeningRoom,
-                page: (page === '') ? undefined : Number(page),
+                page: page === '' ? undefined : Number(page),
                 direction,
-                layout,
                 image,
                 color,
             });
@@ -165,16 +171,15 @@ export class SettingComponent implements OnInit {
     public async changeTheater() {
         this.settingForm.controls.screenId.setValue('');
         const theaterId = this.settingForm.controls.theaterId.value;
-        const findResult = this.movieTheaters.find(t => (t.id === theaterId));
+        const findResult = this.movieTheaters.find((t) => t.id === theaterId);
         if (theaterId === '' || findResult === undefined) {
             this.screeningRooms = [];
             return;
         }
         this.screeningRooms = await this.masterService.searchScreeningRooms({
             containedInPlace: {
-                branchCode: { $eq: findResult.branchCode }
-            }
+                branchCode: { $eq: findResult.branchCode },
+            },
         });
     }
-
 }

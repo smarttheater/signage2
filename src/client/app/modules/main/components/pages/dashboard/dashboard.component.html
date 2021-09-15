@@ -1,12 +1,23 @@
 <div class="p-4 h-100" [class]="'color-' + (user | async)?.color">
     <div class="container px-0">
         <div class="row">
-            <div class="col-4">
-                <button type="button" class="btn btn-light btn-block py-4" routerLink="/purchase/schedule">
-                    {{ 'main.dashboard.purchase' | translate }}
+            <div class="col-4 mb-3">
+                <button type="button" class="btn btn-light btn-block py-4"
+                    routerLink="/purchase/status/screeningEventSeries">
+                    {{ 'main.dashboard.purchase.status.screeningEventSeries' | translate }}
                 </button>
             </div>
-            <div class="col-4">
+            <div class="col-4 mb-3">
+                <button type="button" class="btn btn-light btn-block py-4" routerLink="/purchase/status/startDate">
+                    {{ 'main.dashboard.purchase.status.startDate' | translate }}
+                </button>
+            </div>
+            <!-- <div class="col-4 mb-3">
+                <button type="button" class="btn btn-light btn-block py-4" routerLink="/purchase/status/seat">
+                    {{ 'main.dashboard.purchase.status.seat' | translate }}
+                </button>
+            </div> -->
+            <div class="col-4 mb-3">
                 <button type="button" class="btn btn-light btn-block py-4" routerLink="/setting">
                     {{ 'main.dashboard.setting' | translate }}
                 </button>

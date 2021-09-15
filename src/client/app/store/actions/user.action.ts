@@ -4,9 +4,7 @@ import { Models } from '../..';
 
 const LABEL = '[User]';
 
-export const remove = createAction(
-    `${LABEL} remove`,
-);
+export const remove = createAction(`${LABEL} remove`);
 
 export const updateAll = createAction(
     `${LABEL} updateAll`,
@@ -15,7 +13,6 @@ export const updateAll = createAction(
         screeningRoom?: factory.chevre.place.screeningRoom.IPlace;
         page?: number;
         direction: Models.Common.Direction;
-        layout: Models.Common.Layout;
         image?: string;
         color: Models.Common.Color;
     }>()

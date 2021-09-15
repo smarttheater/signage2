@@ -20,12 +20,12 @@ import { getEnvironment } from '../../../../../../environments/environment';
 SwiperCore.use([Autoplay, EffectFade]);
 
 @Component({
-    selector: 'app-purchase-schedule-01',
-    templateUrl: './purchase-schedule-01.component.html',
-    styleUrls: ['./purchase-schedule-01.component.scss'],
+    selector: 'app-status-screening-event-series',
+    templateUrl: './status-screening-event-series.component.html',
+    styleUrls: ['./status-screening-event-series.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class PurchaseSchedule01Component implements OnInit, OnChanges {
+export class StatusScreeningEventSeriesComponent implements OnInit, OnChanges {
     public moment = moment;
     public environment = getEnvironment();
     public itemHeight: number;

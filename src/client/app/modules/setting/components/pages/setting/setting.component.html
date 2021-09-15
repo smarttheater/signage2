@@ -35,10 +35,6 @@
                                 <option [value]="direction.HORIZONTAL">HORIZONTAL</option>
                                 <option [value]="direction.VERTICAL">VERTICAL</option>
                             </select>
-                            <select *ngIf="key === 'layout'" class="form-control" [formControlName]="key">
-                                <option [value]="layout.TYPE01">TYPE01</option>
-                                <option [value]="layout.TYPE02">TYPE02</option>
-                            </select>
                             <input *ngIf="key === 'image'" class="form-control" [formControlName]="key">
                             <div *ngIf="key === 'color'" class="d-flex flex-wrap">
                                 <div class="mb-2 w-25 py-2 pr-3" *ngFor="let color of colors">

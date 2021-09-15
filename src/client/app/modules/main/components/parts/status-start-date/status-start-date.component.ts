@@ -14,11 +14,11 @@ import { getEnvironment } from '../../../../../../environments/environment';
 SwiperCore.use([Autoplay, EffectFade]);
 
 @Component({
-    selector: 'app-purchase-schedule-02',
-    templateUrl: './purchase-schedule-02.component.html',
-    styleUrls: ['./purchase-schedule-02.component.scss'],
+    selector: 'app-status-start-date',
+    templateUrl: './status-start-date.component.html',
+    styleUrls: ['./status-start-date.component.scss'],
 })
-export class PurchaseSchedule02Component implements OnInit, OnChanges {
+export class StatusStartDateComponent implements OnInit, OnChanges {
     public moment = moment;
     public environment = getEnvironment();
     public pages: {

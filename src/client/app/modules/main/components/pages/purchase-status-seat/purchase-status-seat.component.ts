@@ -4,7 +4,6 @@ import { factory } from '@cinerino/sdk';
 import { select, Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
 import {
     ActionService,
@@ -14,11 +13,11 @@ import {
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
-    selector: 'app-purchase-schedule',
-    templateUrl: './purchase-schedule.component.html',
-    styleUrls: ['./purchase-schedule.component.scss'],
+    selector: 'app-purchase-status-seat',
+    templateUrl: './purchase-status-seat.component.html',
+    styleUrls: ['./purchase-status-seat.component.scss'],
 })
-export class PurchaseScheduleComponent implements OnInit, OnDestroy {
+export class PurchaseStatusSeatComponent implements OnInit, OnDestroy {
     public isLoading: Observable<boolean>;
     public user: Observable<reducers.IUserState>;
     public error: Observable<string | null>;
@@ -26,7 +25,6 @@ export class PurchaseScheduleComponent implements OnInit, OnDestroy {
     public environment = getEnvironment();
     public screeningEvents?: factory.chevre.event.screeningEvent.IEvent[];
     public updateTimer: any;
-    public layout = Models.Common.Layout;
 
     constructor(
         private store: Store<reducers.IState>,
@@ -63,7 +61,7 @@ export class PurchaseScheduleComponent implements OnInit, OnDestroy {
             moment(now).format('YYYYMMDD'),
             'YYYYMMDD'
         ).toDate();
-        const { movieTheater, screeningRoom, layout } =
+        const { movieTheater, screeningRoom } =
             await this.actionService.user.getData();
         if (movieTheater === undefined) {
             throw new Error('movieTheater undefined');
@@ -71,22 +69,6 @@ export class PurchaseScheduleComponent implements OnInit, OnDestroy {
         const creativeWorks = await this.masterService.searchMovies({
             offers: { availableFrom: moment().toDate() },
         });
-        const screeningEventSeries =
-            this.layout.TYPE01 === layout
-                ? await this.masterService.searchScreeningEventSeries({
-                      location: {
-                          branchCode: { $eq: movieTheater.branchCode },
-                      },
-                      workPerformed: {
-                          identifiers: creativeWorks.map((c) => c.identifier),
-                      },
-                  })
-                : [];
-        // const screeningRooms = (this.environment.PURCHASE_SCHEDULE_SORT === 'screen')
-        //     ? await this.masterService.searchScreeningRooms({
-        //         branchCode: { $eq: movieTheater.branchCode }
-        //     })
-        //     : [];
         const searchResult = await this.masterService.searchScreeningEvent({
             superEvent: { locationBranchCodes: [movieTheater.branchCode] },
             startFrom: moment(today).toDate(),
@@ -98,7 +80,6 @@ export class PurchaseScheduleComponent implements OnInit, OnDestroy {
                 branchCode: { $eq: screeningRoom?.branchCode },
             },
             creativeWorks,
-            screeningEventSeries,
             // screeningRooms
         });
         this.screeningEvents = searchResult.filter(

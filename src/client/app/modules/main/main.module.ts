@@ -4,21 +4,27 @@ import { SwiperModule } from 'swiper/angular';
 import { SharedModule } from '../shared/shared.module';
 import { DashboardComponent } from './components/pages/dashboard/dashboard.component';
 import { MainRootComponent } from './components/pages/main-root/main-root.component';
-import { PurchaseScheduleComponent } from './components/pages/purchase-schedule/purchase-schedule.component';
-import { PurchaseSchedule01Component } from './components/parts/purchase-schedule-01/purchase-schedule-01.component';
-import { PurchaseSchedule02Component } from './components/parts/purchase-schedule-02/purchase-schedule-02.component';
-import { PurchaseRoutingModule } from './main-routing.module';
+import { PurchaseStatusSeatComponent } from './components/pages/purchase-status-seat/purchase-status-seat.component';
+import { PurchaseStatusComponent } from './components/pages/purchase-status/purchase-status.component';
+import { ScreenComponent } from './components/parts/screen/screen.component';
+import { StatusScreeningEventSeriesComponent } from './components/parts/status-screening-event-series/status-screening-event-series.component';
+import { StatusSeatComponent } from './components/parts/status-seat/status-seat.component';
+import { StatusStartDateComponent } from './components/parts/status-start-date/status-start-date.component';
+import { MainRoutingModule } from './main-routing.module';
 
 @NgModule({
     declarations: [
         MainRootComponent,
         DashboardComponent,
-        PurchaseScheduleComponent,
-        PurchaseSchedule01Component,
-        PurchaseSchedule02Component,
+        PurchaseStatusComponent,
+        PurchaseStatusSeatComponent,
+        StatusScreeningEventSeriesComponent,
+        StatusStartDateComponent,
+        StatusSeatComponent,
+        ScreenComponent,
     ],
     entryComponents: [],
-    imports: [CommonModule, PurchaseRoutingModule, SharedModule, SwiperModule],
+    imports: [CommonModule, MainRoutingModule, SharedModule, SwiperModule],
     exports: [],
 })
 export class MainModule {}

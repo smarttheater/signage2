@@ -1,0 +1,150 @@
+:host {
+    display: block;
+}
+.open-seating-allowed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #000;
+    opacity: 0.5;
+    z-index: 11;
+}
+.screen {
+    position: relative;
+    overflow: hidden;
+    .screen-scroll {
+        height: 500px;        
+    }
+    .screen-inner {
+        position: relative;
+        width: 1600px;
+        height: 1400px;
+    }
+    .screen-object {
+        text-align: center;
+        color: #9c9c9c;
+        font-weight: bold;
+        font-size: 50px;
+        padding-top: 90px;
+    }
+    .seat {
+        position: absolute;
+        cursor: pointer;
+        text-align: center;
+        font-weight: bold;
+        color: #9a9a9b;
+        border: 3px solid #9a9a9b;
+        border-radius: 15px 15px 0 0;
+        padding-top: 4px;
+        .seat-label {
+            font-size: 20px;
+        }
+        .seat-code {
+            display: none;
+        }
+        &.active {
+            color: #FFF;
+            background-color: #258ac3;
+            border-color: #258ac3;
+        }
+        &.disabled {
+            color: #FFF;
+            background-color: #9a9a9b;
+            border-color: #9a9a9b;
+            cursor: default;
+        }
+        &.space.disabled {
+            background-color: #333;
+            border-color: #333;
+        }
+    }
+    .hc,
+    .spare {
+        cursor: default;
+        border-radius: 5px;
+        background-size: 20px;
+        background-position: center 6px;
+        background-repeat: no-repeat;
+        padding-top: 32px;
+        color: #FFF;
+        background-color: #333;
+        border-color: #333;
+        .seat-label {
+            display: none;
+        }
+        .seat-code {
+            display: block;
+            font-size: 12px;
+        }
+    }
+    .hc {
+        background-image: url(/default/images/seat/hc_white.svg) !important;
+    }
+    .spare {
+        background-image: url(/default/images/seat/spare_white.svg) !important;
+    }
+    .object {
+        position: absolute;
+        background-repeat: no-repeat;
+    }
+    .label-object {
+        text-align: center;
+        line-height: 50px;
+        font-size: 24px;
+        color: #9a9a9b;
+        font-weight: bold;
+    }   
+}
+.screen-4dx {
+    .seat {
+        background-image: url(/assets/images/seat/4dx.svg);
+        background-size: 50px 50px;
+        &.active {
+            color: #FFF;
+            background-image: url(/assets/images/seat/4dx_active.svg);
+        }
+        &.disabled {
+            color: #FFF;
+            background-image: url(/assets/images/seat/4dx_disabled.svg);
+            cursor: default;
+        }
+    }
+}
+
+.zoom {
+    .screen-scroll {
+        overflow: auto;
+        transition: transform 0.2s;
+        -webkit-overflow-scrolling: touch;
+    }
+    .seat {
+        span {
+            display: block;
+        }
+    }
+}
+
+.zoom-btn {
+    display: none;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+    width: 50px;
+    height: 50px;
+    color: #FFF;
+    background-color: #3e3a39;
+    border-radius: 3px;
+    align-items: center;
+    justify-content: center;
+    &.active {
+        display: flex;
+        display: -ms-flexbox;
+    }
+    &.scroll {
+        position: fixed;
+    }
+}

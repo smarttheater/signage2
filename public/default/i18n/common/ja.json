@@ -1,7 +1,13 @@
 {
     "main": {
         "dashboard": {
-            "purchase": "購入スケジュール",
+            "purchase": {
+                "status": {
+                    "screeningEventSeries": "購入ステータス（施設コンテンツ）",
+                    "startDate": "購入ステータス（開始時間）",
+                    "seat": "購入ステータス（座席）"
+                }
+            },
             "setting": "設定"
         }
     },

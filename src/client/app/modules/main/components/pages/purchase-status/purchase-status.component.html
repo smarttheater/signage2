@@ -1,0 +1,14 @@
+<ng-container *ngIf="layout === Layout.SCREENING_EVENT_SERIES && screeningEvents">
+    <app-status-screening-event-series class="d-block h-100" [screeningEvents]="screeningEvents"
+        [direction]="(user | async)?.direction" [page]="(user | async)?.page" [color]="(user | async)?.color"
+        [image]="(user | async)?.image">
+    </app-status-screening-event-series>
+</ng-container>
+
+
+<ng-container *ngIf="layout === Layout.START_DATE && screeningEvents">
+    <app-status-start-date class="d-block h-100" [screeningEvents]="screeningEvents"
+        [direction]="(user | async)?.direction" [page]="(user | async)?.page" [color]="(user | async)?.color"
+        [image]="(user | async)?.image">
+    </app-status-start-date>
+</ng-container>

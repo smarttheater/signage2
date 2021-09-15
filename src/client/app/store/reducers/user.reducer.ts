@@ -18,13 +18,9 @@ export interface IUserState {
      */
     page?: number;
     /**
-    * 向き
-    */
+     * 向き
+     */
     direction: Models.Common.Direction;
-    /**
-    * レイアウト
-    */
-    layout: Models.Common.Layout;
     /**
      * 言語
      */
@@ -40,28 +36,28 @@ export interface IUserState {
     /**
      * 色
      */
-     color: Models.Common.Color;
+    color: Models.Common.Color;
 }
 
 export const userInitialState: IUserState = {
     language: 'ja',
     direction: Models.Common.Direction.HORIZONTAL,
-    layout: Models.Common.Layout.TYPE01,
     color: Models.Common.Color.Darkgray,
 };
 
 export function reducer(initialState: IState, action: Action) {
     return createReducer(
         initialState,
-        on(userAction.remove, state => {
+        on(userAction.remove, (state) => {
             return {
                 ...state,
                 userData: {
                     language: 'ja',
                     direction: Models.Common.Direction.HORIZONTAL,
-                    layout: Models.Common.Layout.TYPE01,
                     color: Models.Common.Color.Darkgray,
-                }, loading: false, process: ''
+                },
+                loading: false,
+                process: '',
             };
         }),
         on(userAction.updateAll, (state, payload) => {
@@ -69,23 +65,24 @@ export function reducer(initialState: IState, action: Action) {
                 movieTheater,
                 screeningRoom,
                 page,
-                layout,
                 direction,
                 image,
                 color,
             } = payload;
 
             return {
-                ...state, userData: {
+                ...state,
+                userData: {
                     ...state.userData,
                     movieTheater,
                     screeningRoom,
                     page,
                     direction,
-                    layout,
                     image,
                     color,
-                }, loading: false, process: ''
+                },
+                loading: false,
+                process: '',
             };
         }),
         on(userAction.updateLanguage, (state, payload) => {
@@ -95,6 +92,6 @@ export function reducer(initialState: IState, action: Action) {
         on(userAction.setVersion, (state, payload) => {
             const version = payload.version;
             return { ...state, userData: { ...state.userData, version } };
-        }),
+        })
     )(initialState, action);
 }
