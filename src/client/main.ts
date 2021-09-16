@@ -4,6 +4,7 @@
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import 'hammerjs';
+import 'isomorphic-fetch';
 import * as momentTimezone from 'moment-timezone';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { jaLocale } from 'ngx-bootstrap/locale';
@@ -264,4 +265,8 @@ main()
     })
     .catch((error) => {
         console.error(error);
+        const message = error.message || JSON.stringify(error);
+        document.body.innerHTML = `
+        <div class="d-flex align-items-center justify-content-center h-100 px-5">${message}</div>
+        `;
     });

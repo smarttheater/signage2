@@ -28,6 +28,7 @@
             "scripts": [],
             "allowedCommonJsDependencies": [
               "hammerjs",
+              "isomorphic-fetch",
               "moment-timezone",
               "@cinerino/sdk",
               "qrcode",
