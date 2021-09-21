@@ -105,8 +105,14 @@ async function setProject(params: {
     const storageUrl =
         result.projectId === undefined && result.projectName === undefined
             ? projectName !== ''
-                ? `${result.storageUrl}/${projectId}-${projectName}`
-                : `${result.storageUrl}/${projectId}`
+                ? {
+                      application: `${result.storageUrl.application}/${projectId}-${projectName}`,
+                      common: `${result.storageUrl.common}/${projectId}-${projectName}`,
+                  }
+                : {
+                      application: `${result.storageUrl.application}/${projectId}`,
+                      common: `${result.storageUrl.common}/${projectId}`,
+                  }
             : result.storageUrl;
     sessionStorage.setItem(
         'PROJECT',

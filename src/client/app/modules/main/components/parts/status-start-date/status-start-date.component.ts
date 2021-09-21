@@ -42,6 +42,7 @@ export class StatusStartDateComponent implements OnInit, OnChanges {
      */
     public async ngOnInit() {
         this.swiperConfig = {
+            allowSlidePrev: false,
             spaceBetween: 0,
             autoplay:
                 this.page === undefined

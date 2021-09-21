@@ -1,6 +1,6 @@
 <div class="position-relative bg-white">
     <div *ngIf="openSeatingAllowed" class="open-seating-allowed"></div>
-    <div #screen class="screen" [class.zoom]="zoomState" (window:resize)="resize()">
+    <div #screen class="screen d-flex justify-content-center" [class.zoom]="zoomState" (window:resize)="resize()">
         <div #zoomBtn [class.active]="zoomState" class="zoom-btn text-center text-large" (click)="scaleDown()">
             <i class="bi bi-arrows-angle-contract"></i>
         </div>
@@ -9,7 +9,7 @@
             'transform-origin': origin,
             'transform': 'scale(' + scale + ')'
         }">
-            <div class="screen-inner {{ screenType }}"
+            <div class="mx-auto screen-inner {{ screenType }}"
                 [ngStyle]="{ 'width.px': screenData.size.w, 'height.px': screenData.size.h }" (click)="scaleUp($event)">
                 <div class="d-none screen-object">SCREEN</div>
                 <div *ngFor="let object of screenData.objects" class="object" [ngStyle]="{
@@ -56,7 +56,7 @@
 
             </div>
         </div>
-        <div *ngIf="screenData" class="screen-style"></div>
+        <div *ngIf="screenData && active" [class]="'screen-style-' + id"></div>
     </div>
 </div>
 

@@ -56,6 +56,7 @@ export class StatusScreeningEventSeriesComponent implements OnInit, OnChanges {
      */
     public async ngOnInit() {
         this.swiperConfig = {
+            allowSlidePrev: false,
             spaceBetween: 0,
             autoplay:
                 this.page === undefined
@@ -79,7 +80,7 @@ export class StatusScreeningEventSeriesComponent implements OnInit, OnChanges {
                 ? (1080 - 60) / this.screeningEventSeriesDisplayLength
                 : (1920 - 60) / this.screeningEventSeriesDisplayLength;
         this.pages = this.createPages();
-        console.log('this.pages', this.pages);
+        // console.log('this.pages', this.pages);
     }
 
     public createPages() {

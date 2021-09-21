@@ -1,72 +1,35 @@
 <swiper *ngIf="swiperConfig" class="h-100 type-02" (resize)="resizeSwiper($event)" (init)="initSwiper($event)"
-    [loop]="swiperConfig.loop" [spaceBetween]="swiperConfig.spaceBetween" [autoplay]="swiperConfig.autoplay"
-    [effect]="swiperConfig.effect">
-    <ng-template swiperSlide class="h-100 w-100" *ngIf="image">
+    (init)="initSwiper($event)" [loop]="swiperConfig.loop" [allowSlidePrev]="swiperConfig.allowSlidePrev"
+    [spaceBetween]="swiperConfig.spaceBetween" [autoplay]="swiperConfig.autoplay" [effect]="swiperConfig.effect">
+    <ng-template swiperSlide let-data class="h-100 w-100" *ngIf="image">
         <div class="h-100 w-100 bg-image" [class]="'color-' + color" [style]="'background-image: url(' + image + ');'">
         </div>
     </ng-template>
-    <ng-template swiperSlide class="h-100 w-100" *ngFor="let page of pages;">
-        <div class="h-100" [class]="'color-' + color">
-            <div *ngFor="let performance of page.data; let index = index;" class="item d-flex"
-                [style.height.px]="itemHeight" [class.color-alpha]="index % 2 === 0">
-                <div class="w-25 d-flex align-items-center border-right px-3">
-                    <p class="mb-0 w-100 text-large text-center">
-                        {{ moment(performance.screeningEvent.startDate).format('HH:mm') }} - {{
-                        moment(performance.screeningEvent.endDate).format('HH:mm') }}
+    <ng-template swiperSlide let-data class="h-100 w-100" *ngFor="let input of inputData; let index = index">
+        <div class="h-100 bg-white">
+            <div class="p-3" [class]="'color-' + color">
+                <p class="mb-1 text-large text-overflow-ellipsis">{{ input.screeningEvent.name | changeLanguage }}</p>
+                <p *ngIf="input.screeningEvent.superEvent.headline?.ja" class="mb-1 text-overflow-ellipsis">
+                    {{ input.screeningEvent.superEvent.headline.ja }}
+                </p>
+                <div class="d-flex align-items-center text-overflow-ellipsis">
+                    <p class="text-large mb-0">{{ moment(input.screeningEvent.startDate).format('HH:mm') }} - {{
+                        moment(input.screeningEvent.endDate).format('HH:mm') }}</p>
+                    <div class="mx-3">/</div>
+                    <p class="mb-0 text-large">
+                        {{ input.screeningEvent.location.name | changeLanguage }}
+                        <span class="ml-3" *ngIf="input.screeningEvent.location.address">{{
+                            input.screeningEvent.location.address |
+                            changeLanguage }}</span>
                     </p>
                 </div>
-                <div class="w-10 d-flex align-items-center border-right px-3">
-                    <div class="status w-100 text-center">
-                        <ng-container *ngIf="performance.isSales() && !performance.isInfinitetock()">
-                            <div *ngIf="performance.isSeatStatus('success')">
-                                <img src="/assets/images/icon/status_success.svg" alt="">
-                            </div>
-                            <div *ngIf="performance.isSeatStatus('warning')"
-                                class="d-flex justify-content-around align-items-center">
-                                <img src="/assets/images/icon/status_warning.svg" alt="">
-                            </div>
-                            <p class="mb-0" *ngIf="performance.isSeatStatus('danger')">
-                                {{ 'common.performance.status.danger' | translate }}
-                            </p>
-                            <div *ngIf="performance.isSeatStatus()">
-                                <img src="/assets/images/icon/status_undefined.svg" alt="">
-                            </div>
-                        </ng-container>
-                        <ng-container *ngIf="performance.isSales() && performance.isInfinitetock()">
-                            <div class="d-flex justify-content-around align-items-center">
-                                <img src="/assets/images/icon/status_success.svg" alt="">
-                            </div>
-                        </ng-container>
-                        <p class="mb-0" *ngIf="performance.isSales('end')">
-                            {{ 'common.performance.status.endSale' | translate }}</p>
-                        <p class="mb-0" *ngIf="performance.isSales('start')">
-                            {{ 'common.performance.status.outsideSalesPeriod' | translate }}</p>
-                    </div>
-                </div>
-                <div class="w-25 d-flex align-items-center border-right px-3">
-                    <p class="mb-0 w-100 text-large">{{ performance.screeningEvent.location.name.ja }}
-                    </p>
-                </div>
-                <div class="w-40 d-flex align-items-center px-3">
-                    <div class="w-100">
-                        <p *ngIf="performance.screeningEvent.name?.ja"
-                            class="mb-0 text-large text-overflow-ellipsis-02">
-                            {{ performance.screeningEvent.superEvent.name.ja }}
-                        </p>
-                        <p *ngIf="performance.screeningEvent.superEvent.headline?.ja"
-                            class="mb-0 text-overflow-ellipsis-02">
-                            {{ performance.screeningEvent.superEvent.headline.ja }}
-                        </p>
-                    </div>
-                </div>
+
             </div>
-            <div *ngFor="let empty of page.empty; let index = index;" class="item d-flex" [style.height.px]="itemHeight"
-                [class.color-alpha]="(index + page.data.length) % 2 === 0">
-                <div class="w-25 d-flex align-items-center border-right px-3"></div>
-                <div class="w-10 d-flex align-items-center border-right px-3"></div>
-                <div class="w-25 d-flex align-items-center border-right px-3"></div>
-                <div class="w-40 d-flex align-items-center px-3"></div>
-            </div>
+            <app-screen [theaterCode]="input.screeningEvent.superEvent.location.branchCode"
+                [screenCode]="input.screeningEvent.location.branchCode"
+                [screeningEventSeats]="input.screeningEventSeats" [reservations]="[]" [id]="input.screeningEvent.id"
+                [outerHeight]="787" [active]="data.isActive">
+            </app-screen>
         </div>
     </ng-template>
 </swiper>

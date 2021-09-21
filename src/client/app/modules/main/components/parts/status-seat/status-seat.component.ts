@@ -1,4 +1,10 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Input,
+    OnChanges,
+    OnInit,
+} from '@angular/core';
 import { factory } from '@cinerino/sdk';
 import * as moment from 'moment';
 import SwiperCore, {
@@ -17,19 +23,19 @@ SwiperCore.use([Autoplay, EffectFade]);
     selector: 'app-status-seat',
     templateUrl: './status-seat.component.html',
     styleUrls: ['./status-seat.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Default,
 })
 export class StatusSeatComponent implements OnInit, OnChanges {
     public moment = moment;
     public environment = getEnvironment();
-    public pages: {
-        data: Models.Purchase.Performance[];
-        empty: number[];
-    }[];
     public screeningEventDisplayLength: number;
     public itemHeight: number;
     public swiperConfig: SwiperOptions;
     @Input()
-    public screeningEvents: factory.chevre.event.screeningEvent.IEvent[];
+    public inputData: {
+        screeningEvent: factory.chevre.event.screeningEvent.IEvent;
+        screeningEventSeats: factory.chevre.place.seat.IPlaceWithOffer[];
+    }[];
     @Input() public direction: Models.Common.Direction;
     @Input() public page?: number;
     @Input() public image?: string;
@@ -42,6 +48,7 @@ export class StatusSeatComponent implements OnInit, OnChanges {
      */
     public async ngOnInit() {
         this.swiperConfig = {
+            allowSlidePrev: false,
             spaceBetween: 0,
             autoplay:
                 this.page === undefined
@@ -61,43 +68,6 @@ export class StatusSeatComponent implements OnInit, OnChanges {
             this.direction === Models.Common.Direction.HORIZONTAL
                 ? (1080 - 60) / this.screeningEventDisplayLength
                 : (1920 - 60) / this.screeningEventDisplayLength;
-        this.pages = this.createPages();
-    }
-
-    public createPages() {
-        const screeningEvents = this.screeningEvents;
-        const pages: {
-            data: Models.Purchase.Performance[];
-            empty: any[];
-        }[] = [
-            {
-                data: [],
-                empty: [],
-            },
-        ];
-        let pageCount = 0;
-        screeningEvents.forEach((s, i) => {
-            if (pages[pageCount] === undefined) {
-                pages[pageCount] = {
-                    data: [],
-                    empty: [],
-                };
-            }
-            pages[pageCount].data.push(
-                new Models.Purchase.Performance({ screeningEvent: s })
-            );
-            if (i > 1 && (i + 1) % this.screeningEventDisplayLength === 0) {
-                pageCount++;
-            }
-        });
-        pages.forEach((p) => {
-            p.empty = [
-                ...Array(
-                    this.screeningEventDisplayLength - p.data.length
-                ).keys(),
-            ];
-        });
-        return pages;
     }
 
     /**

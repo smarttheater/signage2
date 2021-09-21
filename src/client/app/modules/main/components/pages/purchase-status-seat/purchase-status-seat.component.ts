@@ -4,6 +4,7 @@ import { factory } from '@cinerino/sdk';
 import { select, Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
 import {
     ActionService,
@@ -23,7 +24,10 @@ export class PurchaseStatusSeatComponent implements OnInit, OnDestroy {
     public error: Observable<string | null>;
     public moment = moment;
     public environment = getEnvironment();
-    public screeningEvents?: factory.chevre.event.screeningEvent.IEvent[];
+    public data: {
+        screeningEvent: factory.chevre.event.screeningEvent.IEvent;
+        screeningEventSeats: factory.chevre.place.seat.IPlaceWithOffer[];
+    }[];
     public updateTimer: any;
 
     constructor(
@@ -66,25 +70,63 @@ export class PurchaseStatusSeatComponent implements OnInit, OnDestroy {
         if (movieTheater === undefined) {
             throw new Error('movieTheater undefined');
         }
+        const searchScreeningRoomsResult =
+            await this.masterService.searchScreeningRooms({
+                containedInPlace: {
+                    branchCode: { $eq: movieTheater.branchCode },
+                },
+            });
         const creativeWorks = await this.masterService.searchMovies({
             offers: { availableFrom: moment().toDate() },
         });
-        const searchResult = await this.masterService.searchScreeningEvent({
-            superEvent: { locationBranchCodes: [movieTheater.branchCode] },
-            startFrom: moment(today).toDate(),
-            startThrough: moment(today)
-                .add(1, 'day')
-                .add(-1, 'millisecond')
-                .toDate(),
-            location: {
-                branchCode: { $eq: screeningRoom?.branchCode },
-            },
-            creativeWorks,
-            // screeningRooms
-        });
-        this.screeningEvents = searchResult.filter(
-            (s) => moment(s.endDate).unix() > moment().unix()
-        );
+        const searchScreeningEventResult =
+            await this.masterService.searchScreeningEvent({
+                superEvent: { locationBranchCodes: [movieTheater.branchCode] },
+                startFrom: moment(today).toDate(),
+                startThrough: moment(today)
+                    .add(1, 'day')
+                    .add(-1, 'millisecond')
+                    .toDate(),
+                location: {
+                    branchCode: { $eq: screeningRoom?.branchCode },
+                },
+                creativeWorks,
+                // screeningRooms
+            });
+        const screeningEvents = searchScreeningEventResult
+            .filter((s) => moment(s.endDate).unix() > moment().unix())
+            .filter((s) => {
+                const performance = new Models.Purchase.Performance({
+                    screeningEvent: s,
+                });
+                return (
+                    performance.isTicketedSeat() &&
+                    !performance.isInfinitetock()
+                );
+            })
+            .filter((s) => {
+                const findResult = searchScreeningRoomsResult.find(
+                    (r) => r.branchCode === s.location.branchCode
+                );
+                return (
+                    findResult !== undefined && !findResult.openSeatingAllowed
+                );
+            });
+        const data: {
+            screeningEvent: factory.chevre.event.screeningEvent.IEvent;
+            screeningEventSeats: factory.chevre.place.seat.IPlaceWithOffer[];
+        }[] = [];
+        for (const screeningEvent of screeningEvents) {
+            const screeningEventSeats =
+                await this.actionService.event.getScreeningEventSeats({
+                    screeningEvent,
+                });
+            data.push({
+                screeningEvent,
+                screeningEventSeats,
+            });
+        }
+        this.data = data;
         // this.screeningEvents = searchResult;
     }
 

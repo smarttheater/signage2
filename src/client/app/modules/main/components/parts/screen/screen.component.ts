@@ -1,6 +1,5 @@
 import {
     AfterContentChecked,
-    AfterViewInit,
     Component,
     ElementRef,
     Input,
@@ -26,9 +25,7 @@ import { UtilService } from '../../../../../services';
     templateUrl: './screen.component.html',
     styleUrls: ['./screen.component.scss'],
 })
-export class ScreenComponent
-    implements OnInit, AfterViewInit, AfterContentChecked, OnDestroy
-{
+export class ScreenComponent implements OnInit, AfterContentChecked, OnDestroy {
     public static ZOOM_SCALE = 1;
     @Input() public openSeatingAllowed = false;
     @Input() public theaterCode: string;
@@ -39,6 +36,8 @@ export class ScreenComponent
     @Input()
     public authorizeSeatReservation?: factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.Chevre>;
     @Input() public outerHeight?: number;
+    @Input() public id: string;
+    @Input() public active: boolean;
     public seats: IRow[];
     public lineLabels: ILabel[];
     public columnLabels: ILabel[];
@@ -50,10 +49,11 @@ export class ScreenComponent
     public origin: string;
     public screenData: IScreen;
     public environment = getEnvironment();
+    public show: boolean;
     public onWindowScroll: (event: Event) => void;
-    @ViewChild('screen', { static: true })
+    @ViewChild('screen')
     public screen: ElementRef<HTMLDivElement>;
-    @ViewChild('zoomBtn', { static: true })
+    @ViewChild('zoomBtn')
     public zoomBtn: ElementRef<HTMLDivElement>;
 
     constructor(
@@ -66,45 +66,38 @@ export class ScreenComponent
      */
     public async ngOnInit() {
         try {
+            this.show = false;
             this.zoomState = false;
             this.scale = ScreenComponent.ZOOM_SCALE;
             this.height = 0;
             this.left = 0;
-            this.origin = '0 0';
+            this.origin = 'center 0';
             this.screenData = await this.getScreenData();
             this.createScreen();
             this.scaleDown();
             // this.setScrollEvent();
+            this.changeStatus();
         } catch (error) {
             console.error(error);
         }
     }
 
     /**
-     * レンダリング後処理
-     */
-    public ngAfterViewInit() {
-        const time = 300;
-        const timer = setInterval(() => {
-            if (this.screenData === undefined) {
-                return;
-            }
-            clearInterval(timer);
-            const screenElement = document.querySelector('.screen-style');
-            if (screenElement !== null && this.screenData.style !== undefined) {
-                screenElement.innerHTML = this.screenData.style;
-            }
-        }, time);
-    }
-
-    /**
      * 変更監視
      */
-    public async ngAfterContentChecked() {
+    public ngAfterContentChecked() {
         if (this.screenData === undefined) {
             return;
         }
-        this.changeStatus();
+        const screenElements = document.querySelectorAll<HTMLDivElement>(
+            '.screen-style-' + this.id
+        );
+        screenElements.forEach((e) => {
+            if (this.screenData.style === undefined) {
+                return;
+            }
+            e.innerHTML = this.screenData.style;
+        });
     }
 
     /**
@@ -372,7 +365,7 @@ export class ScreenComponent
         this.height = this.screenData.size.h * this.scale;
         this.left =
             (screen.offsetWidth - this.screenData.size.w * this.scale) / 2;
-        this.origin = '0 0';
+        this.origin = 'center 0';
     }
 
     /**

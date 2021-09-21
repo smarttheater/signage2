@@ -1,6 +1,6 @@
 <swiper *ngIf="swiperConfig" class="h-100 type-01" (resize)="resizeSwiper($event)" (init)="initSwiper($event)"
-    [loop]="swiperConfig.loop" [spaceBetween]="swiperConfig.spaceBetween" [autoplay]="swiperConfig.autoplay"
-    [effect]="swiperConfig.effect">
+    [loop]="swiperConfig.loop" [allowSlidePrev]="swiperConfig.allowSlidePrev" [spaceBetween]="swiperConfig.spaceBetween"
+    [autoplay]="swiperConfig.autoplay" [effect]="swiperConfig.effect">
     <ng-template swiperSlide class="h-100 w-100" *ngIf="image">
         <div class="h-100 w-100 bg-image" [class]="'color-' + color" [style]="'background-image: url(' + image + ');'">
         </div>

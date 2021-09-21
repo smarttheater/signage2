@@ -1,5 +1,5 @@
-<ng-container *ngIf="screeningEvents">
-    <app-status-seat class="d-block h-100" [screeningEvents]="screeningEvents" [direction]="(user | async)?.direction"
+<ng-container *ngIf="data">
+    <app-status-seat class="d-block h-100" [inputData]="data" [direction]="(user | async)?.direction"
         [page]="(user | async)?.page" [color]="(user | async)?.color" [image]="(user | async)?.image">
     </app-status-seat>
 </ng-container>

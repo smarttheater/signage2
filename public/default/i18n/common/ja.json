@@ -112,6 +112,9 @@
             "SearchScreeningRooms": "ルーム情報を取得しています",
             "SearchCategoryCode": "区分情報を取得しています"
         },
+        "eventAction": {
+            "GetScreeningEventSeats": "空席情報を取得しています"
+        },
         "userAction": {}
     },
     "common": {
