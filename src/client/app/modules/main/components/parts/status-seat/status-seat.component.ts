@@ -31,6 +31,7 @@ export class StatusSeatComponent implements OnInit, OnChanges {
     public screeningEventDisplayLength: number;
     public itemHeight: number;
     public swiperConfig: SwiperOptions;
+    public swiper?: Swiper;
     @Input()
     public inputData: {
         screeningEvent: factory.chevre.event.screeningEvent.IEvent;
@@ -81,9 +82,28 @@ export class StatusSeatComponent implements OnInit, OnChanges {
      * swiper初期化
      */
     public initSwiper(swiper: Swiper) {
+        this.swiper = swiper;
         if (this.page === undefined) {
             return;
         }
         swiper.slideTo(this.page, 0);
+    }
+
+    public onSlideChange(swiper: Swiper) {
+        console.log(swiper);
+        this.swiper = swiper;
+    }
+
+    public isActive(index: number) {
+        if (this.swiper === undefined) {
+            return false;
+        }
+        const slideIndex = this.image ? index + 2 : index + 1;
+        const activeIndex =
+            this.swiper.activeIndex > this.swiper.slides.length - 2
+                ? this.swiper.activeIndex - (this.swiper.slides.length - 2)
+                : this.swiper.activeIndex;
+
+        return activeIndex === slideIndex;
     }
 }

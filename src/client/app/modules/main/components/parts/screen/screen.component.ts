@@ -1,5 +1,6 @@
 import {
-    AfterContentChecked,
+    AfterViewChecked,
+    AfterViewInit,
     Component,
     ElementRef,
     Input,
@@ -25,7 +26,9 @@ import { UtilService } from '../../../../../services';
     templateUrl: './screen.component.html',
     styleUrls: ['./screen.component.scss'],
 })
-export class ScreenComponent implements OnInit, AfterContentChecked, OnDestroy {
+export class ScreenComponent
+    implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy
+{
     public static ZOOM_SCALE = 1;
     @Input() public openSeatingAllowed = false;
     @Input() public theaterCode: string;
@@ -83,21 +86,42 @@ export class ScreenComponent implements OnInit, AfterContentChecked, OnDestroy {
     }
 
     /**
-     * 変更監視
+     * レンダリング後処理
      */
-    public ngAfterContentChecked() {
-        if (this.screenData === undefined) {
-            return;
+    public ngAfterViewInit() {
+        // const time = 300;
+        // const timer = setInterval(() => {
+        //     if (this.screenData !== undefined) {
+        //         clearInterval(timer);
+        //         const screenElements =
+        //             document.querySelectorAll<HTMLDivElement>(
+        //                 '.screen-style-' + this.id
+        //             );
+        //         screenElements.forEach((e) => {
+        //             if (this.screenData.style === undefined) {
+        //                 return;
+        //             }
+        //             e.innerHTML = this.screenData.style;
+        //         });
+        //     }
+        // }, time);
+    }
+
+    /**
+     * レンダリング後更新処理
+     */
+    public ngAfterViewChecked() {
+        if (this.screenData !== undefined) {
+            const screenElements = document.querySelectorAll<HTMLDivElement>(
+                '.screen-style-' + this.id
+            );
+            screenElements.forEach((e) => {
+                if (this.screenData.style === undefined) {
+                    return;
+                }
+                e.innerHTML = this.screenData.style;
+            });
         }
-        const screenElements = document.querySelectorAll<HTMLDivElement>(
-            '.screen-style-' + this.id
-        );
-        screenElements.forEach((e) => {
-            if (this.screenData.style === undefined) {
-                return;
-            }
-            e.innerHTML = this.screenData.style;
-        });
     }
 
     /**

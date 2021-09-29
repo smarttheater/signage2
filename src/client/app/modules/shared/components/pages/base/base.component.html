@@ -6,6 +6,9 @@
         <app-current-date-time class="mr-auto"></app-current-date-time>
         <app-loading [isLoading]="isLoading | async" [process]="process | async"></app-loading>
         <div class="d-flex align-items-center ml-3 h-100">
+            <button class="rounded-circle opacity-30 btn btn-sm" (click)="reload()">
+                <i class="bi bi-arrow-clockwise"></i>
+            </button>
             <button class="rounded-circle opacity-30 btn btn-sm" routerLink="/dashboard">
                 <i class="bi bi-list"></i>
             </button>

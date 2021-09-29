@@ -25,10 +25,11 @@
                 </div>
 
             </div>
+
             <app-screen [theaterCode]="input.screeningEvent.superEvent.location.branchCode"
                 [screenCode]="input.screeningEvent.location.branchCode"
                 [screeningEventSeats]="input.screeningEventSeats" [reservations]="[]" [id]="input.screeningEvent.id"
-                [outerHeight]="787" [active]="data.isActive">
+                [outerHeight]="787" [active]="isActive(index)">
             </app-screen>
         </div>
     </ng-template>

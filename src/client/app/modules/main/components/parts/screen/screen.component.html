@@ -1,6 +1,7 @@
 <div class="position-relative bg-white">
     <div *ngIf="openSeatingAllowed" class="open-seating-allowed"></div>
-    <div #screen class="screen d-flex justify-content-center" [class.zoom]="zoomState" (window:resize)="resize()">
+    <div #screen class="screen d-flex justify-content-center align-items-center" [ngStyle]="{'height.px': outerHeight}"
+        [class.zoom]="zoomState" (window:resize)="resize()">
         <div #zoomBtn [class.active]="zoomState" class="zoom-btn text-center text-large" (click)="scaleDown()">
             <i class="bi bi-arrows-angle-contract"></i>
         </div>

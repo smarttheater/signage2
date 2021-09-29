@@ -3,56 +3,71 @@
         <div class="mb-4">
             <h2 class="text-large mb-4 text-center font-weight-bold">{{ 'setting.title' | translate }}</h2>
             <div class="container mw-100">
-                <ng-container *ngFor="let key of getProfileFormKeys()">
-                    <div class="form-group row">
-                        <div class="col-4 py-2 text-right ">
-                            <div class="d-inline-flex align-items-center">
-                                <p class="mb-0">{{ 'form.label.' + key | translate }}</p>
-                                <p *ngIf="isRequired(key)" class="badge badge-danger ml-2 mb-0">{{ 'form.required' |
-                                    translate }}
-                                </p>
+                <div class="row">
+                    <ng-container *ngFor="let key of getProfileFormKeys()">
+                        <div *ngIf="!(key === 'image' || key === 'color')" class="form-group col-6">
+                            <div class="mb-2">
+                                <div class="d-inline-flex align-items-center">
+                                    <p class="mb-0">{{ 'form.label.' + key | translate }}</p>
+                                    <p *ngIf="isRequired(key)" class="badge badge-danger ml-2 mb-0">{{ 'form.required' |
+                                        translate }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="">
+                                <select *ngIf="key === 'theaterId'" class="form-control" [formControlName]="key"
+                                    (change)="changeTheater()">
+                                    <option value="">{{ 'setting.unselected' | translate }}</option>
+                                    <option *ngFor=" let movieTheater of movieTheaters" [value]="movieTheater.id">
+                                        {{ movieTheater.name | changeLanguage }}</option>
+                                </select>
+                                <select *ngIf="key === 'screenId'" class="form-control" [formControlName]="key">
+                                    <option value="">{{ 'setting.unselected' | translate }}</option>
+                                    <option *ngFor=" let screeningRoom of screeningRooms"
+                                        [value]="screeningRoom.branchCode">
+                                        {{ screeningRoom.name | changeLanguage }}</option>
+                                </select>
+                                <select *ngIf="key === 'page'" class="form-control" [formControlName]="key">
+                                    <option value="">{{ 'setting.auto' | translate }}</option>
+                                    <option *ngFor=" let page of pages" [value]="page">
+                                        {{ page }}</option>
+                                </select>
+                                <select *ngIf="key === 'direction'" class="form-control" [formControlName]="key">
+                                    <option [value]="direction.HORIZONTAL">HORIZONTAL</option>
+                                    <option [value]="direction.VERTICAL">VERTICAL</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="col-8">
-                            <select *ngIf="key === 'theaterId'" class="form-control" [formControlName]="key"
-                                (change)="changeTheater()">
-                                <option value="">{{ 'setting.unselected' | translate }}</option>
-                                <option *ngFor=" let movieTheater of movieTheaters" [value]="movieTheater.id">
-                                    {{ movieTheater.name | changeLanguage }}</option>
-                            </select>
-                            <select *ngIf="key === 'screenId'" class="form-control" [formControlName]="key">
-                                <option value="">{{ 'setting.unselected' | translate }}</option>
-                                <option *ngFor=" let screeningRoom of screeningRooms"
-                                    [value]="screeningRoom.branchCode">
-                                    {{ screeningRoom.name | changeLanguage }}</option>
-                            </select>
-                            <select *ngIf="key === 'page'" class="form-control" [formControlName]="key">
-                                <option value="">{{ 'setting.auto' | translate }}</option>
-                                <option *ngFor=" let page of pages" [value]="page">
-                                    {{ page }}</option>
-                            </select>
-                            <select *ngIf="key === 'direction'" class="form-control" [formControlName]="key">
-                                <option [value]="direction.HORIZONTAL">HORIZONTAL</option>
-                                <option [value]="direction.VERTICAL">VERTICAL</option>
-                            </select>
-                            <input *ngIf="key === 'image'" class="form-control" [formControlName]="key">
-                            <div *ngIf="key === 'color'" class="d-flex flex-wrap">
-                                <div class="mb-2 w-25 py-2 pr-3" *ngFor="let color of colors">
-                                    <label class="d-flex align-items-center pointer" [for]="'color' + color">
-                                        <input class="d-none" type="radio" [id]="'color' + color"
-                                            [formControlName]="key" [value]="color">
-                                        <div class="mr-2">
-                                            <i class="bi bi-circle"></i>
-                                            <i class="bi bi-record-circle"></i>
-                                        </div>
-                                        <div class="border border-white w-100 text-center py-1"
-                                            [class]="'color-' + color">&nbsp;</div>
-                                    </label>
+                        <div *ngIf="key === 'image' || key === 'color'" class="form-group col-12">
+                            <div class="mb-2">
+                                <div class="d-inline-flex align-items-center">
+                                    <p class="mb-0">{{ 'form.label.' + key | translate }}</p>
+                                    <p *ngIf="isRequired(key)" class="badge badge-danger ml-2 mb-0">{{ 'form.required' |
+                                        translate }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="">
+                                <input *ngIf="key === 'image'" class="form-control" [formControlName]="key">
+                                <div *ngIf="key === 'color'" class="d-flex flex-wrap">
+                                    <div class="mb-2 w-25 mb-2 pr-3" *ngFor="let color of colors">
+                                        <label class="d-flex align-items-center pointer" [for]="'color' + color">
+                                            <input class="d-none" type="radio" [id]="'color' + color"
+                                                [formControlName]="key" [value]="color">
+                                            <div class="mr-2">
+                                                <i class="bi bi-circle"></i>
+                                                <i class="bi bi-record-circle"></i>
+                                            </div>
+                                            <div class="border border-white w-100 text-center py-1"
+                                                [class]="'color-' + color">
+                                                &nbsp;</div>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </ng-container>
+                    </ng-container>
+                </div>
 
             </div>
         </div>
