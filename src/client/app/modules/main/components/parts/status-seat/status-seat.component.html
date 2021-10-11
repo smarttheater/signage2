@@ -1,20 +1,23 @@
 <swiper *ngIf="swiperConfig" class="h-100 type-02" (resize)="resizeSwiper($event)" (init)="initSwiper($event)"
     (init)="initSwiper($event)" [loop]="swiperConfig.loop" [allowSlidePrev]="swiperConfig.allowSlidePrev"
     [spaceBetween]="swiperConfig.spaceBetween" [autoplay]="swiperConfig.autoplay" [effect]="swiperConfig.effect">
-    <ng-template swiperSlide let-data class="h-100 w-100" *ngIf="image">
-        <div class="h-100 w-100 bg-image" [class]="'color-' + color" [style]="'background-image: url(' + image + ');'">
+    <ng-template swiperSlide let-data class="h-100 w-100" *ngIf="settings.image">
+        <div class="h-100 w-100 bg-image" [class]="'color-' + settings.color"
+            [style]="'background-image: url(' + settings.image + ');'">
         </div>
     </ng-template>
     <ng-template swiperSlide let-data class="h-100 w-100" *ngFor="let input of inputData; let index = index">
         <div class="h-100 bg-white">
-            <div class="p-3" [class]="'color-' + color">
+            <div class="p-3" [class]="'color-' + settings.color">
                 <p class="mb-1 text-large text-overflow-ellipsis">{{ input.screeningEvent.name | changeLanguage }}</p>
                 <p *ngIf="input.screeningEvent.superEvent.headline?.ja" class="mb-1 text-overflow-ellipsis">
                     {{ input.screeningEvent.superEvent.headline.ja }}
                 </p>
                 <div class="d-flex align-items-center text-overflow-ellipsis">
-                    <p class="text-large mb-0">{{ moment(input.screeningEvent.startDate).format('HH:mm') }} - {{
-                        moment(input.screeningEvent.endDate).format('HH:mm') }}</p>
+                    <p class="text-large mb-0">
+                        {{ moment(input.screeningEvent.startDate).format(settings.dateFormat) }} - {{
+                        moment(input.screeningEvent.endDate).format(settings.dateFormat) }}
+                    </p>
                     <div class="mx-3">/</div>
                     <p class="mb-0 text-large">
                         {{ input.screeningEvent.location.name | changeLanguage }}

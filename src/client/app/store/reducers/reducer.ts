@@ -28,16 +28,47 @@ export const initialState: IState = {
 
 function getInitialState(): IState {
     const environment = getEnvironment();
-    const saveJson = (<Storage>(<any>window)[environment.STORAGE_TYPE]).getItem(environment.STORAGE_NAME);
+    const saveJson = (<Storage>(<any>window)[environment.STORAGE_TYPE]).getItem(
+        environment.STORAGE_NAME
+    );
     if (saveJson === undefined || saveJson === null) {
         return initialState;
     }
     const saveData: { App: IState } = JSON.parse(saveJson);
     const sessonJson = sessionStorage.getItem('SESSION_STATE');
-    const sessionData = (sessonJson === undefined || sessonJson === null) ? { App: {} } : JSON.parse(sessonJson);
-    const data: IState = { ...initialState, ...saveData.App, ...sessionData.App };
-    data.loading = false;
+    const sessionData =
+        sessonJson === undefined || sessonJson === null
+            ? { App: {} }
+            : JSON.parse(sessonJson);
+    const data: IState = {
+        ...initialState,
+        ...saveData.App,
+        ...sessionData.App,
+    };
 
+    if (data.userData.settings === undefined) {
+        const { movieTheater, screeningRoom, page, direction, image, color } = <
+            any
+        >data.userData;
+        data.userData.settings = {
+            movieTheater,
+            screeningRoom,
+            page,
+            direction,
+            period: 86400,
+            dateFormat: 'HH:mm',
+            image,
+            color,
+        };
+    }
+    (<any>data).userData.movieTheater = undefined;
+    (<any>data).userData.screeningRoom = undefined;
+    (<any>data).userData.page = undefined;
+    (<any>data).userData.direction = undefined;
+    (<any>data).userData.image = undefined;
+    (<any>data).userData.color = undefined;
+
+    data.loading = false;
     return data;
 }
 
@@ -46,10 +77,7 @@ function getInitialState(): IState {
  * @param state
  * @param action
  */
-export function reducer(
-    state = getInitialState(),
-    action: Action
-): IState {
+export function reducer(state = getInitialState(), action: Action): IState {
     if (/\[User\]/.test(action.type)) {
         return userReducer.reducer(state, action);
     } else if (/\[Master\]/.test(action.type)) {

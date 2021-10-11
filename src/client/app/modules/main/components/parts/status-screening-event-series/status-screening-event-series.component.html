@@ -1,12 +1,13 @@
 <swiper *ngIf="swiperConfig" class="h-100 type-01" (resize)="resizeSwiper($event)" (init)="initSwiper($event)"
     [loop]="swiperConfig.loop" [allowSlidePrev]="swiperConfig.allowSlidePrev" [spaceBetween]="swiperConfig.spaceBetween"
     [autoplay]="swiperConfig.autoplay" [effect]="swiperConfig.effect">
-    <ng-template swiperSlide class="h-100 w-100" *ngIf="image">
-        <div class="h-100 w-100 bg-image" [class]="'color-' + color" [style]="'background-image: url(' + image + ');'">
+    <ng-template swiperSlide class="h-100 w-100" *ngIf="settings.image">
+        <div class="h-100 w-100 bg-image" [class]="'color-' + settings.color"
+            [style]="'background-image: url(' + settings.image + ');'">
         </div>
     </ng-template>
     <ng-template swiperSlide class="h-100 w-100" *ngFor="let page of pages;">
-        <div class="h-100" [class]="'color-' + color">
+        <div class="h-100" [class]="'color-' + settings.color">
             <div *ngFor="let screeningEventsGroup of page.group; let index = index;"
                 [class.color-alpha]="index % 2 === 0">
                 <div class="d-flex align-items-center">
@@ -28,8 +29,11 @@
                                 class="item text-center d-flex align-items-center border-right"
                                 [style.height.px]="itemHeight">
                                 <div class="w-100 h-100 position-relative py-2">
-                                    <p class="mb-0 text-large font-weight-bold mb-1">{{
-                                        moment(performance.screeningEvent.startDate).format('HH:mm') }}
+                                    <p class="mb-0 font-weight-bold mb-1" [ngClass]="{ 
+                                        'text-large': settings.dateFormat === 'HH:mm',
+                                        'text-small': settings.dateFormat === 'YYYY/MM/DD HH:mm'
+                                     }">
+                                        {{ moment(performance.screeningEvent.startDate).format(settings.dateFormat) }}
                                     </p>
                                     <div class="status">
                                         <ng-container *ngIf="performance.isSales() && !performance.isInfinitetock()">

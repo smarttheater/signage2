@@ -57,7 +57,9 @@
             "direction": "向き",
             "layout": "レイアウト",
             "image": "画像URL",
-            "color": "色"
+            "color": "色",
+            "period":"期間",
+            "dateFormat": "日時フォーマット"
         },
         "option": {
             "man": "男",

@@ -24,7 +24,8 @@ export class ContentsComponent implements OnInit {
     ) {}
 
     public async ngOnInit() {
-        const { direction } = await this.actionService.user.getData();
+        const { settings } = await this.actionService.user.getData();
+        const { direction } = settings;
         Functions.Util.changeViewport({ direction });
         await this.actionService.user.checkVersion();
         this.router.events.subscribe((event) => {
@@ -52,7 +53,8 @@ export class ContentsComponent implements OnInit {
 
     @HostListener('window:resize', ['$event'])
     public async onResize() {
-        const { direction } = await this.actionService.user.getData();
+        const { settings } = await this.actionService.user.getData();
+        const { direction } = settings;
         Functions.Util.changeViewport({ direction });
     }
 }

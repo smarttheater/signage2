@@ -56,6 +56,7 @@ export class SettingComponent implements OnInit {
         try {
             this.movieTheaters = await this.masterService.searchMovieTheaters();
             await this.createSettlingForm();
+            console.log(this.settingForm);
         } catch (error) {
             console.error(error);
             this.router.navigate(['/error']);
@@ -71,28 +72,40 @@ export class SettingComponent implements OnInit {
             screenId: ['', []],
             page: ['', []],
             direction: ['', [Validators.required]],
+            period: ['', [Validators.required]],
+            dateFormat: ['', [Validators.required]],
             image: ['', []],
             color: ['', []],
         });
-        const user = await this.actionService.user.getData();
-        if (user.movieTheater !== undefined) {
-            this.settingForm.controls.theaterId.setValue(user.movieTheater.id);
+        const { settings } = await this.actionService.user.getData();
+        if (settings.movieTheater !== undefined) {
+            this.settingForm.controls.theaterId.setValue(
+                settings.movieTheater.id
+            );
             await this.changeTheater();
         }
-        if (user.screeningRoom !== undefined) {
+        if (settings.screeningRoom !== undefined) {
             this.settingForm.controls.screenId.setValue(
-                user.screeningRoom.branchCode
+                settings.screeningRoom.branchCode
             );
         }
-        if (user.page !== undefined) {
-            this.settingForm.controls.page.setValue(String(user.page));
+        if (settings.page !== undefined) {
+            this.settingForm.controls.page.setValue(String(settings.page));
         }
-        if (user.image !== undefined) {
-            this.settingForm.controls.image.setValue(user.image);
+        if (settings.period !== undefined) {
+            this.settingForm.controls.period.setValue(String(settings.period));
+        }
+        if (settings.dateFormat !== undefined) {
+            this.settingForm.controls.dateFormat.setValue(
+                String(settings.dateFormat)
+            );
+        }
+        if (settings.image !== undefined) {
+            this.settingForm.controls.image.setValue(settings.image);
         }
 
-        this.settingForm.controls.direction.setValue(user.direction);
-        this.settingForm.controls.color.setValue(user.color);
+        this.settingForm.controls.direction.setValue(settings.direction);
+        this.settingForm.controls.color.setValue(settings.color);
     }
 
     /**
@@ -103,10 +116,12 @@ export class SettingComponent implements OnInit {
             this.settingForm.controls[key].markAsTouched();
         });
         if (this.settingForm.invalid) {
+            const { settings } = await this.actionService.user.getData();
+            const { color } = settings;
             this.utilService.openAlert({
                 title: this.translate.instant('common.error'),
                 body: this.translate.instant('setting.alert.validation'),
-                color: (await this.actionService.user.getData()).color,
+                color,
             });
             return;
         }
@@ -115,6 +130,8 @@ export class SettingComponent implements OnInit {
             const screenId = this.settingForm.controls.screenId.value;
             const page = this.settingForm.controls.page.value;
             const direction = this.settingForm.controls.direction.value;
+            const period = Number(this.settingForm.controls.period.value);
+            const dateFormat = this.settingForm.controls.dateFormat.value;
             const image =
                 this.settingForm.controls.image.value === ''
                     ? undefined
@@ -134,13 +151,15 @@ export class SettingComponent implements OnInit {
                 screeningRoom,
                 page: page === '' ? undefined : Number(page),
                 direction,
+                period,
+                dateFormat,
                 image,
                 color,
             });
             this.utilService.openAlert({
                 title: this.translate.instant('common.complete'),
                 body: this.translate.instant('setting.alert.success'),
-                color: (await this.actionService.user.getData()).color,
+                color,
             });
             Functions.Util.changeViewport({ direction });
         } catch (error) {
@@ -152,7 +171,7 @@ export class SettingComponent implements OnInit {
      * 必須判定
      */
     public isRequired(key: String) {
-        if (key === 'theaterId') {
+        if (key === 'theaterId' || key === 'direction') {
             return true;
         }
         return false;

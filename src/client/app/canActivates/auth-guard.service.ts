@@ -1,19 +1,15 @@
 /**
- * SettingGuardService
+ * AuthGuardService
  */
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { ActionService } from '../services';
+import { CinerinoService } from '../services';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
-export class SettingGuardService implements CanActivate {
-
-    constructor(
-        private router: Router,
-        private actionService: ActionService
-    ) { }
+export class AuthGuardService implements CanActivate {
+    constructor(private router: Router, private cinerino: CinerinoService) {}
 
     /**
      * 認証
@@ -22,14 +18,11 @@ export class SettingGuardService implements CanActivate {
      */
     public async canActivate(): Promise<boolean> {
         try {
-            const { movieTheater } = await this.actionService.user.getData();
-            if (movieTheater === undefined) {
-                throw new Error('movieTheater undefined');
-            }
+            await this.cinerino.getServices();
 
             return true;
         } catch (error) {
-            this.router.navigate(['/setting']);
+            this.router.navigate(['/']);
 
             return false;
         }

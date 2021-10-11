@@ -66,8 +66,8 @@ export class PurchaseStatusComponent implements OnInit, OnDestroy {
             moment(now).format('YYYYMMDD'),
             'YYYYMMDD'
         ).toDate();
-        const { movieTheater, screeningRoom } =
-            await this.actionService.user.getData();
+        const { settings } = await this.actionService.user.getData();
+        const { movieTheater, screeningRoom, period } = settings;
         if (movieTheater === undefined) {
             throw new Error('movieTheater undefined');
         }
@@ -94,7 +94,7 @@ export class PurchaseStatusComponent implements OnInit, OnDestroy {
             superEvent: { locationBranchCodes: [movieTheater.branchCode] },
             startFrom: moment(today).toDate(),
             startThrough: moment(today)
-                .add(1, 'day')
+                .add(period, 'seconds')
                 .add(-1, 'millisecond')
                 .toDate(),
             location: {

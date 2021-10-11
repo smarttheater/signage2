@@ -13,6 +13,8 @@ export const updateAll = createAction(
         screeningRoom?: factory.chevre.place.screeningRoom.IPlace;
         page?: number;
         direction: Models.Common.Direction;
+        period: number;
+        dateFormat: 'YYYY/MM/DD HH:mm' | 'MM/DD HH:mm' | 'HH:mm';
         image?: string;
         color: Models.Common.Color;
     }>()

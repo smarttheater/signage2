@@ -5,22 +5,40 @@ import { Models } from '../..';
 import { userAction } from '../actions';
 
 export interface IUserState {
-    /**
-     * 劇場
-     */
-    movieTheater?: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
-    /**
-     * スクリーン
-     */
-    screeningRoom?: factory.chevre.place.screeningRoom.IPlace;
-    /**
-     * ページ
-     */
-    page?: number;
-    /**
-     * 向き
-     */
-    direction: Models.Common.Direction;
+    settings: {
+        /**
+         * 劇場
+         */
+        movieTheater?: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom;
+        /**
+         * スクリーン
+         */
+        screeningRoom?: factory.chevre.place.screeningRoom.IPlace;
+        /**
+         * ページ
+         */
+        page?: number;
+        /**
+         * 向き
+         */
+        direction: Models.Common.Direction;
+        /**
+         * 期間(秒)
+         */
+        period: number;
+        /**
+         * 日時フォーマット
+         */
+        dateFormat: 'YYYY/MM/DD HH:mm' | 'MM/DD HH:mm' | 'HH:mm';
+        /**
+         * 画像
+         */
+        image?: string;
+        /**
+         * 色
+         */
+        color: Models.Common.Color;
+    };
     /**
      * 言語
      */
@@ -29,20 +47,16 @@ export interface IUserState {
      * バージョン
      */
     version?: string;
-    /**
-     * 画像
-     */
-    image?: string;
-    /**
-     * 色
-     */
-    color: Models.Common.Color;
 }
 
 export const userInitialState: IUserState = {
     language: 'ja',
-    direction: Models.Common.Direction.HORIZONTAL,
-    color: Models.Common.Color.Darkgray,
+    settings: {
+        direction: Models.Common.Direction.HORIZONTAL,
+        color: Models.Common.Color.Darkgray,
+        period: 86400,
+        dateFormat: 'HH:mm',
+    },
 };
 
 export function reducer(initialState: IState, action: Action) {
@@ -53,8 +67,12 @@ export function reducer(initialState: IState, action: Action) {
                 ...state,
                 userData: {
                     language: 'ja',
-                    direction: Models.Common.Direction.HORIZONTAL,
-                    color: Models.Common.Color.Darkgray,
+                    settings: {
+                        direction: Models.Common.Direction.HORIZONTAL,
+                        color: Models.Common.Color.Darkgray,
+                        period: 86400,
+                        dateFormat: 'HH:mm',
+                    },
                 },
                 loading: false,
                 process: '',
@@ -66,6 +84,8 @@ export function reducer(initialState: IState, action: Action) {
                 screeningRoom,
                 page,
                 direction,
+                period,
+                dateFormat,
                 image,
                 color,
             } = payload;
@@ -74,12 +94,16 @@ export function reducer(initialState: IState, action: Action) {
                 ...state,
                 userData: {
                     ...state.userData,
-                    movieTheater,
-                    screeningRoom,
-                    page,
-                    direction,
-                    image,
-                    color,
+                    settings: {
+                        movieTheater,
+                        screeningRoom,
+                        page,
+                        direction,
+                        period,
+                        dateFormat,
+                        image,
+                        color,
+                    },
                 },
                 loading: false,
                 process: '',

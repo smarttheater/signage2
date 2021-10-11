@@ -37,10 +37,15 @@ export class StatusSeatComponent implements OnInit, OnChanges {
         screeningEvent: factory.chevre.event.screeningEvent.IEvent;
         screeningEventSeats: factory.chevre.place.seat.IPlaceWithOffer[];
     }[];
-    @Input() public direction: Models.Common.Direction;
-    @Input() public page?: number;
-    @Input() public image?: string;
-    @Input() public color: Models.Common.Color;
+    @Input()
+    public settings: {
+        direction: Models.Common.Direction;
+        page?: number;
+        image?: string;
+        color: Models.Common.Color;
+        period: number;
+        dateFormat: 'YYYY/MM/DD HH:mm' | 'MM/DD HH:mm' | 'HH:mm';
+    };
 
     constructor() {}
 
@@ -52,11 +57,11 @@ export class StatusSeatComponent implements OnInit, OnChanges {
             allowSlidePrev: false,
             spaceBetween: 0,
             autoplay:
-                this.page === undefined
+                this.settings.page === undefined
                     ? { delay: Number(this.environment.AUTOPLAY_DELAY_TIME) }
                     : undefined,
             loop: true,
-            effect: this.page === undefined ? 'slide' : 'fade',
+            effect: this.settings.page === undefined ? 'slide' : 'fade',
         };
     }
 
@@ -64,9 +69,11 @@ export class StatusSeatComponent implements OnInit, OnChanges {
         this.itemHeight = 0;
         this.screeningEventDisplayLength = 0;
         this.screeningEventDisplayLength =
-            this.direction === Models.Common.Direction.HORIZONTAL ? 5 : 12;
+            this.settings.direction === Models.Common.Direction.HORIZONTAL
+                ? 5
+                : 12;
         this.itemHeight =
-            this.direction === Models.Common.Direction.HORIZONTAL
+            this.settings.direction === Models.Common.Direction.HORIZONTAL
                 ? (1080 - 60) / this.screeningEventDisplayLength
                 : (1920 - 60) / this.screeningEventDisplayLength;
     }
@@ -83,10 +90,10 @@ export class StatusSeatComponent implements OnInit, OnChanges {
      */
     public initSwiper(swiper: Swiper) {
         this.swiper = swiper;
-        if (this.page === undefined) {
+        if (this.settings.page === undefined) {
             return;
         }
-        swiper.slideTo(this.page, 0);
+        swiper.slideTo(this.settings.page, 0);
     }
 
     public onSlideChange(swiper: Swiper) {
@@ -98,7 +105,7 @@ export class StatusSeatComponent implements OnInit, OnChanges {
         if (this.swiper === undefined) {
             return false;
         }
-        const slideIndex = this.image ? index + 2 : index + 1;
+        const slideIndex = this.settings.image ? index + 2 : index + 1;
         const activeIndex =
             this.swiper.activeIndex > this.swiper.slides.length - 2
                 ? this.swiper.activeIndex - (this.swiper.slides.length - 2)

@@ -1,16 +1,16 @@
-<div class="p-4 h-100 scroll-vertical" [class]="'color-' + (user | async)?.color">
+<div class="p-4 h-100 scroll-vertical" [class]="'color-' + (user | async)?.settings?.color">
     <form *ngIf="settingForm" [formGroup]="settingForm">
         <div class="mb-4">
             <h2 class="text-large mb-4 text-center font-weight-bold">{{ 'setting.title' | translate }}</h2>
             <div class="container mw-100">
                 <div class="row">
                     <ng-container *ngFor="let key of getProfileFormKeys()">
-                        <div *ngIf="!(key === 'image' || key === 'color')" class="form-group col-6">
+                        <div *ngIf="!(key === 'image' || key === 'color')" class="form-group col-4">
                             <div class="mb-2">
                                 <div class="d-inline-flex align-items-center">
                                     <p class="mb-0">{{ 'form.label.' + key | translate }}</p>
-                                    <p *ngIf="isRequired(key)" class="badge badge-danger ml-2 mb-0">{{ 'form.required' |
-                                        translate }}
+                                    <p *ngIf="isRequired(key)" class="badge badge-danger ml-2 mb-0">
+                                        {{ 'form.required' | translate }}
                                     </p>
                                 </div>
                             </div>
@@ -35,6 +35,16 @@
                                 <select *ngIf="key === 'direction'" class="form-control" [formControlName]="key">
                                     <option [value]="direction.HORIZONTAL">HORIZONTAL</option>
                                     <option [value]="direction.VERTICAL">VERTICAL</option>
+                                </select>
+                                <select *ngIf="key === 'period'" class="form-control" [formControlName]="key">
+                                    <option value="86400">1日</option>
+                                    <option value="259200">3日</option>
+                                    <option value="604800">7日</option>
+                                </select>
+                                <select *ngIf="key === 'dateFormat'" class="form-control" [formControlName]="key">
+                                    <option value="HH:mm">HH:mm</option>
+                                    <option value="MM/DD HH:mm">MM/DD HH:mm</option>
+                                    <option value="YYYY/MM/DD HH:mm">YYYY/MM/DD HH:mm</option>
                                 </select>
                             </div>
                         </div>

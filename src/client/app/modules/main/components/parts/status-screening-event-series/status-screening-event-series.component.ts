@@ -44,10 +44,15 @@ export class StatusScreeningEventSeriesComponent implements OnInit, OnChanges {
     public swiperConfig: SwiperOptions;
     @Input()
     public screeningEvents: factory.chevre.event.screeningEvent.IEvent[];
-    @Input() public direction: Models.Common.Direction;
-    @Input() public page?: number;
-    @Input() public image?: string;
-    @Input() public color: Models.Common.Color;
+    @Input()
+    public settings: {
+        direction: Models.Common.Direction;
+        page?: number;
+        image?: string;
+        color: Models.Common.Color;
+        period: number;
+        dateFormat: 'YYYY/MM/DD HH:mm' | 'MM/DD HH:mm' | 'HH:mm';
+    };
 
     constructor() {}
 
@@ -59,11 +64,11 @@ export class StatusScreeningEventSeriesComponent implements OnInit, OnChanges {
             allowSlidePrev: false,
             spaceBetween: 0,
             autoplay:
-                this.page === undefined
+                this.settings.page === undefined
                     ? { delay: Number(this.environment.AUTOPLAY_DELAY_TIME) }
                     : undefined,
             loop: true,
-            effect: this.page === undefined ? 'slide' : 'fade',
+            effect: this.settings.page === undefined ? 'slide' : 'fade',
         };
     }
 
@@ -72,11 +77,15 @@ export class StatusScreeningEventSeriesComponent implements OnInit, OnChanges {
         this.screeningEventSeriesDisplayLength = 0;
         this.performanceDisplayLength = 0;
         this.screeningEventSeriesDisplayLength =
-            this.direction === Models.Common.Direction.HORIZONTAL ? 5 : 12;
+            this.settings.direction === Models.Common.Direction.HORIZONTAL
+                ? 5
+                : 12;
         this.performanceDisplayLength =
-            this.direction === Models.Common.Direction.HORIZONTAL ? 5 : 5;
+            this.settings.direction === Models.Common.Direction.HORIZONTAL
+                ? 5
+                : 5;
         this.itemHeight =
-            this.direction === Models.Common.Direction.HORIZONTAL
+            this.settings.direction === Models.Common.Direction.HORIZONTAL
                 ? (1080 - 60) / this.screeningEventSeriesDisplayLength
                 : (1920 - 60) / this.screeningEventSeriesDisplayLength;
         this.pages = this.createPages();
@@ -180,9 +189,9 @@ export class StatusScreeningEventSeriesComponent implements OnInit, OnChanges {
      * swiper初期化
      */
     public initSwiper(swiper: Swiper) {
-        if (this.page === undefined) {
+        if (this.settings.page === undefined) {
             return;
         }
-        swiper.slideTo(this.page, 0);
+        swiper.slideTo(this.settings.page, 0);
     }
 }
