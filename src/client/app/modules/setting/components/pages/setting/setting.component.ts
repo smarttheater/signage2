@@ -7,11 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { Functions, Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
-import {
-    ActionService,
-    MasterService,
-    UtilService,
-} from '../../../../../services';
+import { ActionService, UtilService } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
@@ -22,7 +18,6 @@ import * as reducers from '../../../../../store/reducers';
 export class SettingComponent implements OnInit {
     public settingForm: FormGroup;
     public user: Observable<reducers.IUserState>;
-    public master: Observable<reducers.IMasterState>;
     public error: Observable<string | null>;
     public isLoading: Observable<boolean>;
     public movieTheaters: factory.chevre.place.movieTheater.IPlaceWithoutScreeningRoom[];
@@ -37,7 +32,6 @@ export class SettingComponent implements OnInit {
         private store: Store<reducers.IState>,
         private utilService: UtilService,
         private actionService: ActionService,
-        private masterService: MasterService,
         private translate: TranslateService,
         private router: Router
     ) {}
@@ -54,7 +48,8 @@ export class SettingComponent implements OnInit {
         this.pages = [...Array(10).keys()].map((i) => String(++i));
         this.colors = Object.values(Models.Common.Color);
         try {
-            this.movieTheaters = await this.masterService.searchMovieTheaters();
+            this.movieTheaters =
+                await this.actionService.place.searchMovieTheaters();
             await this.createSettlingForm();
             console.log(this.settingForm);
         } catch (error) {
@@ -195,10 +190,11 @@ export class SettingComponent implements OnInit {
             this.screeningRooms = [];
             return;
         }
-        this.screeningRooms = await this.masterService.searchScreeningRooms({
-            containedInPlace: {
-                branchCode: { $eq: findResult.branchCode },
-            },
-        });
+        this.screeningRooms =
+            await this.actionService.place.searchScreeningRooms({
+                containedInPlace: {
+                    branchCode: { $eq: findResult.branchCode },
+                },
+            });
     }
 }

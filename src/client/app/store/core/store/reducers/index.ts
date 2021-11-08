@@ -1,23 +1,18 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
-import {
-    ActionReducer,
-    ActionReducerMap,
-    MetaReducer
-} from '@ngrx/store';
+import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { getEnvironment } from '../../../../../environments/environment';
 import * as rootReducers from '../../../reducers';
 
 /**
  * Root state
  */
-export interface IState {
-}
+// tslint:disable-next-line:no-empty-interface
+export interface IState {}
 
 /**
  * Reducers
  */
-export const reducers: ActionReducerMap<IState> = {
-};
+export const reducers: ActionReducerMap<IState> = {};
 
 export function main(reducer: ActionReducer<IState>) {
     return (state: any, action: any) => {
@@ -44,15 +39,15 @@ export function logger(newState: { App: rootReducers.IState }, action: any) {
  * storageSync
  */
 export function storageSync(state: { App: rootReducers.IState }) {
-    if (state === undefined
-        || state === null
-        || Object.keys(state).length === 0) {
+    if (
+        state === undefined ||
+        state === null ||
+        Object.keys(state).length === 0
+    ) {
         return;
     }
     const sessionData = {
-        App: {
-            masterData: state.App.masterData,
-        }
+        App: {},
     };
     sessionStorage.setItem('SESSION_STATE', JSON.stringify(sessionData));
     const environment = getEnvironment();
@@ -62,10 +57,12 @@ export function storageSync(state: { App: rootReducers.IState }) {
             purchaseData: undefined,
             masterData: undefined,
             orderData: undefined,
-        }
+        },
     };
-    (<Storage>(<any>window)[environment.STORAGE_TYPE])
-        .setItem(environment.STORAGE_NAME, JSON.stringify(saveData));
+    (<Storage>(<any>window)[environment.STORAGE_TYPE]).setItem(
+        environment.STORAGE_NAME,
+        JSON.stringify(saveData)
+    );
 }
 
 /**
