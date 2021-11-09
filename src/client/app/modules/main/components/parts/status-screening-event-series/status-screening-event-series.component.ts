@@ -143,7 +143,10 @@ export class StatusScreeningEventSeriesComponent implements OnInit, OnChanges {
                     findResult.data.push(d);
                 }
                 eventCount++;
-                if (i + 1 === group.data.length) {
+                if (
+                    i + 1 === group.data.length &&
+                    group.data.length % this.performanceDisplayLength !== 0
+                ) {
                     eventCount +=
                         this.performanceDisplayLength -
                         (group.data.length % this.performanceDisplayLength);
