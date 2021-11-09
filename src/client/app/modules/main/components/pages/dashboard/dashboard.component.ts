@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { Functions } from '../../../../..';
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
-    styleUrls: ['./dashboard.component.scss']
+    styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
     public isLoading: Observable<boolean>;
@@ -16,8 +17,8 @@ export class DashboardComponent implements OnInit {
 
     constructor(
         private store: Store<reducers.IState>,
-        private router: Router,
-    ) { }
+        private router: Router
+    ) {}
 
     /**
      * 初期化
@@ -26,12 +27,11 @@ export class DashboardComponent implements OnInit {
         this.user = this.store.pipe(select(reducers.getUser));
         this.isLoading = this.store.pipe(select(reducers.getLoading));
         this.error = this.store.pipe(select(reducers.getError));
-        try {
-
-        } catch (error) {
-            console.error(error);
-            this.router.navigate(['/error']);
+        const { redirectUrl } = Functions.Util.getExternalData();
+        if (redirectUrl !== undefined) {
+            this.router.navigate([redirectUrl]);
+            Functions.Util.getExternalData();
         }
+        sessionStorage.removeItem('EXTERNAL');
     }
-
 }

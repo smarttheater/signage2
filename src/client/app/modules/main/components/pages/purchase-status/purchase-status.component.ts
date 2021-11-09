@@ -6,11 +6,7 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
-import {
-    ActionService,
-    MasterService,
-    UtilService,
-} from '../../../../../services';
+import { ActionService, UtilService } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
@@ -32,7 +28,6 @@ export class PurchaseStatusComponent implements OnInit, OnDestroy {
     constructor(
         private store: Store<reducers.IState>,
         private router: Router,
-        private masterService: MasterService,
         private actionService: ActionService,
         private utilService: UtilService,
         private activatedRoute: ActivatedRoute
@@ -71,12 +66,13 @@ export class PurchaseStatusComponent implements OnInit, OnDestroy {
         if (movieTheater === undefined) {
             throw new Error('movieTheater undefined');
         }
-        const creativeWorks = await this.masterService.searchMovies({
-            offers: { availableFrom: moment().toDate() },
-        });
+        const creativeWorks =
+            await this.actionService.creativeWork.searchMovies({
+                offers: { availableFrom: moment().toDate() },
+            });
         const screeningEventSeries =
             this.layout === Models.Common.Layout.SCREENING_EVENT_SERIES
-                ? await this.masterService.searchScreeningEventSeries({
+                ? await this.actionService.event.searchScreeningEventSeries({
                       location: {
                           branchCode: { $eq: movieTheater.branchCode },
                       },
@@ -90,20 +86,21 @@ export class PurchaseStatusComponent implements OnInit, OnDestroy {
         //         branchCode: { $eq: movieTheater.branchCode }
         //     })
         //     : [];
-        const searchResult = await this.masterService.searchScreeningEvent({
-            superEvent: { locationBranchCodes: [movieTheater.branchCode] },
-            startFrom: moment(today).toDate(),
-            startThrough: moment(today)
-                .add(period, 'seconds')
-                .add(-1, 'millisecond')
-                .toDate(),
-            location: {
-                branchCode: { $eq: screeningRoom?.branchCode },
-            },
-            creativeWorks,
-            screeningEventSeries,
-            // screeningRooms
-        });
+        const searchResult =
+            await this.actionService.event.searchScreeningEvent({
+                superEvent: { locationBranchCodes: [movieTheater.branchCode] },
+                startFrom: moment(today).toDate(),
+                startThrough: moment(today)
+                    .add(period, 'seconds')
+                    .add(-1, 'millisecond')
+                    .toDate(),
+                location: {
+                    branchCode: { $eq: screeningRoom?.branchCode },
+                },
+                creativeWorks,
+                screeningEventSeries,
+                // screeningRooms
+            });
         this.screeningEvents = searchResult.filter(
             (s) => moment(s.endDate).unix() > moment().unix()
         );

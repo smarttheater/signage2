@@ -148,7 +148,7 @@ export class StatusScreeningEventSeriesComponent implements OnInit, OnChanges {
                         this.performanceDisplayLength -
                         (group.data.length % this.performanceDisplayLength);
                 }
-                if (eventCount === limit) {
+                if (eventCount % limit === 0) {
                     pageCount++;
                 }
             });
@@ -167,7 +167,10 @@ export class StatusScreeningEventSeriesComponent implements OnInit, OnChanges {
             });
             p.emptyGroup = [
                 ...Array(
-                    this.screeningEventSeriesDisplayLength - p.group.length
+                    this.screeningEventSeriesDisplayLength - p.group.length > 0
+                        ? this.screeningEventSeriesDisplayLength -
+                              p.group.length
+                        : 0
                 ).keys(),
             ].map(() => {
                 return {

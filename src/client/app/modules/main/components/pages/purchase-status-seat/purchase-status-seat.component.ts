@@ -6,11 +6,7 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { Models } from '../../../../..';
 import { getEnvironment } from '../../../../../../environments/environment';
-import {
-    ActionService,
-    MasterService,
-    UtilService,
-} from '../../../../../services';
+import { ActionService, UtilService } from '../../../../../services';
 import * as reducers from '../../../../../store/reducers';
 
 @Component({
@@ -33,7 +29,6 @@ export class PurchaseStatusSeatComponent implements OnInit, OnDestroy {
     constructor(
         private store: Store<reducers.IState>,
         private router: Router,
-        private masterService: MasterService,
         private actionService: ActionService,
         private utilService: UtilService
     ) {}
@@ -71,16 +66,17 @@ export class PurchaseStatusSeatComponent implements OnInit, OnDestroy {
             throw new Error('movieTheater undefined');
         }
         const searchScreeningRoomsResult =
-            await this.masterService.searchScreeningRooms({
+            await this.actionService.place.searchScreeningRooms({
                 containedInPlace: {
                     branchCode: { $eq: movieTheater.branchCode },
                 },
             });
-        const creativeWorks = await this.masterService.searchMovies({
-            offers: { availableFrom: moment().toDate() },
-        });
+        const creativeWorks =
+            await this.actionService.creativeWork.searchMovies({
+                offers: { availableFrom: moment().toDate() },
+            });
         const searchScreeningEventResult =
-            await this.masterService.searchScreeningEvent({
+            await this.actionService.event.searchScreeningEvent({
                 superEvent: { locationBranchCodes: [movieTheater.branchCode] },
                 startFrom: moment(today).toDate(),
                 startThrough: moment(today)
@@ -118,7 +114,7 @@ export class PurchaseStatusSeatComponent implements OnInit, OnDestroy {
         }[] = [];
         for (const screeningEvent of screeningEvents) {
             const screeningEventSeats =
-                await this.actionService.event.getScreeningEventSeats({
+                await this.actionService.event.searchSeats({
                     screeningEvent,
                 });
             data.push({

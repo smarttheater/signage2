@@ -101,21 +101,21 @@
     },
     "process": {
         "load": "読み込み中です",
-        "authAction": {
-            "CheckLogin": "ログインを確認しています",
-            "Logout": "ログアウトしています"
-        },
-        "masterAction": {
-            "SearchSellers": "販売者情報を取得しています",
-            "SearchMovieTheaters": "施設情報を取得しています",
-            "SearchScreeningEvent": "イベント情報を取得しています",
-            "SearchMovies": "コンテンツ情報を取得しています",
-            "SearchScreeningEventSeries": "施設コンテンツ情報を取得しています",
-            "SearchScreeningRooms": "ルーム情報を取得しています",
-            "SearchCategoryCode": "区分情報を取得しています"
-        },
-        "eventAction": {
-            "GetScreeningEventSeats": "空席情報を取得しています"
+        "action": {
+            "CategoryCode": {
+                "search": "区分情報を取得しています"
+            },
+            "CreativeWork": {
+                "searchMovies": "コンテンツ情報を取得しています"
+            },
+            "Event": {
+                "searchSeats": "空席情報を取得しています",
+                "search": "イベント情報を取得しています"
+            },
+            "Place": {
+                "searchMovieTheaters": "施設情報を取得しています",
+                "searchScreeningRooms": "ルーム情報を取得しています"
+            }
         },
         "userAction": {}
     },
