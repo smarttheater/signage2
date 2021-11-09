@@ -151,16 +151,17 @@ export function string2blob(value: string, options?: BlobPropertyBag) {
  * パラメータ取得
  */
 export function getParameter(): {
-    theaterBranchCode?: string;
-    superEventId?: string;
-    eventId?: string;
-    passportToken?: string;
-    workPerformedId?: string;
-    scheduleDate?: string;
-    linyId?: string;
-    language?: string;
     projectId?: string;
     projectName?: string;
+    theaterBranchCode?: string;
+    roomBranchCode?: string;
+    page?: string;
+    direction?: string;
+    period?: string;
+    dateFormat?: string;
+    image?: string;
+    color?: string;
+    language?: string;
     redirectUrl?: string;
 } {
     const result: any = {};
@@ -172,10 +173,6 @@ export function getParameter(): {
         if (key && value) {
             result[key] = value;
         }
-    }
-    if (result.performanceId !== undefined && result.eventId === undefined) {
-        result.eventId = result.performanceId;
-        result.performanceId = undefined;
     }
     return result;
 }
@@ -219,12 +216,13 @@ export function getProject(): {
  */
 export function getExternalData(): {
     theaterBranchCode?: string;
-    superEventId?: string;
-    eventId?: string;
-    passportToken?: string;
-    workPerformedId?: string;
-    scheduleDate?: string;
-    linyId?: string;
+    roomBranchCode?: string;
+    page?: string;
+    direction?: string;
+    period?: string;
+    dateFormat?: string;
+    image?: string;
+    color?: string;
     language?: string;
     redirectUrl?: string;
 } {

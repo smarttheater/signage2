@@ -4,7 +4,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Functions } from '..';
+import { Functions, Models } from '..';
 import { getEnvironment } from '../../environments/environment';
 import { ActionService } from '../services';
 
@@ -49,9 +49,78 @@ export class AppComponent implements OnInit {
         if (location.hash !== '') {
             return;
         }
-        const language = Functions.Util.getExternalData().language;
+        const {
+            theaterBranchCode,
+            roomBranchCode,
+            page,
+            direction,
+            period,
+            dateFormat,
+            image,
+            color,
+            language,
+            // redirectUrl,
+        } = Functions.Util.getExternalData();
         if (language !== undefined) {
             this.actionService.user.updateLanguage(language);
+        }
+        if (theaterBranchCode !== undefined) {
+            const movieTheaters =
+                await this.actionService.place.searchMovieTheaters({
+                    branchCode: {
+                        $eq: theaterBranchCode,
+                    },
+                });
+            if (movieTheaters.length === 0) {
+                throw new Error('movieTheaters.length === 0');
+            }
+            const movieTheater = movieTheaters[0];
+            let screeningRoom;
+            if (roomBranchCode !== undefined) {
+                const screeningRooms =
+                    await this.actionService.place.searchScreeningRooms({
+                        containedInPlace: {
+                            branchCode: {
+                                $eq: theaterBranchCode,
+                            },
+                        },
+                        branchCode: {
+                            $eq: roomBranchCode,
+                        },
+                    });
+                screeningRoom = screeningRooms[0];
+            }
+            this.actionService.user.updateAll({
+                movieTheater,
+                screeningRoom,
+                page: Number(page) < 10 ? Number(page) : undefined,
+                direction:
+                    direction === Models.Common.Direction.HORIZONTAL ||
+                    direction === Models.Common.Direction.VERTICAL
+                        ? direction
+                        : Models.Common.Direction.HORIZONTAL,
+                period:
+                    Number(period) === 86400 ||
+                    Number(period) === 259200 ||
+                    Number(period) === 604800
+                        ? Number(period)
+                        : 86400,
+                dateFormat:
+                    dateFormat === 'HH:mm' ||
+                    dateFormat === 'MM/DD HH:mm' ||
+                    dateFormat === 'YYYY/MM/DD HH:mm'
+                        ? dateFormat
+                        : 'HH:mm',
+                image: image === undefined ? undefined : image,
+                color:
+                    color === Models.Common.Color.Darkgray ||
+                    color === Models.Common.Color.Darkred ||
+                    color === Models.Common.Color.Darkblue ||
+                    color === Models.Common.Color.Darkgreen
+                        ? color
+                        : Models.Common.Color.Darkgray,
+            });
+            console.log('SAVE!!!!!!!!!!!!');
         }
     }
 

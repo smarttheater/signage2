@@ -21,10 +21,18 @@ async function main() {
 
     // パラメータ設定
     const params = Functions.Util.getParameter();
-    if (location.hash === '' || location.hash === '#/purchase/transaction') {
+    if (Object.keys(params).length > 0) {
+        // 外部パラメータ設定
         sessionStorage.setItem(
             'EXTERNAL',
-            JSON.stringify({ ...params, project: undefined })
+            JSON.stringify({
+                ...params,
+                project: undefined,
+                dateFormat:
+                    params.dateFormat === undefined
+                        ? undefined
+                        : decodeURIComponent(params.dateFormat),
+            })
         );
     }
 

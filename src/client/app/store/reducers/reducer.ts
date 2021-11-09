@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
 import { getEnvironment } from '../../../environments/environment';
-import * as masterReducer from './master.reducer';
 import * as userReducer from './user.reducer';
 import * as utilReducer from './util.reducer';
 
@@ -12,7 +11,6 @@ export interface IState {
     process: string;
     error: string | null;
     userData: userReducer.IUserState;
-    masterData: masterReducer.IMasterState;
 }
 
 /**
@@ -23,7 +21,6 @@ export const initialState: IState = {
     process: '',
     error: null,
     userData: userReducer.userInitialState,
-    masterData: masterReducer.masterInitialState,
 };
 
 function getInitialState(): IState {
@@ -80,8 +77,6 @@ function getInitialState(): IState {
 export function reducer(state = getInitialState(), action: Action): IState {
     if (/\[User\]/.test(action.type)) {
         return userReducer.reducer(state, action);
-    } else if (/\[Master\]/.test(action.type)) {
-        return masterReducer.reducer(state, action);
     } else if (/\[Util\]/.test(action.type)) {
         return utilReducer.reducer(state, action);
     } else {
@@ -96,4 +91,3 @@ export const getLoading = (state: IState) => state.loading;
 export const getProcess = (state: IState) => `process.${state.process}`;
 export const getError = (state: IState) => state.error;
 export const getUser = (state: IState) => state.userData;
-export const getMaster = (state: IState) => state.masterData;
