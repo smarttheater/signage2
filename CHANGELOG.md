@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 1.2.0 - 2021-11-18
+
+### Changed
+
+-   ステータス更新時間を変更
+
 ## 1.1.1 - 2021-11-10
 
 ### Fixed
