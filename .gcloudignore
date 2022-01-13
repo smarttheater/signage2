@@ -24,3 +24,4 @@ e2e/
 public/projects/
 .env.bat
 *.gcp.yaml
+dist/client/stats.json
