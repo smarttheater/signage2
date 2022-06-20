@@ -287,3 +287,17 @@ export function resetViewport() {
     target.style.transform = 'scale(' + 1 + ')';
     // target.style.opacity = '0';
 }
+
+/**
+ * 日付をまたいだら画面更新する
+ */
+export function nextDateWatchman(oldDate: Date) {
+    const newDate = new Date();
+    console.log('日付変更チェック ', newDate.getDate(), oldDate.getDate());
+    if (newDate.getDate() === oldDate.getDate()) {
+        setTimeout(nextDateWatchman, 300000, newDate);
+    } else {
+        console.log('日付変更検知、画面を更新します。');
+        setTimeout(function() { location.reload(); }, 15000);
+    }
+}

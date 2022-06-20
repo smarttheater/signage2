@@ -61,6 +61,9 @@ async function main() {
         gtmId: config.gtmId,
         analyticsId: config.analyticsId,
     });
+
+    // 日付変更検知プログラム起動(画面更新不具合暫定対応)
+    Functions.Util.nextDateWatchman(new Date());
 }
 
 /**
