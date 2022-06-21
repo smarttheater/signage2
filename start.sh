@@ -1,0 +1,11 @@
+export ANALYTICS_ID=''
+export API_ENDPOINT=https://api-dot-cinerino-test.appspot.com
+export APP_ENV=test
+export CLIENT_CREDENTIALS_CLIENT_ID=3ke5emv2am602oeer90lom17r8
+export CLIENT_CREDENTIALS_CLIENT_SECRET=r3mbnfkq92fb7njefilsjcegieif39756our8vtlcqne9s5isdh
+export CLIENT_CREDENTIALS_DOMAIN=auth.test.smart-theater.com
+export COMMON_STORAGE_URL=https://smarttheaterstorage.blob.core.windows.net/development/pos/projects
+export GTM_ID=''
+export STORAGE_URL=https://smarttheaterstorage.blob.core.windows.net/test/signage/projects
+yarn build
+yarn dev:server
