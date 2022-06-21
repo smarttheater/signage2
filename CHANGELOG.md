@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 1.3.2 - 2022-06-20
+
+### Fixed
+
+-   日付をまたいだ際に自動ページ表示がおかしくなるのを暫定修正
+
 ## 1.3.1 - 2022-01-20
 
 ### Changed

@@ -294,7 +294,7 @@ export function resetViewport() {
 export function nextDateWatchman(oldDate: Date) {
     const newDate = new Date();
     console.log('日付変更チェック ', newDate.getDate(), oldDate.getDate());
-    if (newDate.getDate() === oldDate.getDate()) {
+    if (newDate.getDate() === oldDate.getDate() || newDate.getHours() === 0) {
         setTimeout(nextDateWatchman, 300000, newDate);
     } else {
         console.log('日付変更検知、画面を更新します。');
