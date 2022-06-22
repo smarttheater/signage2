@@ -49,3 +49,6 @@ dist/client/**/stats.json
 dist/client/**/stats-es2015.json
 /ssl
 *gcp.yaml
+app.yaml
+env.yaml
+start.sh
