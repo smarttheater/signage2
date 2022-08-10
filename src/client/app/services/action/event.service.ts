@@ -82,14 +82,15 @@ export class ActionEventService {
             identifiers?: string[];
         };
     }) {
-        if (params.workPerformed?.identifiers && params.workPerformed?.identifiers.length > 50) {
+        if (params.workPerformed?.identifiers && params.workPerformed.identifiers.length > 50) {
             // コンテンツが多すぎてURIがオーバーフローする際の暫定対応
+            console.log('contents over 10');
             const identifiersList: string[][] = [];
             params.workPerformed.identifiers.forEach((identifier, index) => {
                 if (identifiersList[Math.floor(index / 50)] === undefined) {
-                    identifiersList.push([]);
-                }
-                identifiersList[Math.floor(index / 5)].push(identifier);
+                        identifiersList.push([]);
+                    }
+                identifiersList[Math.floor(index / 50)].push(identifier);
             });
             const newParams = {...params};
             try {
