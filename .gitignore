@@ -51,4 +51,7 @@ dist/client/**/stats-es2015.json
 *gcp.yaml
 app.yaml
 env.yaml
+env_test.yaml
+env_prod.yaml
 start.sh
+yarn.lock
