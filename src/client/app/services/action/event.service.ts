@@ -82,35 +82,80 @@ export class ActionEventService {
             identifiers?: string[];
         };
     }) {
-        try {
-            this.utilService.loadStart({
-                process: 'action.Event.search',
-            });
-            const limit = 100;
-            let page = 1;
-            let roop = true;
-            let result: factory.chevre.event.screeningEventSeries.IEvent[] = [];
-            await this.cinerinoService.getServices();
-            while (roop) {
-                const searchResult = await this.cinerinoService.event.search({
-                    ...params,
-                    page,
-                    limit,
-                    typeOf: factory.chevre.eventType.ScreeningEventSeries,
-                });
-                result = [...result, ...searchResult.data];
-                page++;
-                roop = searchResult.data.length === limit;
-                if (roop) {
-                    await Functions.Util.sleep();
+        if (params.workPerformed?.identifiers && params.workPerformed?.identifiers.length > 50) {
+            // コンテンツが多すぎてURIがオーバーフローする際の暫定対応
+            const identifiersList: string[][] = [];
+            params.workPerformed.identifiers.forEach((identifier, index) => {
+                if (identifiersList[Math.floor(index / 50)] === undefined) {
+                    identifiersList.push([]);
                 }
+                identifiersList[Math.floor(index / 5)].push(identifier);
+            });
+            const newParams = {...params};
+            try {
+                this.utilService.loadStart({
+                    process: 'action.Event.search',
+                });
+                const limit = 100;
+                let result: factory.chevre.event.screeningEventSeries.IEvent[] = [];
+                await this.cinerinoService.getServices();
+                for (let i = 0; i < identifiersList.length; i += 1) {
+                    let page = 1;
+                    let roop = true;
+                    newParams.workPerformed = {identifiers: identifiersList[i]};
+                    while (roop) {
+                        const searchResult = await this.cinerinoService.event.search({
+                            ...newParams,
+                            page,
+                            limit,
+                            typeOf: factory.chevre.eventType.ScreeningEventSeries,
+                        });
+                        result = [...result, ...searchResult.data];
+                        page++;
+                        roop = searchResult.data.length === limit;
+                        if (roop) {
+                            await Functions.Util.sleep();
+                        }
+                    }
+                }
+                this.utilService.loadEnd();
+                return result;
+            } catch (error) {
+                this.utilService.setError(error);
+                this.utilService.loadEnd();
+                throw error;
             }
-            this.utilService.loadEnd();
-            return result;
-        } catch (error) {
-            this.utilService.setError(error);
-            this.utilService.loadEnd();
-            throw error;
+        } else {
+            try {
+                this.utilService.loadStart({
+                    process: 'action.Event.search',
+                });
+                const limit = 100;
+                let page = 1;
+                let roop = true;
+                let result: factory.chevre.event.screeningEventSeries.IEvent[] = [];
+                await this.cinerinoService.getServices();
+                while (roop) {
+                    const searchResult = await this.cinerinoService.event.search({
+                        ...params,
+                        page,
+                        limit,
+                        typeOf: factory.chevre.eventType.ScreeningEventSeries,
+                    });
+                    result = [...result, ...searchResult.data];
+                    page++;
+                    roop = searchResult.data.length === limit;
+                    if (roop) {
+                        await Functions.Util.sleep();
+                    }
+                }
+                this.utilService.loadEnd();
+                return result;
+            } catch (error) {
+                this.utilService.setError(error);
+                this.utilService.loadEnd();
+                throw error;
+            }
         }
     }
 
