@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProject = exports.formatPrice = exports.escapeHtml = exports.ENV = exports.DIGITS = exports.requestAsync = void 0;
+exports.generateUuid = exports.getProject = exports.formatPrice = exports.escapeHtml = exports.ENV = exports.DIGITS = exports.requestAsync = void 0;
 /**
  * 共通
  * @namespace services.util
@@ -110,3 +110,21 @@ function getProject(params) {
     });
 }
 exports.getProject = getProject;
+/**
+ * UUIDv4の生成
+ */
+function generateUuid() {
+    const chars = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.split('');
+    for (let i = 0, len = chars.length; i < len; i++) {
+        switch (chars[i]) {
+            case 'x':
+                chars[i] = Math.floor(Math.random() * 16).toString(16);
+                break;
+            case 'y':
+                chars[i] = (Math.floor(Math.random() * 4) + 8).toString(16);
+                break;
+        }
+    }
+    return chars.join('');
+}
+exports.generateUuid = generateUuid;

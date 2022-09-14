@@ -19,7 +19,7 @@ import {
     IScreen,
     SeatStatus,
 } from '../../../../../models/purchase/screen';
-import { UtilService } from '../../../../../services';
+import { ActionService, UtilService } from '../../../../../services';
 
 @Component({
     selector: 'app-screen',
@@ -61,7 +61,8 @@ export class ScreenComponent
 
     constructor(
         private utilService: UtilService,
-        private elementRef: ElementRef
+        private elementRef: ElementRef,
+        private actionService: ActionService
     ) {}
 
     /**
@@ -178,7 +179,9 @@ export class ScreenComponent
             : await this.utilService.getJson<IScreen>(
                   `/default/${settingPath}`
               );
-        const screenPath = `json/theater/${this.theaterCode}/${this.screenCode}.json?date=${now}`;
+              const { settings } = await this.actionService.user.getData();
+              const { movieTheater } = settings;
+        const screenPath = `json/theater/${movieTheater?.branchCode}/${this.screenCode}.json?date=${now}`;
         const screen = (await Functions.Util.isFile(
             `${Functions.Util.getProject().storageUrl.common}/${screenPath}`
         ))

@@ -5,7 +5,6 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { Functions, Models } from '../..';
 import * as reducers from '../../store/reducers';
-import { CinerinoService } from '../cinerino.service';
 import { UtilService } from '../util.service';
 
 @Injectable({
@@ -15,7 +14,6 @@ export class ActionEventService {
     public error: Observable<string | null>;
     constructor(
         private store: Store<reducers.IState>,
-        private cinerinoService: CinerinoService,
         private utilService: UtilService
     ) {
         this.error = this.store.pipe(select(reducers.getError));
@@ -26,15 +24,13 @@ export class ActionEventService {
      */
     public async searchSeats(params: {
         screeningEvent: factory.chevre.event.screeningEvent.IEvent;
+        eventId: string;
     }) {
         try {
             this.utilService.loadStart({
                 process: 'action.Event.searchSeats',
             });
             const { screeningEvent } = params;
-            const limit = 100;
-            let page = 1;
-            let roop = true;
             let result: factory.chevre.place.seat.IPlaceWithOffer[] = [];
             if (
                 !new Models.Purchase.Performance({
@@ -44,21 +40,9 @@ export class ActionEventService {
                 this.utilService.loadEnd();
                 return result;
             }
-            await this.cinerinoService.getServices();
-            while (roop) {
-                const searchResult =
-                    await this.cinerinoService.event.searchSeats({
-                        event: { id: screeningEvent.id },
-                        page,
-                        limit,
-                    });
-                result = [...result, ...searchResult.data];
-                page++;
-                roop = searchResult.data.length === limit;
-                if (roop) {
-                    await Functions.Util.sleep();
-                }
-            }
+            await Functions.SmartTheaterApi.authorize();
+            const response = await Functions.SmartTheaterApi.searchScreeningEventSeats({eventId: params.eventId});
+            result = Functions.SmartTheaterApi.convertScreeningEventSeats(response);
             this.utilService.loadEnd();
             return result;
         } catch (error) {
@@ -82,81 +66,35 @@ export class ActionEventService {
             identifiers?: string[];
         };
     }) {
-        if (params.workPerformed?.identifiers && params.workPerformed.identifiers.length > 50) {
-            // コンテンツが多すぎてURIがオーバーフローする際の暫定対応
-            console.log('contents over 10');
-            const identifiersList: string[][] = [];
-            params.workPerformed.identifiers.forEach((identifier, index) => {
-                if (identifiersList[Math.floor(index / 50)] === undefined) {
-                        identifiersList.push([]);
-                    }
-                identifiersList[Math.floor(index / 50)].push(identifier);
+        const locationBranchCode = params.location?.branchCode?.$eq;
+        const workPerformedIdentifiers = params.workPerformed?.identifiers;
+        try {
+            this.utilService.loadStart({
+                process: 'action.Event.search',
             });
-            const newParams = {...params};
-            try {
-                this.utilService.loadStart({
-                    process: 'action.Event.search',
-                });
-                const limit = 100;
-                let result: factory.chevre.event.screeningEventSeries.IEvent[] = [];
-                await this.cinerinoService.getServices();
-                for (let i = 0; i < identifiersList.length; i += 1) {
-                    let page = 1;
-                    let roop = true;
-                    newParams.workPerformed = {identifiers: identifiersList[i]};
-                    while (roop) {
-                        const searchResult = await this.cinerinoService.event.search({
-                            ...newParams,
-                            page,
-                            limit,
-                            typeOf: factory.chevre.eventType.ScreeningEventSeries,
-                        });
-                        result = [...result, ...searchResult.data];
-                        page++;
-                        roop = searchResult.data.length === limit;
-                        if (roop) {
-                            await Functions.Util.sleep();
-                        }
-                    }
-                }
-                this.utilService.loadEnd();
-                return result;
-            } catch (error) {
-                this.utilService.setError(error);
-                this.utilService.loadEnd();
-                throw error;
-            }
-        } else {
-            try {
-                this.utilService.loadStart({
-                    process: 'action.Event.search',
-                });
-                const limit = 100;
-                let page = 1;
-                let roop = true;
-                let result: factory.chevre.event.screeningEventSeries.IEvent[] = [];
-                await this.cinerinoService.getServices();
-                while (roop) {
-                    const searchResult = await this.cinerinoService.event.search({
-                        ...params,
-                        page,
-                        limit,
-                        typeOf: factory.chevre.eventType.ScreeningEventSeries,
+            let result: factory.chevre.event.screeningEventSeries.IEvent[] = [];
+            let screeningEventSeries: Functions.SmartTheaterApi.ScreeningEventSeriesTypes[] = [];
+            await Functions.SmartTheaterApi.authorize();
+            if (workPerformedIdentifiers) {
+                for (let i = 0; i < workPerformedIdentifiers.length; i += 1) {
+                    const response = await Functions.SmartTheaterApi.searchScreeningEventSeries({
+                        locationBranchCode,
+                        workPerformedIdentifier: workPerformedIdentifiers[i],
                     });
-                    result = [...result, ...searchResult.data];
-                    page++;
-                    roop = searchResult.data.length === limit;
-                    if (roop) {
-                        await Functions.Util.sleep();
-                    }
+                    screeningEventSeries = [...screeningEventSeries, ...response];
                 }
-                this.utilService.loadEnd();
-                return result;
-            } catch (error) {
-                this.utilService.setError(error);
-                this.utilService.loadEnd();
-                throw error;
+            } else {
+                screeningEventSeries = await Functions.SmartTheaterApi.searchScreeningEventSeries({
+                    locationBranchCode,
+                });
             }
+            this.utilService.loadEnd();
+            result = Functions.SmartTheaterApi.convertScreeningEventSeries(screeningEventSeries);
+            return result;
+        } catch (error) {
+            this.utilService.setError(error);
+            this.utilService.loadEnd();
+            throw error;
         }
     }
 
@@ -181,65 +119,43 @@ export class ActionEventService {
         screeningEventSeries?: factory.chevre.event.screeningEventSeries.IEvent[];
         screeningRooms?: factory.chevre.place.screeningRoom.IPlace[];
         creativeWorks?: factory.chevre.creativeWork.movie.ICreativeWork[];
+        superEventLocationBranchCode: string;
     }) {
         try {
             const {
-                superEvent,
                 startFrom,
                 startThrough,
                 location,
                 screeningEventSeries,
-                screeningRooms,
                 creativeWorks,
+                superEventLocationBranchCode,
             } = params;
-            const pageing =
-                params.pageing === undefined ? true : params.pageing;
             this.utilService.loadStart({
                 process: 'action.Event.search',
             });
-            const limit = 100;
-            let page = 1;
-            let roop = true;
-            let result: factory.chevre.event.screeningEvent.IEvent[] = [];
-            await this.cinerinoService.getServices();
+            let result: Functions.SmartTheaterApi.ScreeningEventTypes[] = [];
+            await Functions.SmartTheaterApi.authorize();
             const now = moment(
                 (await this.utilService.getServerTime()).date
             ).toDate();
-            const today = moment(
-                moment(now).format('YYYYMMDD'),
-                'YYYYMMDD'
-            ).toDate();
-            while (roop) {
-                const searchResult = await this.cinerinoService.event.search({
-                    page,
-                    limit,
-                    typeOf: factory.chevre.eventType.ScreeningEvent,
-                    eventStatuses: [
-                        factory.chevre.eventStatusType.EventScheduled,
-                    ],
-                    superEvent,
-                    startFrom,
-                    startThrough,
-                    location,
-                    offers: {
-                        availableFrom: today,
-                        availableThrough: moment(today)
-                            .add(1, 'day')
-                            .add(-1, 'millisecond')
-                            .toDate(),
-                    },
+            const response = await Functions.SmartTheaterApi.searchScreeningEvent({
+                startFrom: startFrom.toISOString(),
+                startThrough: startThrough.toISOString(),
+                superEventLocationBranchCode,
+            });
+            if (location?.branchCode?.$eq) {
+                response.forEach((screeningEvent) => {
+                    if (screeningEvent.location.branchCode === location?.branchCode?.$eq) {
+                        result.push(screeningEvent);
+                    }
                 });
-                result = [...result, ...searchResult.data];
-                page++;
-                roop = searchResult.data.length === limit && pageing;
-                if (roop) {
-                    await Functions.Util.sleep();
-                }
+            } else {
+                result = response;
             }
             result = result.filter((r) => {
                 return (
                     r.offers !== undefined &&
-                    moment(r.offers.availabilityStarts).toDate() < now
+                    moment(r.offers.validFrom).toDate() < now
                 );
             });
             if (screeningEventSeries !== undefined) {
@@ -259,23 +175,6 @@ export class ActionEventService {
                             )?.value || '0';
                     return Number(sortNumberB) - Number(sortNumberA);
                 });
-            } else if (screeningRooms !== undefined) {
-                result = result.sort((a, b) => {
-                    const KEY_NAME = 'sortNumber';
-                    const sortNumberA =
-                        screeningRooms
-                            .find((s) => s.id === a.superEvent.id)
-                            ?.additionalProperty?.find(
-                                (p) => p.name === KEY_NAME
-                            )?.value || '0';
-                    const sortNumberB =
-                        screeningRooms
-                            .find((s) => s.id === b.superEvent.id)
-                            ?.additionalProperty?.find(
-                                (p) => p.name === KEY_NAME
-                            )?.value || '0';
-                    return Number(sortNumberB) - Number(sortNumberA);
-                });
             }
             if (creativeWorks !== undefined) {
                 result.forEach((r) => {
@@ -288,11 +187,11 @@ export class ActionEventService {
                     ) {
                         return;
                     }
-                    r.workPerformed.contentRating = findResult.contentRating;
+                    r.workPerformed.contentRating = String(findResult.contentRating);
                 });
             }
             this.utilService.loadEnd();
-            return result;
+            return Functions.SmartTheaterApi.convertSearchScreeningEvent(result);
         } catch (error) {
             this.utilService.setError(error);
             this.utilService.loadEnd();

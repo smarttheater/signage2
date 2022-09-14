@@ -4,7 +4,6 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Functions } from '../..';
 import * as reducers from '../../store/reducers';
-import { CinerinoService } from '../cinerino.service';
 import { UtilService } from '../util.service';
 
 @Injectable({
@@ -14,7 +13,6 @@ export class ActionPlaceService {
     public error: Observable<string | null>;
     constructor(
         private store: Store<reducers.IState>,
-        private cinerinoService: CinerinoService,
         private utilService: UtilService
     ) {
         this.error = this.store.pipe(select(reducers.getError));
@@ -26,17 +24,24 @@ export class ActionPlaceService {
     public async searchMovieTheaters(
         params?: factory.chevre.place.movieTheater.ISearchConditions
     ) {
+        const branchCode = params?.branchCode?.$eq;
         try {
             this.utilService.loadStart({
                 process: 'action.Place.searchMovieTheaters',
             });
-            await this.cinerinoService.getServices();
-            const searchResult =
-                await this.cinerinoService.place.searchMovieTheaters(
-                    params === undefined ? {} : params
-                );
+            await Functions.SmartTheaterApi.authorize();
+            const response = await Functions.SmartTheaterApi.searchMovieTheaters();
             this.utilService.loadEnd();
-            return searchResult.data;
+            if (branchCode) {
+                const newResponse: Functions.SmartTheaterApi.TheaterTypes[] = [];
+                response.forEach((movieTheater) => {
+                    if (movieTheater.branchCode === branchCode) {
+                        newResponse.push(movieTheater);
+                    }
+                });
+                return Functions.SmartTheaterApi.convertMovieTheaters(newResponse);
+            }
+            return Functions.SmartTheaterApi.convertMovieTheaters(response);
         } catch (error) {
             this.utilService.setError(error);
             this.utilService.loadEnd();
@@ -57,28 +62,17 @@ export class ActionPlaceService {
             };
         };
     }) {
+        const branchCode = params?.branchCode?.$eq;
+        const containedInPlaceBranchCode = params?.containedInPlace?.branchCode?.$eq;
         try {
             this.utilService.loadStart({
                 process: 'action.Place.searchScreeningRooms',
             });
-            const limit = 100;
-            let page = 1;
-            let roop = true;
             let result: factory.chevre.place.screeningRoom.IPlace[] = [];
-            await this.cinerinoService.getServices();
-            while (roop) {
-                const searchResult =
-                    await this.cinerinoService.place.searchScreeningRooms({
-                        ...params,
-                        page,
-                        limit,
-                    });
-                result = [...result, ...searchResult.data];
-                page++;
-                roop = searchResult.data.length === limit;
-                await Functions.Util.sleep();
-            }
+            await Functions.SmartTheaterApi.authorize();
+            const response = await Functions.SmartTheaterApi.searchScreeningRooms();
             this.utilService.loadEnd();
+            result = Functions.SmartTheaterApi.convertScreeningRooms(response, branchCode, containedInPlaceBranchCode);
             return result;
         } catch (error) {
             this.utilService.setError(error);

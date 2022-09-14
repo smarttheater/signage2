@@ -87,6 +87,7 @@ export class PurchaseStatusSeatComponent implements OnInit, OnDestroy {
                     branchCode: { $eq: screeningRoom?.branchCode },
                 },
                 creativeWorks,
+                superEventLocationBranchCode: movieTheater.branchCode,
                 // screeningRooms
             });
         const screeningEvents = searchScreeningEventResult
@@ -116,6 +117,7 @@ export class PurchaseStatusSeatComponent implements OnInit, OnDestroy {
             const screeningEventSeats =
                 await this.actionService.event.searchSeats({
                     screeningEvent,
+                    eventId: screeningEvent.id,
                 });
             data.push({
                 screeningEvent,

@@ -1,0 +1,24 @@
+{
+    "type": 0,
+    "size": { "w": 1346, "h": 800 },
+    "objects": [
+        {
+            "w": 88, "h": 78,
+            "x": 472, "y": 690,
+            "image": "/storage/images/room/p003/scr002/ent-left.svg"
+        }
+    ],
+    "seatStart": { "x": 450, "y": 260 },
+    "map": [
+        [10, 1, 1, 1, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [10, 1, 1, 1, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [10, 1, 1, 1, 1, 1, 1, 1, 0],
+        [10, 1, 10, 1, 1, 1, 1, 1, 0]
+    ],
+    "special": [],
+    "hc": ["F-1", "F-2"],
+    "pair": [],
+    "style": "<style>.screen-object{ display: block !important; }.screen-object:after{ content: '前方 (front)'; display: block; font-size: 25px; margin-top: 15px; }</style>"
+}

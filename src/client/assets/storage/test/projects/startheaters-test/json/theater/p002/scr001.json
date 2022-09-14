@@ -1,0 +1,31 @@
+{
+    "type": 0,
+    "size": { "w": 1346, "h": 1050 },
+    "objects": [
+        {
+            "w": 46, "h": 90,
+            "x": 360, "y": 780,
+            "image": "/storage/images/room/p002/scr001/ent-left.svg"
+        }
+    ],
+    "seatStart": { "x": 450, "y": 260 },
+    "map": [
+        [10, 1, 1, 1, 1, 1, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 0, 10],
+        [10, 1, 1, 1, 1, 1, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 0, 10],
+        [10, 1, 1, 1, 1, 1, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 0, 10],
+        [10, 1, 1, 1, 1, 1, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 0, 10],
+        [],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [10, 1, 1, 1, 1, 1, 1, 1, 1]
+        
+
+    ],
+    "special": [],
+    "hc": ["G-1"],
+    "pair": [],
+    "style": "<style>.screen-object{ display: block !important; }.screen-object:after{ content: '前方 (front)'; display: block; font-size: 25px; margin-top: 15px; }</style>"
+}

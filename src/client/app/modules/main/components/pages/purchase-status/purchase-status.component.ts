@@ -99,6 +99,7 @@ export class PurchaseStatusComponent implements OnInit, OnDestroy {
                 },
                 creativeWorks,
                 screeningEventSeries,
+                superEventLocationBranchCode: movieTheater.branchCode,
                 // screeningRooms
             });
         this.screeningEvents = searchResult.filter(

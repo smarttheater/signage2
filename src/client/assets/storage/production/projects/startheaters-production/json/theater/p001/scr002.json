@@ -1,0 +1,32 @@
+{
+    "type": 0,
+    "size": { "w": 1700, "h": 1200 },
+    "objects": [
+        {
+            "w": 527, "h": 122,
+            "x": 568, "y": 1015,
+            "image": "/storage/images/theater/p001/scr002/premium.svg"
+        }
+    ],
+    "seatStart": { "x": 150, "y": 260 },
+    "map": [
+        [ 0, 0, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 8, 1, 1, 1, 0, 0],
+        [ 0, 1, 1, 1, 1, 4, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 8, 1, 1, 1, 1, 0],
+        [ 0, 0, 0, 0, 0, 0, 11, 8, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 8, 1, 1, 1, 1, 1],
+        [],
+        [ 0, 0, 0, 0, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 8, 1, 1, 0, 0, 0],
+        [ 0, 0, 0, 0, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 8, 1, 1, 0, 0, 0],
+        [ 0, 0, 0, 0, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 8, 1, 1, 0, 0, 0],
+        [ 0, 0, 0, 0, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 8, 1, 1, 0, 0, 0],
+        [ 0, 0, 0, 0, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 8, 1, 1, 0, 0, 0],
+        [ 0, 0, 0, 0, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 8, 1, 1, 1, 1, 1],
+        [ 1, 1, 1, 1, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 1, 1, 1, 1, 1],
+        [ 1, 1, 1, 1, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 1, 1, 1, 1, 1],
+        [ 0, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1]
+        
+    ],
+    "special": [],
+    "hc": ["C-8", "C-9"],
+    "pair": [],
+    "style": "<style>.screen-object{ display: block !important; }.seat-D-7,.seat-D-8,.seat-D-9,.seat-D-10,.seat-D-11,.seat-D-12,.seat-D-13,.seat-D-14,.seat-D-15,.seat-D-16,.seat-D-17,.seat-D-18,.seat-E-7,.seat-E-8,.seat-E-9,.seat-E-10,.seat-E-11,.seat-E-12,.seat-E-13,.seat-E-14,.seat-E-15,.seat-E-16,.seat-E-17,.seat-E-18,.seat-F-7,.seat-F-8,.seat-F-9,.seat-F-10,.seat-F-11,.seat-F-12,.seat-F-13,.seat-F-14,.seat-F-15,.seat-F-16,.seat-F-17,.seat-F-18,.seat-G-7,.seat-G-8,.seat-G-9,.seat-G-10,.seat-G-11,.seat-G-12,.seat-G-13,.seat-G-14,.seat-G-15,.seat-G-16,.seat-G-17,.seat-G-18,.seat-H-7,.seat-H-8,.seat-H-9,.seat-H-10,.seat-H-11,.seat-H-12,.seat-H-13,.seat-H-14,.seat-H-15,.seat-H-16,.seat-H-17,.seat-H-18,.seat-I-7,.seat-I-8,.seat-I-9,.seat-I-10,.seat-I-11,.seat-I-12,.seat-I-13,.seat-I-14,.seat-I-15,.seat-I-16,.seat-I-17,.seat-I-18{margin-left: 108px !important;}.seat-L-7,.seat-L-8,.seat-L-9,.seat-L-10,.seat-L-11,.seat-L-12,.seat-L-13,.seat-L-14,.seat-L-15,.seat-L-16,.seat-L-17,.seat-L-18{margin-left: 152px !important;}.seat-L-25,.seat-L-26{margin-left: 4px !important;}.seat-B-24,.seat-B-25,.seat-B-26,.seat-B-27,.seat-B-28,.seat-C-24,.seat-C-25,.seat-C-26,.seat-C-27,.seat-C-28,.seat-C-29{margin-left: -24px !important;}</style>"
+}

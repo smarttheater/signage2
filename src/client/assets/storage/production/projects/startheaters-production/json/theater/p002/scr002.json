@@ -1,0 +1,20 @@
+{
+    "type": 0,
+    "size": { "w": 1346, "h": 800 },
+    "objects": [],
+    "seatStart": { "x": 450, "y": 260 },
+    "map": [
+        [11, 0, 1, 1, 1, 1, 1, 1, 1],
+        [11, 10, 1, 1, 1, 1, 1, 1, 1],
+        [1, 11, 1, 1, 1, 1, 1, 1, 1],
+        [1, 8, 1, 1, 1, 1, 1, 1, 1],
+        [1, 11, 1, 1, 1, 1, 1, 1, 1],
+        [1, 0, 1, 1, 1, 1, 1, 1, 1],
+        [1, 0, 0, 1, 1, 1, 1, 1, 1]
+    ],
+    "special": [],
+    "hc": ["C-1"],
+    "pair": [],
+    "style": "<style>.screen-object{ display: block !important; }.seat-G-6,.seat-G-5,.seat-G-4,.seat-G-3,.seat-G-2,.seat-G-1{ margin-left: -20px; }</style>",
+    "seatNumberAlign": "right"
+}

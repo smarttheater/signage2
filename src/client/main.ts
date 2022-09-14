@@ -19,6 +19,13 @@ async function main() {
     // 言語設定
     defineLocale('ja', jaLocale);
 
+    // ローカルストレージ初期化
+    localStorage.removeItem('API_ACCESS_TOKEN');
+    localStorage.removeItem('API_TOKEN_TYPE');
+    localStorage.removeItem('API_EXPIRY_DATE');
+    localStorage.removeItem('API_LAST_UPDATE');
+    localStorage.removeItem('API_ENDPOINT');
+
     // パラメータ設定
     const params = Functions.Util.getParameter();
     if (Object.keys(params).length > 0) {
